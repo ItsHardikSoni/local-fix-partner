@@ -1,16 +1,18 @@
 {
   "expo": {
-    "name": "localfix-partner",
-    "slug": "localfix-partner",
+    "name": "LocalFix Partner",
+    "slug": "localfixpartner",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/icon.png",
     "scheme": "localfixpartner",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/icon.png",
+      "bundleIdentifier": "com.ayushlabs.localfixpartner"
     },
     "android": {
+      "package": "com.ayushlabs.localfixpartner",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
