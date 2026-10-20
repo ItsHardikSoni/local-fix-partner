@@ -1,18 +1,47 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
+import React, { useEffect } from 'react';
+import { View, StyleSheet, StatusBar } from 'react-native';
+import { Slot } from 'expo-router';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+import { PartnerProvider } from '@/context/PartnerContext';
+import AppHeader from '@/components/AppHeader';
+import BottomNav from '@/components/BottomNav';
+import CallCustomerModal from '@/components/modals/CallCustomerModal';
+import RegisterWorkerModal from '@/components/modals/RegisterWorkerModal';
 
-SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync().catch(() => {});
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+export default function RootLayout() {
+  useEffect(() => {
+    SplashScreen.hideAsync().catch(() => {});
+  }, []);
+
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <PartnerProvider>
+        <SafeAreaView style={styles.safeContainer} edges={['top', 'left', 'right', 'bottom']}>
+          <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+          <AppHeader />
+          <View style={styles.contentArea}>
+            <Slot />
+          </View>
+          <BottomNav />
+          <CallCustomerModal />
+          <RegisterWorkerModal />
+        </SafeAreaView>
+      </PartnerProvider>
+    </SafeAreaProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  safeContainer: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  contentArea: {
+    flex: 1,
+    backgroundColor: '#F8FAFC',
+  },
+});
