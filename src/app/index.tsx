@@ -66,30 +66,25 @@ export default function JobsScreen() {
             <View style={styles.nameRow}>
               <Text style={styles.partnerName}>{partner.name}</Text>
               <View style={styles.proBadge}>
-                <Text style={styles.proText}>{partner.badge}</Text>
+                <Text style={styles.proText}>PRO</Text>
               </View>
-              <Pressable
-                onPress={toggleOnline}
-                style={[styles.onlinePill, !partner.isOnline && styles.offlinePill]}>
-                <View style={[styles.onlineDot, !partner.isOnline && styles.offlineDot]} />
-                <Text style={[styles.onlinePillText, !partner.isOnline && styles.offlinePillText]}>
-                  {partner.isOnline ? 'Online' : 'Offline'}
-                </Text>
-              </Pressable>
             </View>
-            <Text style={styles.tradeSub}>
-              {partner.trade} • {partner.ward}
-            </Text>
+            <Text style={styles.tradeSub}>Plumbing Specialist</Text>
           </View>
+
+          {/* Online status badge */}
+          <Pressable
+            onPress={toggleOnline}
+            style={[styles.onlinePill, !partner.isOnline && styles.offlinePill]}>
+            <View style={[styles.onlineDot, !partner.isOnline && styles.offlineDot]} />
+            <Text style={[styles.onlinePillText, !partner.isOnline && styles.offlinePillText]}>
+              {partner.isOnline ? 'Online' : 'Offline'}
+            </Text>
+          </Pressable>
         </View>
 
-        {/* District Geofence Banner */}
-        <View style={styles.districtBanner}>
-          <Ionicons name="shield-outline" size={14} color={Palette.warningText} />
-          <Text style={styles.districtBannerText} numberOfLines={1}>
-            Active District: {partner.city} Only ({partner.radiusKm} km radius)
-          </Text>
-        </View>
+        {/* Divider */}
+        <View style={styles.cardDivider} />
 
         {/* 3 Metric Columns */}
         <View style={styles.metricsRow}>
@@ -100,7 +95,7 @@ export default function JobsScreen() {
           <View style={styles.metricDivider} />
           <View style={styles.metricItem}>
             <Text style={styles.metricLabel}>Earnings</Text>
-            <Text style={styles.metricVal}>₹{partner.todayEarnings}</Text>
+            <Text style={[styles.metricVal, { color: Palette.success }]}>₹{partner.todayEarnings}</Text>
           </View>
           <View style={styles.metricDivider} />
           <View style={styles.metricItem}>
@@ -114,7 +109,7 @@ export default function JobsScreen() {
       </View>
 
       {/* Filter Horizontal Pills */}
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.filterScroll}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.filterScroll} contentContainerStyle={{ gap: 8, paddingBottom: 4 }}>
         <Pressable
           onPress={() => setActiveFilter('all')}
           style={[styles.filterChip, activeFilter === 'all' && styles.filterChipActive]}>
@@ -129,7 +124,7 @@ export default function JobsScreen() {
         <Pressable
           onPress={() => setActiveFilter('urgent')}
           style={[styles.filterChip, styles.filterChipUrgent, activeFilter === 'urgent' && styles.filterChipActive]}>
-          <Ionicons name="alert-circle" size={14} color={Palette.danger} />
+          <Ionicons name="flash" size={12} color={Palette.danger} />
           <Text style={styles.urgentFilterText}>Urgent</Text>
           <View style={styles.urgentCountBadge}>
             <Text style={styles.urgentCountText}>1</Text>
@@ -139,47 +134,50 @@ export default function JobsScreen() {
         <Pressable
           onPress={() => setActiveFilter('near')}
           style={[styles.filterChip, activeFilter === 'near' && styles.filterChipActive]}>
-          <Ionicons name="navigate-outline" size={13} color={Palette.textSecondary} />
-          <Text style={styles.filterText}>Near Me (&lt;3km)</Text>
+          <Ionicons name="navigate-outline" size={13} color={activeFilter === 'near' ? '#FFFFFF' : Palette.textSecondary} />
+          <Text style={[styles.filterText, activeFilter === 'near' && styles.filterTextActive]}>Near Me (&lt;3km)</Text>
         </Pressable>
       </ScrollView>
 
       {/* Section Header: Live Dispatches */}
       <View style={styles.sectionHeader}>
         <View style={styles.sectionTitleRow}>
-          <MaterialCommunityIcons name="broadcast" size={18} color={Palette.secondary} />
           <Text style={styles.sectionTitle}>Live Dispatches</Text>
+          <View style={styles.radiusPill}>
+            <Text style={styles.radiusPillText}>Muzaffarpur 4.5km</Text>
+          </View>
         </View>
         <View style={styles.liveAutoRow}>
           <View style={styles.pulseDot} />
-          <Text style={styles.liveAutoText}>Auto-refreshing</Text>
+          <Text style={styles.liveAutoText}>Auto-updating</Text>
         </View>
       </View>
 
       {/* JOB CARD 1: URGENT SINK PIPE BURST */}
       {(activeFilter === 'all' || activeFilter === 'urgent') && (
-        <View style={[styles.jobCard, styles.urgentCardBorder]}>
+        <View style={styles.jobCard}>
           <View style={styles.cardHeaderRow}>
             <View style={styles.urgentTag}>
               <Ionicons name="flash" size={12} color={Palette.danger} />
               <Text style={styles.urgentTagText}>URGENT • 12m ago</Text>
             </View>
-            <Text style={styles.urgentPriceText}>₹350 – ₹500</Text>
+            <View style={{ alignItems: 'flex-end' }}>
+              <Text style={styles.urgentPriceText}>₹350 – ₹500</Text>
+              <Text style={styles.estimateSub}>Instant Estimate</Text>
+            </View>
           </View>
 
           <Text style={styles.jobTitle}>Kitchen Sink Pipe Burst & Valve Seep</Text>
 
-          <View style={styles.customerRow}>
-            <Ionicons name="person-circle-outline" size={16} color={Palette.textSecondary} />
-            <Text style={styles.customerText}>
-              Ayush (Flat A-204, ABC Heights, Mithanpura)
-            </Text>
-            <Ionicons name="checkmark-circle" size={14} color={Palette.success} />
-          </View>
-
-          <View style={styles.locationRow}>
-            <Ionicons name="location-outline" size={15} color={Palette.textSecondary} />
-            <Text style={styles.locationText}>2.8 km away • Ward 12 Inner Circle</Text>
+          <View style={styles.metaRow}>
+            <View style={styles.metaItem}>
+              <Ionicons name="person-outline" size={14} color={Palette.textSecondary} />
+              <Text style={styles.metaText}>Ayush (Flat A-204)</Text>
+            </View>
+            <View style={styles.metaItem}>
+              <Ionicons name="location-outline" size={14} color={Palette.textSecondary} />
+              <Text style={styles.metaText}>2.8 km • Mithanpura</Text>
+            </View>
           </View>
 
           {/* Photos attachments */}
@@ -212,8 +210,8 @@ export default function JobsScreen() {
           {/* Direct Quote Offer row */}
           <View style={styles.quoteOfferBox}>
             <View style={styles.quoteOfferHeader}>
-              <Text style={styles.quoteOfferTitle}>Direct Quote Offer</Text>
-              <Text style={styles.quoteOfferSub}>Standard fee guaranteed</Text>
+              <Text style={styles.quoteOfferTitle}>DIRECT QUOTE</Text>
+              <Text style={styles.quoteOfferSub}>No platform commission</Text>
             </View>
 
             <View style={styles.quoteInputsRow}>
@@ -245,7 +243,7 @@ export default function JobsScreen() {
           <Pressable
             onPress={() => handleAcceptInstantDispatch('LF-8492')}
             style={styles.instantAcceptBtn}>
-            <Ionicons name="flash" size={16} color="#FFFFFF" />
+            <Ionicons name="flash" size={16} color={Palette.surface} />
             <Text style={styles.instantAcceptBtnText}>
               Accept Instant Dispatch (₹{quoteAmount})
             </Text>
@@ -255,11 +253,11 @@ export default function JobsScreen() {
 
       {/* JOB CARD 2: SCHEDULED BATHROOM TAP */}
       {(activeFilter === 'all' || activeFilter === 'near') && (
-        <View style={[styles.jobCard, styles.scheduledCardBorder]}>
+        <View style={styles.jobCard}>
           <View style={styles.cardHeaderRow}>
             <View style={styles.scheduledTag}>
-              <Ionicons name="calendar-outline" size={12} color={Palette.info} />
-              <Text style={styles.scheduledTagText}>SCHEDULED • Today 2:30 PM</Text>
+              <Ionicons name="calendar-outline" size={12} color={Palette.textSecondary} />
+              <Text style={styles.scheduledTagText}>Today 2:30 PM</Text>
             </View>
             <View style={styles.priceColumn}>
               <Text style={styles.fixedPriceText}>₹250</Text>
@@ -269,21 +267,22 @@ export default function JobsScreen() {
 
           <Text style={styles.jobTitle}>Bathroom Tap Replacement & Angle Valve</Text>
 
-          <View style={styles.customerRow}>
-            <Ionicons name="person-outline" size={15} color={Palette.textSecondary} />
-            <Text style={styles.customerText}>Pooja Sharma (House #14, Brahmpura)</Text>
-          </View>
-
-          <View style={styles.locationRow}>
-            <Ionicons name="location-outline" size={15} color={Palette.textSecondary} />
-            <Text style={styles.locationText}>4.1 km • Materials already purchased by owner</Text>
+          <View style={styles.metaRow}>
+            <View style={styles.metaItem}>
+              <Ionicons name="person-outline" size={14} color={Palette.textSecondary} />
+              <Text style={styles.metaText}>Pooja Sharma</Text>
+            </View>
+            <View style={styles.metaItem}>
+              <Ionicons name="location-outline" size={14} color={Palette.textSecondary} />
+              <Text style={styles.metaText}>4.1 km • Brahmpura</Text>
+            </View>
           </View>
 
           {/* Required tool banner */}
           <View style={styles.toolRequirementBox}>
-            <MaterialCommunityIcons name="wrench-outline" size={16} color={Palette.warningText} />
+            <MaterialCommunityIcons name="wrench" size={16} color={Palette.warningText} />
             <Text style={styles.toolRequirementText}>
-              Required tool: 12-inch pipe wrench + PTFE teflon roll
+              Tools: 12-inch wrench + PTFE teflon (Parts provided)
             </Text>
           </View>
 
@@ -293,7 +292,7 @@ export default function JobsScreen() {
               onPress={() =>
                 Alert.alert(
                   'Job Details',
-                  'Client: Pooja Sharma\nTask: Replace bath tap & angle valve.\nOwner already has hardware ready.'
+                  'Client: Pooja Sharma\nTask: Replace bathroom tap & angle valve.\nMaterials already provided by resident.'
                 )
               }
               style={styles.viewDetailsBtn}>
@@ -304,7 +303,7 @@ export default function JobsScreen() {
             <Pressable
               onPress={() => handleAcceptScheduled('LF-8493')}
               style={styles.acceptJobBtn}>
-              <Ionicons name="checkmark" size={16} color="#FFFFFF" />
+              <Ionicons name="checkmark" size={16} color={Palette.surface} />
               <Text style={styles.acceptJobBtnText}>Accept Job</Text>
             </Pressable>
           </View>
@@ -313,10 +312,9 @@ export default function JobsScreen() {
 
       {/* JOB CARD 3: SOCIETY MAINTENANCE */}
       {activeFilter === 'all' && (
-        <View style={[styles.jobCard, styles.societyCardBorder]}>
+        <View style={styles.jobCard}>
           <View style={styles.cardHeaderRow}>
             <View style={styles.societyTag}>
-              <MaterialCommunityIcons name="office-building" size={13} color={Palette.warningText} />
               <Text style={styles.societyTagText}>SOCIETY MAINTENANCE</Text>
             </View>
             <View style={styles.priceColumn}>
@@ -327,21 +325,22 @@ export default function JobsScreen() {
 
           <Text style={styles.jobTitle}>Overhead 5000L Water Tank Overflow Sensor</Text>
 
-          <View style={styles.customerRow}>
-            <Ionicons name="business-outline" size={15} color={Palette.textSecondary} />
-            <Text style={styles.customerText}>Green View Society, Rooftop • Tower C</Text>
-          </View>
-
-          <View style={styles.locationRow}>
-            <Ionicons name="navigate-outline" size={15} color={Palette.textSecondary} />
-            <Text style={styles.locationText}>1.9 km away • Ladder access unlocked</Text>
+          <View style={styles.metaRow}>
+            <View style={styles.metaItem}>
+              <MaterialCommunityIcons name="office-building" size={14} color={Palette.textSecondary} />
+              <Text style={styles.metaText}>Green View Society • Tower C</Text>
+            </View>
+            <View style={styles.metaItem}>
+              <Ionicons name="location-outline" size={14} color={Palette.textSecondary} />
+              <Text style={styles.metaText}>1.9 km away</Text>
+            </View>
           </View>
 
           {/* Guaranteed Clearance Box */}
           <View style={styles.clearanceBox}>
-            <Ionicons name="checkmark-circle-outline" size={16} color={Palette.success} />
+            <Ionicons name="shield-checkmark-outline" size={16} color={Palette.success} />
             <Text style={styles.clearanceText}>
-              Guaranteed digital invoice clearing within 1 hour
+              Guaranteed digital payout within 1 hour
             </Text>
           </View>
 
@@ -349,26 +348,24 @@ export default function JobsScreen() {
           <Pressable
             onPress={() => handleSendCustomQuote('LF-8494')}
             style={styles.sendQuoteBtn}>
-            <Ionicons name="paper-plane-outline" size={16} color={Palette.infoText} />
+            <Ionicons name="paper-plane-outline" size={15} color={Palette.infoText} />
             <Text style={styles.sendQuoteBtnText}>Send Custom Quote</Text>
           </Pressable>
         </View>
       )}
 
-      {/* District Lock Notice Banner */}
-      <View style={styles.lockNoticeCard}>
-        <View style={styles.lockIconBox}>
-          <Ionicons name="lock-closed" size={18} color={Palette.secondary} />
+      {/* Footer Protection Banner */}
+      <View style={styles.footerProtectionCard}>
+        <View style={styles.protectionIconCircle}>
+          <MaterialCommunityIcons name="shield-check" size={20} color={Palette.warningText} />
         </View>
-        <View style={styles.lockTextBox}>
-          <Text style={styles.lockTitle}>Muzaffarpur District Lock Active</Text>
-          <Text style={styles.lockDesc}>
-            You only compete with registered local tradespeople in your ward. Out-of-district workers are strictly blocked from bidding.
-          </Text>
-          <View style={styles.fairWagePill}>
-            <Ionicons name="shield-checkmark" size={12} color={Palette.success} />
-            <Text style={styles.fairWageText}>Fair Wage Protected</Text>
-          </View>
+        <View style={styles.protectionTextBox}>
+          <Text style={styles.protectionTitle}>Muzaffarpur District Protection</Text>
+          <Text style={styles.protectionSub}>Only verified local technicians in your radius can bid.</Text>
+        </View>
+        <View style={styles.protectedBadge}>
+          <Ionicons name="checkmark" size={12} color={Palette.success} />
+          <Text style={styles.protectedBadgeText}>Protected</Text>
         </View>
       </View>
 
@@ -438,23 +435,23 @@ const styles = StyleSheet.create({
     color: Palette.primary,
   },
   proBadge: {
-    backgroundColor: Palette.primary,
+    backgroundColor: '#FEF3C7',
     paddingHorizontal: 6,
     paddingVertical: 1,
     borderRadius: 4,
   },
   proText: {
-    fontSize: 9,
+    fontSize: 10,
     fontWeight: '800',
-    color: '#FFFFFF',
+    color: '#D97706',
   },
   onlinePill: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: Palette.successBg,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
+    backgroundColor: '#DCFCE7',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
     borderRadius: 12,
     marginLeft: 'auto',
   },
@@ -465,15 +462,15 @@ const styles = StyleSheet.create({
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: Palette.success,
+    backgroundColor: '#10B981',
   },
   offlineDot: {
     backgroundColor: Palette.textSecondary,
   },
   onlinePillText: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '700',
-    color: Palette.successText,
+    color: '#059669',
   },
   offlinePillText: {
     color: Palette.textSecondary,
@@ -483,32 +480,15 @@ const styles = StyleSheet.create({
     color: Palette.textSecondary,
     marginTop: 2,
   },
-  districtBanner: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    backgroundColor: Palette.warningBg,
-    borderWidth: 1,
-    borderColor: Palette.warningBorder,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 8,
-    marginTop: 12,
-  },
-  districtBannerText: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: Palette.warningText,
-    flex: 1,
+  cardDivider: {
+    height: 1,
+    backgroundColor: Palette.borderLight,
+    marginVertical: 12,
   },
   metricsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 12,
-    paddingTop: 10,
-    borderTopWidth: 1,
-    borderTopColor: Palette.borderLight,
   },
   metricItem: {
     flex: 1,
@@ -545,31 +525,30 @@ const styles = StyleSheet.create({
     backgroundColor: Palette.surface,
     borderWidth: 1,
     borderColor: Palette.border,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 7,
     borderRadius: 20,
-    marginRight: 8,
   },
   filterChipActive: {
     backgroundColor: Palette.primary,
     borderColor: Palette.primary,
   },
   filterChipUrgent: {
-    backgroundColor: Palette.dangerBg,
-    borderColor: Palette.dangerBorder,
+    backgroundColor: '#FEE2E2',
+    borderColor: '#FECACA',
   },
   filterText: {
     fontSize: 12,
     fontWeight: '600',
-    color: Palette.primary,
+    color: Palette.textSecondary,
   },
   filterTextActive: {
     color: '#FFFFFF',
   },
   urgentFilterText: {
     fontSize: 12,
-    fontWeight: '600',
-    color: Palette.dangerText,
+    fontWeight: '700',
+    color: '#DC2626',
   },
   countBadge: {
     backgroundColor: Palette.border,
@@ -578,7 +557,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   countBadgeActive: {
-    backgroundColor: '#1E293B',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
   },
   countText: {
     fontSize: 10,
@@ -589,7 +568,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   urgentCountBadge: {
-    backgroundColor: Palette.dangerBorder,
+    backgroundColor: '#FECACA',
     paddingHorizontal: 6,
     paddingVertical: 1,
     borderRadius: 10,
@@ -597,23 +576,34 @@ const styles = StyleSheet.create({
   urgentCountText: {
     fontSize: 10,
     fontWeight: '700',
-    color: '#991B1B',
+    color: '#DC2626',
   },
   sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 12,
   },
   sectionTitleRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: 8,
   },
   sectionTitle: {
     fontSize: 15,
     fontWeight: '700',
     color: Palette.primary,
+  },
+  radiusPill: {
+    backgroundColor: '#FEF3C7',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 10,
+  },
+  radiusPillText: {
+    fontSize: 11,
+    color: '#B45309',
+    fontWeight: '600',
   },
   liveAutoRow: {
     flexDirection: 'row',
@@ -634,39 +624,27 @@ const styles = StyleSheet.create({
   jobCard: {
     backgroundColor: Palette.surface,
     borderRadius: 16,
-    padding: 14,
+    padding: 16,
     borderWidth: 1,
     borderColor: Palette.border,
     marginBottom: 14,
     shadowColor: Palette.primary,
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
+    shadowOpacity: 0.04,
     shadowRadius: 3,
     elevation: 2,
-  },
-  urgentCardBorder: {
-    borderLeftWidth: 4,
-    borderLeftColor: Palette.secondary,
-  },
-  scheduledCardBorder: {
-    borderLeftWidth: 4,
-    borderLeftColor: Palette.info,
-  },
-  societyCardBorder: {
-    borderLeftWidth: 4,
-    borderLeftColor: Palette.warningText,
   },
   cardHeaderRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
+    alignItems: 'flex-start',
+    marginBottom: 10,
   },
   urgentTag: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: Palette.dangerBg,
+    backgroundColor: '#FEE2E2',
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
@@ -674,19 +652,24 @@ const styles = StyleSheet.create({
   urgentTagText: {
     fontSize: 10,
     fontWeight: '800',
-    color: Palette.dangerText,
+    color: '#DC2626',
     letterSpacing: 0.3,
   },
   urgentPriceText: {
     fontSize: 18,
     fontWeight: '800',
-    color: Palette.secondary,
+    color: '#B45309',
+  },
+  estimateSub: {
+    fontSize: 10,
+    color: Palette.textSecondary,
+    marginTop: 1,
   },
   scheduledTag: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: Palette.infoBg,
+    backgroundColor: '#EFF6FF',
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
@@ -694,13 +677,10 @@ const styles = StyleSheet.create({
   scheduledTagText: {
     fontSize: 10,
     fontWeight: '700',
-    color: Palette.info,
+    color: '#2563EB',
   },
   societyTag: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    backgroundColor: Palette.warningBg,
+    backgroundColor: '#FEF3C7',
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
@@ -708,19 +688,19 @@ const styles = StyleSheet.create({
   societyTagText: {
     fontSize: 10,
     fontWeight: '800',
-    color: Palette.warningText,
+    color: '#92400E',
   },
   priceColumn: {
     alignItems: 'flex-end',
   },
   fixedPriceText: {
-    fontSize: 17,
+    fontSize: 18,
     fontWeight: '800',
     color: Palette.primary,
   },
   fixedRateLabel: {
     fontSize: 10,
-    color: Palette.success,
+    color: '#059669',
     fontWeight: '600',
   },
   jobTitle: {
@@ -728,27 +708,23 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: Palette.primary,
     marginBottom: 6,
+    lineHeight: 20,
   },
-  customerRow: {
+  metaRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 14,
+    marginBottom: 12,
+  },
+  metaItem: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    marginBottom: 4,
   },
-  customerText: {
+  metaText: {
     fontSize: 12,
-    color: Palette.primary,
-    fontWeight: '500',
-  },
-  locationRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    marginBottom: 10,
-  },
-  locationText: {
-    fontSize: 11,
     color: Palette.textSecondary,
+    fontWeight: '500',
   },
   photosRow: {
     flexDirection: 'row',
@@ -757,7 +733,7 @@ const styles = StyleSheet.create({
   },
   photoBox: {
     flex: 1,
-    height: 100,
+    height: 96,
     borderRadius: 10,
     overflow: 'hidden',
     position: 'relative',
@@ -782,8 +758,8 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   quoteOfferBox: {
-    backgroundColor: Palette.infoBg,
-    borderRadius: 10,
+    backgroundColor: '#F1F5F9',
+    borderRadius: 12,
     padding: 10,
     marginBottom: 12,
   },
@@ -795,13 +771,14 @@ const styles = StyleSheet.create({
   },
   quoteOfferTitle: {
     fontSize: 11,
-    fontWeight: '600',
-    color: Palette.primary,
+    fontWeight: '700',
+    color: Palette.textSecondary,
+    letterSpacing: 0.5,
   },
   quoteOfferSub: {
-    fontSize: 10,
-    color: Palette.secondary,
-    fontWeight: '600',
+    fontSize: 11,
+    color: '#B45309',
+    fontWeight: '500',
   },
   quoteInputsRow: {
     flexDirection: 'row',
@@ -836,7 +813,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Palette.borderDark,
     borderRadius: 8,
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
     height: 38,
     justifyContent: 'center',
     alignItems: 'center',
@@ -854,29 +831,24 @@ const styles = StyleSheet.create({
     backgroundColor: Palette.secondary,
     paddingVertical: 12,
     borderRadius: 10,
-    shadowColor: Palette.secondary,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 3,
   },
   instantAcceptBtnText: {
     fontSize: 14,
     fontWeight: '700',
-    color: Palette.primary,
+    color: Palette.surface,
   },
   toolRequirementBox: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: Palette.infoBg,
-    padding: 8,
+    backgroundColor: '#EFF6FF',
+    padding: 10,
     borderRadius: 8,
     marginBottom: 12,
   },
   toolRequirementText: {
     fontSize: 11,
-    color: Palette.infoText,
+    color: '#1E40AF',
     fontWeight: '500',
     flex: 1,
   },
@@ -890,7 +862,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 4,
-    backgroundColor: Palette.borderLight,
+    backgroundColor: '#F1F5F9',
     paddingVertical: 10,
     borderRadius: 8,
   },
@@ -912,20 +884,20 @@ const styles = StyleSheet.create({
   acceptJobBtnText: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: Palette.surface,
   },
   clearanceBox: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: Palette.successBg,
-    padding: 8,
+    backgroundColor: '#F0FDF4',
+    padding: 10,
     borderRadius: 8,
     marginBottom: 12,
   },
   clearanceText: {
     fontSize: 11,
-    color: Palette.successText,
+    color: '#15803D',
     fontWeight: '600',
     flex: 1,
   },
@@ -934,64 +906,59 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    backgroundColor: Palette.infoBg,
-    borderWidth: 1,
-    borderColor: Palette.infoBorder,
+    backgroundColor: '#EFF6FF',
     paddingVertical: 10,
     borderRadius: 8,
   },
   sendQuoteBtnText: {
     fontSize: 13,
     fontWeight: '600',
-    color: Palette.infoText,
+    color: '#2563EB',
   },
-  lockNoticeCard: {
+  footerProtectionCard: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 10,
-    backgroundColor: Palette.infoBg,
+    alignItems: 'center',
+    backgroundColor: Palette.surface,
     borderRadius: 14,
-    padding: 14,
+    padding: 12,
     borderWidth: 1,
-    borderColor: Palette.infoBorder,
-    marginTop: 6,
+    borderColor: Palette.border,
+    gap: 10,
+    marginTop: 4,
   },
-  lockIconBox: {
+  protectionIconCircle: {
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: Palette.warningBorder,
+    backgroundColor: '#FEF3C7',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  lockTextBox: {
+  protectionTextBox: {
     flex: 1,
   },
-  lockTitle: {
+  protectionTitle: {
     fontSize: 12,
     fontWeight: '700',
     color: Palette.primary,
-    marginBottom: 2,
   },
-  lockDesc: {
+  protectionSub: {
     fontSize: 11,
     color: Palette.textSecondary,
-    lineHeight: 15,
+    marginTop: 1,
   },
-  fairWagePill: {
+  protectedBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
-    backgroundColor: Palette.successBg,
-    alignSelf: 'flex-start',
+    gap: 3,
+    backgroundColor: '#DCFCE7',
     paddingHorizontal: 8,
-    paddingVertical: 3,
+    paddingVertical: 4,
     borderRadius: 6,
-    marginTop: 8,
   },
-  fairWageText: {
-    fontSize: 10,
+  protectedBadgeText: {
+    fontSize: 11,
     fontWeight: '700',
-    color: Palette.successText,
+    color: '#15803D',
   },
 });

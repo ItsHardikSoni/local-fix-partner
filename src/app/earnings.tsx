@@ -12,14 +12,22 @@ import { usePartner } from '@/context/PartnerContext';
 import { Palette } from '@/constants/theme';
 import WithdrawModal from '@/components/modals/WithdrawModal';
 
-const WEEKLY_DATA = [
-  { day: 'Mon', amount: 450, isPeak: false },
-  { day: 'Tue', amount: 1420, isPeak: true },
-  { day: 'Wed', amount: 320, isPeak: false },
-  { day: 'Thu', amount: 510, isPeak: false },
-  { day: 'Fri', amount: 700, isPeak: false },
-  { day: 'Sat', amount: 1850, isPeak: true, isMax: true },
-  { day: 'Sun', amount: 550, isPeak: false },
+interface DayData {
+  day: string;
+  amount: number;
+  height: number;
+  isPeak?: boolean;
+  isTwoTone?: boolean;
+}
+
+const WEEKLY_DATA: DayData[] = [
+  { day: 'Mon', amount: 450, height: 38 },
+  { day: 'Tue', amount: 1420, height: 82, isPeak: true },
+  { day: 'Wed', amount: 320, height: 26 },
+  { day: 'Thu', amount: 510, height: 40 },
+  { day: 'Fri', amount: 700, height: 48 },
+  { day: 'Sat', amount: 1850, height: 92, isPeak: true, isTwoTone: true },
+  { day: 'Sun', amount: 550, height: 42 },
 ];
 
 export default function EarningsScreen() {
@@ -27,11 +35,12 @@ export default function EarningsScreen() {
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [selectedDay, setSelectedDay] = useState<string>('Sat');
 
-  const maxAmount = 1850;
-
   return (
     <View style={styles.screenWrapper}>
-      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={false}>
         {/* FINANCIAL OVERVIEW HEADER */}
         <View style={styles.overviewHeaderRow}>
           <View>
@@ -48,13 +57,13 @@ export default function EarningsScreen() {
         <View style={styles.withdrawalCard}>
           <View style={styles.withdrawableHeader}>
             <View style={styles.withdrawableLabelRow}>
-              <Ionicons name="card-outline" size={16} color={Palette.warningText} />
+              <Ionicons name="card-outline" size={15} color={Palette.warningText} />
               <Text style={styles.withdrawableLabel}>Available for Withdrawal</Text>
             </View>
             <Pressable
               onPress={() => Alert.alert('Balance Synced', 'Wallet balance is synced with banking nodes.')}
               style={styles.refreshIconBtn}>
-              <Ionicons name="sync" size={16} color={Palette.info} />
+              <Ionicons name="sync" size={15} color={Palette.primary} />
             </Pressable>
           </View>
 
@@ -68,14 +77,14 @@ export default function EarningsScreen() {
           {/* Linked Bank Container */}
           <View style={styles.bankContainer}>
             <View style={styles.bankIconCircle}>
-              <MaterialCommunityIcons name="bank" size={18} color="#FFFFFF" />
+              <MaterialCommunityIcons name="bank" size={16} color="#FFFFFF" />
             </View>
             <View style={styles.bankTextCol}>
               <Text style={styles.bankName}>State Bank of India</Text>
               <Text style={styles.bankEnding}>Ending in 4091</Text>
             </View>
             <View style={styles.verifiedTag}>
-              <Ionicons name="checkmark-circle-outline" size={12} color={Palette.success} />
+              <Ionicons name="checkmark-circle-outline" size={14} color={Palette.success} />
               <Text style={styles.verifiedTagText}>Verified</Text>
             </View>
           </View>
@@ -83,7 +92,7 @@ export default function EarningsScreen() {
           {/* Instant Transfer CTA Button */}
           <Pressable
             onPress={() => setShowWithdrawModal(true)}
-            style={styles.transferButton}>
+            style={({ pressed }) => [styles.transferButton, pressed && { opacity: 0.9 }]}>
             <Ionicons name="flash" size={16} color={Palette.primary} />
             <Text style={styles.transferButtonText}>Instant Bank Transfer / UPI</Text>
           </Pressable>
@@ -99,7 +108,9 @@ export default function EarningsScreen() {
           <View style={styles.statCard}>
             <View style={styles.statHeader}>
               <Text style={styles.statLabel}>This Week</Text>
-              <Ionicons name="calendar-outline" size={14} color={Palette.info} />
+              <View style={styles.statIconBadge}>
+                <Ionicons name="calendar-outline" size={14} color={Palette.info} />
+              </View>
             </View>
             <Text style={styles.statValue}>₹{thisWeekEarnings.toLocaleString()}</Text>
             <Text style={styles.statSub}>18 Jobs completed</Text>
@@ -109,7 +120,9 @@ export default function EarningsScreen() {
           <View style={styles.statCard}>
             <View style={styles.statHeader}>
               <Text style={styles.statLabel}>Avg. per Job</Text>
-              <Ionicons name="trending-up" size={14} color={Palette.info} />
+              <View style={styles.statIconBadge}>
+                <Ionicons name="trending-up" size={14} color={Palette.info} />
+              </View>
             </View>
             <Text style={styles.statValue}>₹{avgPerJob}</Text>
             <Text style={styles.statSubGreen}>+12% vs last week</Text>
@@ -120,7 +133,7 @@ export default function EarningsScreen() {
         <View style={styles.bonusBanner}>
           <View style={styles.bonusLeftAccent} />
           <View style={styles.medalCircle}>
-            <Ionicons name="trophy" size={20} color={Palette.secondary} />
+            <Ionicons name="medal-outline" size={20} color="#D97706" />
           </View>
           <View style={styles.bonusTexts}>
             <View style={styles.bonusHeaderRow}>
@@ -148,42 +161,66 @@ export default function EarningsScreen() {
             Peaks on Tuesday (₹1,420) & Saturday (₹1,850)
           </Text>
 
-          {/* Bar Chart Bars */}
-          <View style={styles.barsContainer}>
-            {WEEKLY_DATA.map((item) => {
-              const heightPct = Math.max(18, (item.amount / maxAmount) * 110);
-              const isSelected = selectedDay === item.day;
+          {/* Bar Chart Container */}
+          <View style={styles.chartFrame}>
+            {/* Horizontal Dashed Guideline */}
+            <View style={styles.dashedGuideline} />
 
-              return (
-                <Pressable
-                  key={item.day}
-                  onPress={() => setSelectedDay(item.day)}
-                  style={styles.barColumn}>
-                  {/* Peak top dot indicator on Tue */}
-                  {item.day === 'Tue' && <View style={styles.peakDotIndicator} />}
+            {/* Bars */}
+            <View style={styles.barsContainer}>
+              {WEEKLY_DATA.map((item) => {
+                const isSelected = selectedDay === item.day;
+                const isTue = item.day === 'Tue';
+                const isSat = item.day === 'Sat';
 
-                  <View
-                    style={[
-                      styles.barTrack,
-                      { height: heightPct },
-                      item.day === 'Tue' && styles.barPeakOrange,
-                      item.day === 'Sat' && styles.barSaturdayNavy,
-                      isSelected && styles.barSelectedHighlight,
-                    ]}>
-                    {/* Saturday top cap in orange */}
-                    {item.day === 'Sat' && <View style={styles.saturdayCap} />}
-                  </View>
+                return (
+                  <Pressable
+                    key={item.day}
+                    onPress={() => setSelectedDay(item.day)}
+                    style={styles.barColumn}>
+                    {/* Peak indicator dot above Tuesday */}
+                    {isTue ? (
+                      <View style={styles.peakDotIndicator} />
+                    ) : (
+                      <View style={styles.peakDotPlaceholder} />
+                    )}
 
-                  <Text
-                    style={[
-                      styles.barDayLabel,
-                      isSelected && styles.barDayLabelSelected,
-                    ]}>
-                    {item.day}
-                  </Text>
-                </Pressable>
-              );
-            })}
+                    {/* Bar Pillar */}
+                    {isSat ? (
+                      // Saturday: Two-tone bar (dark navy with orange cap)
+                      <View
+                        style={[
+                          styles.barTrack,
+                          { height: item.height },
+                          styles.twoToneBar,
+                          isSelected && styles.barSelectedHighlight,
+                        ]}>
+                        <View style={styles.saturdayOrangeCap} />
+                        <View style={styles.saturdayNavyBody} />
+                      </View>
+                    ) : (
+                      // Single color bars
+                      <View
+                        style={[
+                          styles.barTrack,
+                          { height: item.height },
+                          isTue ? styles.barPeakOrange : styles.barDefaultGray,
+                          isSelected && styles.barSelectedHighlight,
+                        ]}
+                      />
+                    )}
+
+                    <Text
+                      style={[
+                        styles.barDayLabel,
+                        (isTue || isSat || isSelected) && styles.barDayLabelBold,
+                      ]}>
+                      {item.day}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
           </View>
 
           {/* Chart Legend */}
@@ -205,36 +242,36 @@ export default function EarningsScreen() {
             <Text style={styles.settlementsTitle}>Recent Job Settlements</Text>
             <Pressable
               onPress={() =>
-                Alert.alert('Ledger Export', 'Opening comprehensive audited settlements ledger...')
+                Alert.alert('Audited Ledger', 'Showing settlements audited & verified by municipal node.')
               }>
               <Text style={styles.viewLedgerLink}>View Ledger</Text>
             </Pressable>
           </View>
 
           {/* Settlement List */}
-          {settlements.map((item) => (
+          {settlements.map((item, idx) => (
             <View key={item.id} style={styles.settlementItem}>
               <View style={styles.settlementTopRow}>
-                <View style={styles.settlementIconCol}>
-                  <View
-                    style={[
-                      styles.settlementIconCircle,
-                      item.icon === 'wrench' && styles.iconCircleGreen,
-                      item.icon === 'water' && styles.iconCircleBlue,
-                      item.icon === 'pump' && styles.iconCircleNavy,
-                    ]}>
-                    {item.icon === 'wrench' && (
-                      <MaterialCommunityIcons name="wrench" size={16} color={Palette.success} />
-                    )}
-                    {item.icon === 'water' && (
-                      <MaterialCommunityIcons name="water-pump" size={16} color={Palette.info} />
-                    )}
-                    {item.icon === 'pump' && (
-                      <Ionicons name="water" size={16} color="#0284C7" />
-                    )}
-                  </View>
+                {/* Icon box */}
+                <View
+                  style={[
+                    styles.settlementIconSquare,
+                    idx === 0 && styles.iconSquareGreen,
+                    idx === 1 && styles.iconSquareBlue,
+                    idx === 2 && styles.iconSquareCyan,
+                  ]}>
+                  {item.icon === 'wrench' && (
+                    <MaterialCommunityIcons name="wrench" size={17} color={Palette.successText} />
+                  )}
+                  {item.icon === 'water' && (
+                    <MaterialCommunityIcons name="water-pump" size={17} color={Palette.info} />
+                  )}
+                  {item.icon === 'pump' && (
+                    <Ionicons name="water" size={17} color="#0284C7" />
+                  )}
                 </View>
 
+                {/* Info Column */}
                 <View style={styles.settlementDetails}>
                   <View style={styles.settlementNameRow}>
                     <Text style={styles.settlementJobTitle} numberOfLines={1}>
@@ -243,28 +280,38 @@ export default function EarningsScreen() {
                     <Text style={styles.settlementAmount}>+₹{item.amount}</Text>
                   </View>
 
-                  <View style={styles.tagTimeRow}>
-                    <View style={styles.upiTag}>
-                      <Text style={styles.upiTagText}>{item.paymentType}</Text>
-                    </View>
+                  <View style={styles.metaRow}>
+                    {idx === 0 && (
+                      <View style={styles.upiTag}>
+                        <Text style={styles.upiTagText}>{item.paymentType}</Text>
+                      </View>
+                    )}
+                    <Text style={styles.settlementCustomer} numberOfLines={1}>
+                      {item.customer} • {item.location}
+                    </Text>
                     <Text style={styles.settlementTime}>{item.time}</Text>
                   </View>
-
-                  <Text style={styles.settlementCustomer}>
-                    {item.customer} • {item.location}
-                  </Text>
                 </View>
               </View>
 
               {/* Settlement Footer */}
               <View style={styles.settlementFooterRow}>
                 <View style={styles.receiptRow}>
-                  <Ionicons name="receipt-outline" size={12} color={Palette.textSecondary} />
-                  <Text style={styles.receiptNumber}>Receipt #{item.receiptNumber}</Text>
+                  {idx === 0 ? (
+                    <>
+                      <Ionicons name="receipt-outline" size={12} color={Palette.textSecondary} />
+                      <Text style={styles.receiptNumber}>Receipt #{item.receiptNumber}</Text>
+                    </>
+                  ) : (
+                    <Text style={styles.receiptNumber}>{item.paymentType}</Text>
+                  )}
                 </View>
+
                 <View style={styles.settledBadge}>
                   <Text style={styles.settledBadgeText}>{item.tag}</Text>
-                  <Ionicons name="checkmark-circle-outline" size={12} color={Palette.success} />
+                  {idx === 0 && (
+                    <Ionicons name="checkmark-circle-outline" size={13} color={Palette.success} />
+                  )}
                 </View>
               </View>
             </View>
@@ -275,7 +322,7 @@ export default function EarningsScreen() {
         <View style={styles.guaranteeCard}>
           <View style={styles.guaranteeTop}>
             <View style={styles.guaranteeIconCircle}>
-              <Ionicons name="shield-checkmark" size={18} color={Palette.secondary} />
+              <Ionicons name="shield-checkmark" size={16} color="#FFFFFF" />
             </View>
             <Text style={styles.guaranteeHeading}>LocalFix Partner Guarantee</Text>
           </View>
@@ -294,7 +341,7 @@ export default function EarningsScreen() {
           </View>
         </View>
 
-        <View style={{ height: 24 }} />
+        <View style={{ height: 32 }} />
       </ScrollView>
 
       {/* Withdrawal Modal */}
@@ -316,6 +363,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     padding: 16,
+    paddingBottom: 24,
   },
   overviewHeaderRow: {
     flexDirection: 'row',
@@ -338,7 +386,7 @@ const styles = StyleSheet.create({
   instantPill: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 5,
+    gap: 6,
     backgroundColor: Palette.infoBg,
     paddingHorizontal: 10,
     paddingVertical: 5,
@@ -352,7 +400,7 @@ const styles = StyleSheet.create({
   },
   instantPillText: {
     fontSize: 11,
-    fontWeight: '600',
+    fontWeight: '700',
     color: Palette.info,
   },
   withdrawalCard: {
@@ -372,7 +420,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 6,
   },
   withdrawableLabelRow: {
     flexDirection: 'row',
@@ -381,13 +429,13 @@ const styles = StyleSheet.create({
   },
   withdrawableLabel: {
     fontSize: 12,
-    color: Palette.textSecondary,
+    color: Palette.primary,
     fontWeight: '500',
   },
   refreshIconBtn: {
     width: 28,
     height: 28,
-    borderRadius: 14,
+    borderRadius: 8,
     backgroundColor: Palette.infoBg,
     justifyContent: 'center',
     alignItems: 'center',
@@ -399,7 +447,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   balanceAmount: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: '800',
     color: Palette.primary,
   },
@@ -442,14 +490,15 @@ const styles = StyleSheet.create({
   bankEnding: {
     fontSize: 11,
     color: Palette.textSecondary,
+    marginTop: 1,
   },
   verifiedTag: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 3,
+    gap: 4,
   },
   verifiedTagText: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     color: Palette.successText,
   },
@@ -459,8 +508,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 6,
     backgroundColor: Palette.secondary,
-    paddingVertical: 12,
-    borderRadius: 10,
+    paddingVertical: 13,
+    borderRadius: 12,
     shadowColor: Palette.secondary,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
@@ -469,7 +518,7 @@ const styles = StyleSheet.create({
   },
   transferButtonText: {
     fontSize: 14,
-    fontWeight: '700',
+    fontWeight: '800',
     color: Palette.primary,
   },
   transferSubtext: {
@@ -502,8 +551,16 @@ const styles = StyleSheet.create({
     color: Palette.textSecondary,
     fontWeight: '500',
   },
+  statIconBadge: {
+    width: 24,
+    height: 24,
+    borderRadius: 6,
+    backgroundColor: Palette.infoBg,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   statValue: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: '800',
     color: Palette.primary,
     marginBottom: 2,
@@ -514,8 +571,8 @@ const styles = StyleSheet.create({
   },
   statSubGreen: {
     fontSize: 11,
-    color: Palette.success,
-    fontWeight: '600',
+    color: Palette.successText,
+    fontWeight: '700',
   },
   bonusBanner: {
     flexDirection: 'row',
@@ -538,9 +595,9 @@ const styles = StyleSheet.create({
     backgroundColor: Palette.secondary,
   },
   medalCircle: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     backgroundColor: Palette.warningBg,
     justifyContent: 'center',
     alignItems: 'center',
@@ -565,7 +622,7 @@ const styles = StyleSheet.create({
   bonusAmountTag: {
     backgroundColor: Palette.warningBg,
     paddingHorizontal: 6,
-    paddingVertical: 1,
+    paddingVertical: 1.5,
     borderRadius: 4,
   },
   bonusAmountText: {
@@ -616,46 +673,70 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: Palette.textSecondary,
     marginTop: 2,
-    marginBottom: 16,
+    marginBottom: 14,
+  },
+  chartFrame: {
+    position: 'relative',
+    height: 125,
+    justifyContent: 'flex-end',
+    borderBottomWidth: 1,
+    borderBottomColor: Palette.borderLight,
+    paddingBottom: 8,
+  },
+  dashedGuideline: {
+    position: 'absolute',
+    left: 4,
+    right: 4,
+    top: 42,
+    borderTopWidth: 1,
+    borderTopColor: Palette.border,
+    borderStyle: 'dashed',
   },
   barsContainer: {
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'space-between',
-    height: 120,
-    paddingHorizontal: 6,
-    borderBottomWidth: 1,
-    borderBottomColor: Palette.borderLight,
-    paddingBottom: 8,
+    paddingHorizontal: 4,
   },
   barColumn: {
     alignItems: 'center',
     flex: 1,
     justifyContent: 'flex-end',
-    position: 'relative',
   },
   peakDotIndicator: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
+    width: 5,
+    height: 5,
+    borderRadius: 2.5,
     backgroundColor: Palette.secondary,
     marginBottom: 4,
   },
+  peakDotPlaceholder: {
+    width: 5,
+    height: 5,
+    marginBottom: 4,
+  },
   barTrack: {
-    width: 22,
+    width: 20,
+    borderRadius: 5,
+  },
+  barDefaultGray: {
     backgroundColor: Palette.borderDark,
-    borderRadius: 6,
-    overflow: 'hidden',
   },
   barPeakOrange: {
     backgroundColor: Palette.secondary,
   },
-  barSaturdayNavy: {
-    backgroundColor: Palette.primary,
+  twoToneBar: {
+    overflow: 'hidden',
   },
-  saturdayCap: {
-    height: 8,
+  saturdayOrangeCap: {
+    height: 12,
     backgroundColor: Palette.secondary,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+  },
+  saturdayNavyBody: {
+    flex: 1,
+    backgroundColor: Palette.primary,
   },
   barSelectedHighlight: {
     borderWidth: 1.5,
@@ -667,7 +748,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
     fontWeight: '500',
   },
-  barDayLabelSelected: {
+  barDayLabelBold: {
     fontWeight: '700',
     color: Palette.primary,
   },
@@ -680,18 +761,18 @@ const styles = StyleSheet.create({
   legendItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 5,
+    gap: 6,
   },
   legendOrangeDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: 7,
+    height: 7,
+    borderRadius: 3.5,
     backgroundColor: Palette.secondary,
   },
   legendNavyDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: 7,
+    height: 7,
+    borderRadius: 3.5,
     backgroundColor: Palette.primary,
   },
   legendText: {
@@ -731,23 +812,20 @@ const styles = StyleSheet.create({
     gap: 10,
     marginBottom: 8,
   },
-  settlementIconCol: {
-    justifyContent: 'flex-start',
-  },
-  settlementIconCircle: {
+  settlementIconSquare: {
     width: 36,
     height: 36,
-    borderRadius: 18,
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  iconCircleGreen: {
+  iconSquareGreen: {
     backgroundColor: Palette.successBg,
   },
-  iconCircleBlue: {
+  iconSquareBlue: {
     backgroundColor: Palette.infoBg,
   },
-  iconCircleNavy: {
+  iconSquareCyan: {
     backgroundColor: '#E0F2FE',
   },
   settlementDetails: {
@@ -766,21 +844,20 @@ const styles = StyleSheet.create({
     paddingRight: 6,
   },
   settlementAmount: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '800',
-    color: Palette.success,
+    color: Palette.successText,
   },
-  tagTimeRow: {
+  metaRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 6,
     marginTop: 2,
-    marginBottom: 2,
   },
   upiTag: {
     backgroundColor: Palette.successBg,
     paddingHorizontal: 6,
-    paddingVertical: 1,
+    paddingVertical: 1.5,
     borderRadius: 4,
   },
   upiTagText: {
@@ -788,13 +865,14 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: Palette.successText,
   },
-  settlementTime: {
-    fontSize: 11,
-    color: Palette.textSecondary,
-  },
   settlementCustomer: {
     fontSize: 11,
-    color: Palette.primary,
+    color: Palette.textSecondary,
+    flex: 1,
+  },
+  settlementTime: {
+    fontSize: 10,
+    color: Palette.textSecondary,
   },
   settlementFooterRow: {
     flexDirection: 'row',
@@ -837,10 +915,10 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   guaranteeIconCircle: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: Palette.warningBorder,
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    backgroundColor: Palette.secondary,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -857,13 +935,13 @@ const styles = StyleSheet.create({
   },
   guaranteePillsRow: {
     flexDirection: 'row',
-    gap: 10,
+    gap: 8,
   },
   pillItem: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: Palette.warningBorder,
+    backgroundColor: Palette.warningBg,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,

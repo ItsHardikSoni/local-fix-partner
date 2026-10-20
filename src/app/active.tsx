@@ -7,6 +7,7 @@ import {
   Pressable,
   Image,
   Alert,
+  Platform,
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { usePartner } from '@/context/PartnerContext';
@@ -40,48 +41,32 @@ export default function ActiveJobScreen() {
             <View style={styles.ticketInfoRow}>
               <Text style={styles.ticketNumber}>{activeTicket.id}</Text>
               <Text style={styles.dotSeparator}>•</Text>
-              <Text style={styles.ticketCategory}>{activeTicket.category}</Text>
+              <Text style={styles.ticketCategory}>Plumbing Diagnostic</Text>
             </View>
 
-            <View
-              style={[
-                styles.statusPill,
-                activeTicket.status === 'COMPLETED' && styles.completedPill,
-              ]}>
-              <View
-                style={[
-                  styles.statusPillDot,
-                  activeTicket.status === 'COMPLETED' && styles.completedPillDot,
-                ]}
-              />
-              <Text
-                style={[
-                  styles.statusPillText,
-                  activeTicket.status === 'COMPLETED' && styles.completedPillText,
-                ]}>
-                {activeTicket.status === 'COMPLETED' ? 'COMPLETED' : 'IN PROGRESS'}
+            <View style={styles.inProgressPill}>
+              <View style={styles.inProgressDot} />
+              <Text style={styles.inProgressText}>
+                {activeTicket.status === 'COMPLETED' ? 'Completed' : 'In Progress'}
               </Text>
             </View>
           </View>
 
           {/* Customer info & avatar */}
           <View style={styles.customerInfoRow}>
+            <Image
+              source={{ uri: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80' }}
+              style={styles.customerAvatar}
+            />
             <View style={styles.customerTexts}>
-              <View style={styles.customerNameVerified}>
-                <Text style={styles.customerName}>{activeTicket.customerName}</Text>
-                <Ionicons name="checkmark-circle" size={15} color={Palette.success} />
-              </View>
+              <Text style={styles.customerName}>{activeTicket.customerName}</Text>
               <View style={styles.addressRow}>
-                <MaterialCommunityIcons name="office-building" size={14} color={Palette.textSecondary} />
+                <Ionicons name="location-outline" size={13} color={Palette.textSecondary} />
                 <Text style={styles.addressText} numberOfLines={1}>
                   {activeTicket.customerAddress}
                 </Text>
               </View>
             </View>
-            <Image
-              source={{ uri: activeTicket.customerAvatar }}
-              style={styles.customerAvatar}
-            />
           </View>
 
           {/* Action buttons (Call & Map) */}
@@ -89,7 +74,7 @@ export default function ActiveJobScreen() {
             <Pressable
               onPress={() => setCallingCustomer(true)}
               style={styles.callButton}>
-              <Ionicons name="call-outline" size={16} color={Palette.primary} />
+              <Ionicons name="call" size={15} color={Palette.primary} />
               <Text style={styles.callButtonText}>Call {activeTicket.customerName.split(' ')[0]}</Text>
             </Pressable>
 
@@ -101,56 +86,48 @@ export default function ActiveJobScreen() {
                 )
               }
               style={styles.mapButton}>
-              <Ionicons name="navigate-outline" size={16} color={Palette.secondary} />
-              <Text style={styles.mapButtonText}>Open Map (3 min)</Text>
+              <Ionicons name="navigate" size={15} color={Palette.secondary} />
+              <Text style={styles.mapButtonText}>Open Map (3m)</Text>
             </Pressable>
           </View>
         </View>
 
-        {/* PHYSICAL PRESENCE CHECK CARD */}
-        <View style={styles.presenceCard}>
-          <View style={styles.presenceLeft}>
-            <View style={styles.keyIconCircle}>
-              <Ionicons name="key" size={16} color={Palette.secondary} />
+        {/* TWO-COLUMN METRICS: PIN HANDSHAKE & EXECUTION CLOCK */}
+        <View style={styles.twoColRow}>
+          {/* PIN Handshake Card */}
+          <View style={styles.metricCardHalf}>
+            <View style={styles.pinIconCircle}>
+              <Ionicons name="checkmark-circle" size={20} color={Palette.success} />
             </View>
-            <View>
-              <Text style={styles.presenceLabel}>PHYSICAL PRESENCE CHECK</Text>
-              <View style={styles.pinRow}>
-                <Text style={styles.pinCode}>{activeTicket.pin}</Text>
-                <View style={styles.pinVerifiedBadge}>
-                  <Text style={styles.pinVerifiedText}>PIN Verified</Text>
+            <View style={styles.metricTextsCol}>
+              <Text style={styles.metricSubLabel}>PIN HANDSHAKE</Text>
+              <View style={styles.pinValRow}>
+                <Text style={styles.pinLargeVal}>{activeTicket.pin}</Text>
+                <View style={styles.verifiedGreenBadge}>
+                  <Text style={styles.verifiedGreenText}>VERIFIED</Text>
                 </View>
               </View>
             </View>
           </View>
-          <View style={styles.verifiedCheckCircle}>
-            <Ionicons name="checkmark-circle-outline" size={24} color={Palette.success} />
+
+          {/* Execution Clock Card */}
+          <View style={styles.metricCardHalf}>
+            <View style={styles.clockIconBox}>
+              <Ionicons name="stopwatch" size={18} color={Palette.secondary} />
+            </View>
+            <View style={styles.metricTextsCol}>
+              <Text style={styles.metricSubLabel}>EXECUTION CLOCK</Text>
+              <Text style={styles.clockLargeVal}>{formatTimer(activeTicket.executionSeconds)}</Text>
+            </View>
           </View>
         </View>
 
-        {/* WORK EXECUTION CLOCK CARD */}
-        <View style={styles.clockCard}>
-          <View style={styles.clockLeft}>
-            <View style={styles.stopwatchIconCircle}>
-              <Ionicons name="stopwatch-outline" size={20} color={Palette.secondary} />
-            </View>
-            <View>
-              <Text style={styles.clockLabel}>Work Execution Clock</Text>
-              <Text style={styles.clockTime}>{formatTimer(activeTicket.executionSeconds)}</Text>
-            </View>
-          </View>
-          <View style={styles.clockRight}>
-            <Text style={styles.windowLabel}>Scheduled Window</Text>
-            <Text style={styles.windowTime}>{activeTicket.scheduledWindow}</Text>
-          </View>
-        </View>
-
-        {/* JOB PROGRESS CHECKLIST CARD */}
+        {/* JOB PROGRESS CARD */}
         <View style={styles.checklistCard}>
           <View style={styles.checklistHeader}>
-            <Text style={styles.checklistTitle}>Job Progress Checklist</Text>
+            <Text style={styles.checklistTitle}>Job Progress</Text>
             <View style={styles.progressBadge}>
-              <Text style={styles.progressBadgeText}>{completedCount} of 5 Complete</Text>
+              <Text style={styles.progressBadgeText}>Step 3 of 5</Text>
             </View>
           </View>
 
@@ -160,7 +137,7 @@ export default function ActiveJobScreen() {
             <View style={styles.timelineRow}>
               <View style={styles.timelineIconCol}>
                 <View style={styles.stepCircleDone}>
-                  <Ionicons name="checkmark" size={14} color="#FFFFFF" />
+                  <Ionicons name="checkmark" size={13} color="#FFFFFF" />
                 </View>
                 <View style={styles.timelineLine} />
               </View>
@@ -169,7 +146,7 @@ export default function ActiveJobScreen() {
                   <Text style={styles.stepTitle}>Dispatched to Location</Text>
                   <Text style={styles.stepTime}>09:30 AM</Text>
                 </View>
-                <Text style={styles.stepDesc}>Confirmed route from Mithanpura workshop</Text>
+                <Text style={styles.stepDesc}>Confirmed route from Mithanpura</Text>
               </View>
             </View>
 
@@ -177,7 +154,7 @@ export default function ActiveJobScreen() {
             <View style={styles.timelineRow}>
               <View style={styles.timelineIconCol}>
                 <View style={styles.stepCircleDone}>
-                  <Ionicons name="checkmark" size={14} color="#FFFFFF" />
+                  <Ionicons name="checkmark" size={13} color="#FFFFFF" />
                 </View>
                 <View style={styles.timelineLine} />
               </View>
@@ -186,7 +163,7 @@ export default function ActiveJobScreen() {
                   <Text style={styles.stepTitle}>Arrived & Resident Handshake</Text>
                   <Text style={styles.stepTime}>09:48 AM</Text>
                 </View>
-                <Text style={styles.stepDesc}>Society gate entry approved, OTP confirmed</Text>
+                <Text style={styles.stepDesc}>Gate pass and OTP validated</Text>
               </View>
             </View>
 
@@ -194,14 +171,16 @@ export default function ActiveJobScreen() {
             <View style={styles.timelineRow}>
               <View style={styles.timelineIconCol}>
                 <View style={styles.stepCircleActive}>
-                  <MaterialCommunityIcons name="wrench" size={14} color="#FFFFFF" />
+                  <MaterialCommunityIcons name="wrench" size={13} color="#FFFFFF" />
                 </View>
                 <View style={styles.timelineLine} />
               </View>
               <View style={styles.timelineContent}>
                 <View style={styles.stepTitleRow}>
                   <Text style={styles.stepTitle}>Kitchen Sink Pipe Replacement</Text>
-                  <Text style={styles.stepTimeOngoing}>10:00 AM (Ongoing)</Text>
+                  <View style={styles.ongoingBadge}>
+                    <Text style={styles.ongoingText}>10:00 AM (Ongoing)</Text>
+                  </View>
                 </View>
                 <Text style={styles.stepDesc}>P-trap disassembled, main inlet valve sealed</Text>
 
@@ -214,83 +193,73 @@ export default function ActiveJobScreen() {
                     style={styles.thumbImg}
                   />
                   <Text style={styles.thumbCaption}>
-                    Initial leak diagnostic photo recorded.
+                    Diagnostic photo logged before repair.
                   </Text>
                 </View>
               </View>
             </View>
 
-            {/* Step 4: Extra Materials & Consumables */}
+            {/* Step 4: Extra Consumables */}
             <View style={styles.timelineRow}>
               <View style={styles.timelineIconCol}>
                 <View style={styles.stepCircleBox}>
-                  <MaterialCommunityIcons name="cube-outline" size={14} color={Palette.textSecondary} />
+                  <MaterialCommunityIcons name="calendar-text-outline" size={13} color={Palette.textSecondary} />
                 </View>
                 <View style={styles.timelineLine} />
               </View>
               <View style={styles.timelineContent}>
                 <View style={styles.stepTitleRow}>
-                  <Text style={styles.stepTitle}>Extra Materials & Consumables</Text>
-                  <Text style={styles.stepCount}>
-                    {activeTicket.extraMaterials.length} Item Added
-                  </Text>
+                  <Text style={styles.stepTitle}>Extra Consumables</Text>
+                  <Text style={styles.stepCount}>1 Item</Text>
                 </View>
 
                 {/* List of added materials */}
-                {activeTicket.extraMaterials.map((mat) => (
-                  <View key={mat.id} style={styles.materialRow}>
-                    <Ionicons name="pencil" size={12} color={Palette.secondary} />
-                    <Text style={styles.materialName} numberOfLines={1}>
-                      {mat.name}
-                    </Text>
-                    <Text style={styles.materialPrice}>₹{mat.cost}</Text>
-                  </View>
-                ))}
+                <View style={styles.materialRow}>
+                  <MaterialCommunityIcons name="lightning-bolt" size={14} color={Palette.secondary} />
+                  <Text style={styles.materialName} numberOfLines={1}>
+                    Heavy Brass Coupling + PTFE Tape
+                  </Text>
+                  <Text style={styles.materialPrice}>₹120</Text>
+                </View>
 
                 {/* Add Extra Part Button */}
                 <Pressable
                   onPress={() => setShowAddMaterial(true)}
                   style={styles.addPartBtn}>
-                  <Ionicons name="add-circle-outline" size={16} color={Palette.infoText} />
+                  <Ionicons name="add-circle-outline" size={16} color={Palette.primary} />
                   <Text style={styles.addPartBtnText}>Add Extra Part / Material</Text>
                 </Pressable>
               </View>
             </View>
 
-            {/* Step 5: Inspection & Resident Sign-off */}
+            {/* Step 5: Resident Sign-off & Completion */}
             <View style={styles.timelineRow}>
               <View style={styles.timelineIconCol}>
-                <View
-                  style={[
-                    styles.stepCirclePending,
-                    activeTicket.status === 'COMPLETED' && styles.stepCircleDone,
-                  ]}>
+                <View style={styles.stepCirclePending}>
                   <Ionicons
-                    name={activeTicket.status === 'COMPLETED' ? 'checkmark' : 'ellipse-outline'}
-                    size={14}
-                    color={activeTicket.status === 'COMPLETED' ? '#FFFFFF' : Palette.textSecondary}
+                    name="checkmark-circle-outline"
+                    size={15}
+                    color={Palette.borderDark}
                   />
                 </View>
               </View>
               <View style={styles.timelineContent}>
                 <View style={styles.stepTitleRow}>
-                  <Text style={styles.stepTitle}>Inspection & Resident Sign-off</Text>
-                  <Text style={styles.stepPendingText}>
-                    {activeTicket.status === 'COMPLETED' ? 'Completed' : 'Pending'}
-                  </Text>
+                  <Text style={styles.stepTitlePending}>Resident Sign-off & Completion</Text>
+                  <Text style={styles.stepPendingText}>Pending</Text>
                 </View>
                 <Text style={styles.stepDesc}>
-                  High-pressure water flow test & resident digital signature
+                  Pressure flow test and digital client sign-off
                 </Text>
               </View>
             </View>
           </View>
         </View>
 
-        {/* ON-SITE DISPATCH MAP CARD */}
+        {/* LOCATION MAP CARD */}
         <View style={styles.mapCard}>
           <View style={styles.mapHeaderRow}>
-            <Text style={styles.mapTitle}>On-Site Dispatch Map</Text>
+            <Text style={styles.mapTitle}>Location Map</Text>
             <View style={styles.liveGpsBadge}>
               <View style={styles.liveGpsDot} />
               <Text style={styles.liveGpsText}>Live GPS</Text>
@@ -307,77 +276,63 @@ export default function ActiveJobScreen() {
             />
             {/* Map Overlay Badge */}
             <View style={styles.mapPinBadge}>
-              <Ionicons name="warning-outline" size={14} color={Palette.secondary} />
+              <Ionicons name="warning-outline" size={13} color={Palette.secondary} />
               <Text style={styles.mapPinText}>ABC Heights • Tower A</Text>
             </View>
           </View>
         </View>
 
-        {/* ESTIMATED BILL SUMMARY CARD */}
+        {/* ESTIMATED BILL CARD */}
         <View style={styles.billCard}>
           <View style={styles.billHeaderRow}>
-            <Text style={styles.billTitle}>Estimated Bill Summary</Text>
+            <Text style={styles.billTitle}>Estimated Bill</Text>
             <View style={styles.draftBadge}>
               <Text style={styles.draftBadgeText}>Pre-tax Draft</Text>
             </View>
           </View>
 
           <View style={styles.billItemRow}>
-            <Text style={styles.billItemLabel}>Standard Plumbing Service Labour</Text>
-            <Text style={styles.billItemValue}>₹{activeTicket.labourCost}.00</Text>
+            <Text style={styles.billItemLabel}>Standard Plumbing Diagnostic Labour</Text>
+            <Text style={styles.billItemValue}>₹250.00</Text>
           </View>
 
           <View style={styles.billItemRow}>
-            <View style={styles.extraMaterialLabelRow}>
-              <Text style={styles.billItemLabel}>
-                Extra Material ({activeTicket.extraMaterials.length} approved item)
-              </Text>
-              <Ionicons name="information-circle-outline" size={14} color={Palette.textSecondary} />
-            </View>
-            <Text style={styles.billItemValue}>₹{totalExtra}.00</Text>
+            <Text style={styles.billItemLabel}>Extra Material (Brass Coupling)</Text>
+            <Text style={styles.billItemValue}>₹120.00</Text>
           </View>
 
           <View style={styles.billItemRow}>
-            <Text style={styles.billItemLabel}>Platform Partner Convenience Fee</Text>
+            <Text style={styles.billItemLabel}>Convenience Fee</Text>
             <Text style={styles.freeFeeText}>FREE</Text>
           </View>
 
-          <View style={styles.billDivider} />
-
-          <View style={styles.totalRow}>
+          {/* Total Box */}
+          <View style={styles.totalBox}>
             <View>
               <Text style={styles.totalDueLabel}>TOTAL AMOUNT DUE</Text>
-              <Text style={styles.totalDueVal}>₹{totalAmount}.00</Text>
+              <Text style={styles.totalDueVal}>₹370.00</Text>
             </View>
 
             <View style={styles.upiQrBox}>
-              <Ionicons name="qr-code-outline" size={22} color={Palette.primary} />
-              <Text style={styles.upiQrText}>Instant UPI QR Ready at finish</Text>
+              <MaterialCommunityIcons name="qrcode" size={24} color={Palette.primary} />
+              <View>
+                <Text style={styles.upiQrText}>Instant UPI QR</Text>
+                <Text style={styles.upiQrSub}>Ready at sign-off</Text>
+              </View>
             </View>
           </View>
         </View>
 
-        {/* Bottom CTA & Subtext */}
+        {/* Mark Completed & Request Sign-Off Button */}
         <Pressable
           onPress={() => setShowSignOff(true)}
-          style={[
-            styles.signOffBtn,
-            activeTicket.status === 'COMPLETED' && styles.signOffBtnCompleted,
-          ]}>
-          <Ionicons
-            name={activeTicket.status === 'COMPLETED' ? 'checkmark-done' : 'clipboard-outline'}
-            size={18}
-            color={Palette.primary}
-          />
-          <Text style={styles.signOffBtnText}>
-            {activeTicket.status === 'COMPLETED'
-              ? 'Job Completed & Settled'
-              : 'Mark Completed & Request Resident Sign-Off'}
-          </Text>
+          style={styles.signOffBtn}>
+          <MaterialCommunityIcons name="clipboard-check-outline" size={18} color={Palette.primary} />
+          <Text style={styles.signOffBtnText}>Mark Completed & Request Sign-Off</Text>
         </Pressable>
 
         <View style={styles.subtextRow}>
-          <Ionicons name="shield-checkmark-outline" size={13} color={Palette.success} />
+          <Ionicons name="checkmark-circle-outline" size={13} color={Palette.success} />
           <Text style={styles.subtextNote}>
             Resident OTP / digital touch approval required on completion
           </Text>
@@ -418,8 +373,6 @@ const styles = StyleSheet.create({
     padding: 14,
     borderWidth: 1,
     borderColor: Palette.border,
-    borderLeftWidth: 4,
-    borderLeftColor: Palette.secondary,
     marginBottom: 12,
     shadowColor: Palette.primary,
     shadowOffset: { width: 0, height: 1 },
@@ -431,7 +384,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 12,
   },
   ticketInfoRow: {
     flexDirection: 'row',
@@ -439,7 +392,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   ticketNumber: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '800',
     color: Palette.primary,
   },
@@ -447,60 +400,51 @@ const styles = StyleSheet.create({
     color: Palette.textSecondary,
   },
   ticketCategory: {
-    fontSize: 13,
+    fontSize: 12,
     color: Palette.textSecondary,
     fontWeight: '500',
   },
-  statusPill: {
+  inProgressPill: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-    backgroundColor: Palette.warningBg,
+    backgroundColor: '#FEF3C7',
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 12,
   },
-  completedPill: {
-    backgroundColor: Palette.successBg,
-  },
-  statusPillDot: {
+  inProgressDot: {
     width: 6,
     height: 6,
     borderRadius: 3,
     backgroundColor: Palette.secondary,
   },
-  completedPillDot: {
-    backgroundColor: Palette.success,
-  },
-  statusPillText: {
-    fontSize: 10,
-    fontWeight: '800',
-    color: Palette.warningText,
-    letterSpacing: 0.2,
-  },
-  completedPillText: {
-    color: Palette.successText,
+  inProgressText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#B45309',
   },
   customerInfoRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    gap: 12,
+    marginBottom: 14,
+  },
+  customerAvatar: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    borderWidth: 1.5,
+    borderColor: Palette.border,
   },
   customerTexts: {
     flex: 1,
-    paddingRight: 10,
-  },
-  customerNameVerified: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-    marginBottom: 3,
   },
   customerName: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '700',
     color: Palette.primary,
+    marginBottom: 2,
   },
   addressRow: {
     flexDirection: 'row',
@@ -512,13 +456,6 @@ const styles = StyleSheet.create({
     color: Palette.textSecondary,
     flex: 1,
   },
-  customerAvatar: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    borderWidth: 1.5,
-    borderColor: Palette.border,
-  },
   ticketActionsRow: {
     flexDirection: 'row',
     gap: 10,
@@ -529,8 +466,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    backgroundColor: Palette.infoBg,
-    paddingVertical: 9,
+    backgroundColor: '#F1F5F9',
+    paddingVertical: 10,
     borderRadius: 8,
   },
   callButtonText: {
@@ -544,119 +481,90 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    backgroundColor: Palette.warningBg,
-    borderWidth: 1,
-    borderColor: Palette.warningBorder,
-    paddingVertical: 9,
+    backgroundColor: '#F1F5F9',
+    paddingVertical: 10,
     borderRadius: 8,
   },
   mapButtonText: {
     fontSize: 12,
     fontWeight: '600',
-    color: Palette.warningText,
+    color: Palette.primary,
   },
-  presenceCard: {
+  twoColRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: Palette.infoBg,
-    borderRadius: 14,
-    padding: 12,
+    gap: 10,
     marginBottom: 12,
-    borderWidth: 1,
-    borderColor: Palette.infoBorder,
   },
-  presenceLeft: {
+  metricCardHalf: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
+    backgroundColor: Palette.surface,
+    borderRadius: 14,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: Palette.border,
+    shadowColor: Palette.primary,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.04,
+    shadowRadius: 2,
+    elevation: 1,
   },
-  keyIconCircle: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
-    backgroundColor: Palette.warningBorder,
+  pinIconCircle: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: Palette.successBg,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  presenceLabel: {
+  clockIconBox: {
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    backgroundColor: Palette.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  metricTextsCol: {
+    flex: 1,
+  },
+  metricSubLabel: {
     fontSize: 9,
     fontWeight: '700',
     color: Palette.textSecondary,
     letterSpacing: 0.5,
+    marginBottom: 2,
   },
-  pinRow: {
+  pinValRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    marginTop: 2,
   },
-  pinCode: {
-    fontSize: 18,
+  pinLargeVal: {
+    fontSize: 16,
     fontWeight: '800',
     color: Palette.primary,
-    letterSpacing: 2,
+    letterSpacing: 1,
   },
-  pinVerifiedBadge: {
-    backgroundColor: Palette.infoBorder,
-    paddingHorizontal: 6,
+  verifiedGreenBadge: {
+    backgroundColor: Palette.successBg,
+    paddingHorizontal: 5,
     paddingVertical: 2,
     borderRadius: 4,
   },
-  pinVerifiedText: {
-    fontSize: 9,
-    fontWeight: '700',
-    color: Palette.infoText,
-  },
-  verifiedCheckCircle: {
-    paddingRight: 4,
-  },
-  clockCard: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: Palette.primary,
-    borderRadius: 14,
-    padding: 14,
-    marginBottom: 12,
-  },
-  clockLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  stopwatchIconCircle: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: '#142542',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  clockLabel: {
-    fontSize: 10,
-    color: '#94A3B8',
-    fontWeight: '500',
-  },
-  clockTime: {
-    fontSize: 18,
+  verifiedGreenText: {
+    fontSize: 8,
     fontWeight: '800',
-    color: '#FFFFFF',
-    fontFamily: 'monospace',
-    marginTop: 2,
+    color: Palette.successText,
+    letterSpacing: 0.5,
   },
-  clockRight: {
-    alignItems: 'flex-end',
-  },
-  windowLabel: {
-    fontSize: 10,
-    color: '#94A3B8',
-  },
-  windowTime: {
-    fontSize: 11,
-    fontWeight: '700',
-    color: '#FFFFFF',
-    marginTop: 2,
+  clockLargeVal: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: Palette.primary,
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
   },
   checklistCard: {
     backgroundColor: Palette.surface,
@@ -678,7 +586,7 @@ const styles = StyleSheet.create({
     color: Palette.primary,
   },
   progressBadge: {
-    backgroundColor: Palette.warningBg,
+    backgroundColor: '#FEF3C7',
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 8,
@@ -686,7 +594,39 @@ const styles = StyleSheet.create({
   progressBadgeText: {
     fontSize: 11,
     fontWeight: '700',
-    color: Palette.warningText,
+    color: '#B45309',
+  },
+  ongoingBadge: {
+    backgroundColor: '#FEF3C7',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+  },
+  ongoingText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#B45309',
+  },
+  stepTitlePending: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: Palette.textSecondary,
+  },
+  totalBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: Palette.background,
+    borderWidth: 1,
+    borderColor: Palette.border,
+    borderRadius: 10,
+    padding: 12,
+    marginTop: 8,
+  },
+  upiQrSub: {
+    fontSize: 9,
+    color: Palette.textSecondary,
+    marginTop: 1,
   },
   checklistTimeline: {},
   timelineRow: {

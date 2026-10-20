@@ -11,15 +11,10 @@ export default function AppHeader() {
   const { partner, toggleOnline, setIsRegisterModalOpen } = usePartner();
   const [showNotifications, setShowNotifications] = useState(false);
 
-  // Determine page title based on current route
-  let subtitle = 'Jobs Feed';
-  if (pathname === '/active') {
-    subtitle = 'My Active';
-  } else if (pathname === '/earnings') {
-    subtitle = 'Earnings';
-  } else if (pathname === '/profile') {
-    subtitle = 'Profile Credentials';
-  }
+  const isJobs = pathname === '/' || pathname === '/index';
+  const isActive = pathname === '/active';
+  const isProfile = pathname === '/profile';
+  const isEarnings = pathname === '/earnings';
 
   const notifications = [
     { id: '1', title: 'New Urgent Leak Nearby!', desc: 'Kitchen Sink Pipe Burst in Ward 12 (2.8 km away)', time: '12m ago', unread: true },
@@ -30,23 +25,48 @@ export default function AppHeader() {
   return (
     <View style={styles.headerContainer}>
       <View style={styles.leftSection}>
-        {/* Worker Avatar / Logo with Online Status Dot */}
-        <Pressable onPress={() => router.push('/profile')} style={styles.logoWrapper}>
+        {/* Worker Avatar / Brand Icon */}
+        <Pressable onPress={() => router.push('/profile')} style={styles.mascotWrapper}>
           <Image
             source={{ uri: 'https://images.unsplash.com/photo-1540569014015-19a7be504e3a?auto=format&fit=crop&w=120&q=80' }}
-            style={styles.logoImage}
+            style={styles.mascotImage}
           />
-          <View style={[styles.statusDot, !partner.isOnline && styles.statusDotOffline]} />
         </Pressable>
 
         <View style={styles.titleColumn}>
-          <Pressable onPress={toggleOnline} style={styles.onlineBadgeRow}>
-            <View style={[styles.onlineIndicator, !partner.isOnline && styles.indicatorOffline]} />
-            <Text style={styles.onlineText}>
-              {partner.isOnline ? `Online in ${partner.city}` : `Offline (${partner.city})`}
-            </Text>
-          </Pressable>
-          <Text style={styles.pageTitle}>{subtitle}</Text>
+          {isJobs ? (
+            <>
+              <Text style={styles.pageTitle}>Jobs Feed</Text>
+              <View style={styles.subStatusRow}>
+                <View style={styles.greenDot} />
+                <Text style={styles.subStatusText}>{partner.city} • {partner.ward}</Text>
+              </View>
+            </>
+          ) : isActive ? (
+            <>
+              <View style={styles.subStatusRow}>
+                <View style={styles.greenDot} />
+                <Text style={styles.subStatusText}>Online in {partner.city}</Text>
+              </View>
+              <Text style={styles.pageTitle}>My Active</Text>
+            </>
+          ) : isProfile ? (
+            <>
+              <View style={styles.subStatusRow}>
+                <View style={styles.greenDot} />
+                <Text style={styles.subStatusText}>Online in {partner.city}</Text>
+              </View>
+              <Text style={styles.pageTitle}>Profile Credentials</Text>
+            </>
+          ) : (
+            <>
+              <View style={styles.subStatusRow}>
+                <View style={styles.greenDot} />
+                <Text style={styles.subStatusText}>Online in {partner.city}</Text>
+              </View>
+              <Text style={styles.pageTitle}>Earnings</Text>
+            </>
+          )}
         </View>
       </View>
 
@@ -63,7 +83,15 @@ export default function AppHeader() {
         <Pressable
           onPress={() => router.push('/profile')}
           style={({ pressed }) => [styles.avatarButton, pressed && styles.pressed]}>
-          <Ionicons name="person-circle" size={32} color={Palette.primary} />
+          {isJobs ? (
+            <View style={styles.initialsBadge}>
+              <Text style={styles.initialsText}>RK</Text>
+            </View>
+          ) : (
+            <View style={styles.darkAvatarCircle}>
+              <Ionicons name="person" size={17} color="#FFFFFF" />
+            </View>
+          )}
         </Pressable>
       </View>
 
@@ -120,67 +148,54 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
   },
-  logoWrapper: {
-    position: 'relative',
+  mascotWrapper: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: '#E2E8F0',
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  logoImage: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: Palette.border,
-  },
-  statusDot: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: Palette.success,
-    borderWidth: 2,
-    borderColor: Palette.surface,
-  },
-  statusDotOffline: {
-    backgroundColor: Palette.textSecondary,
+  mascotImage: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
   },
   titleColumn: {
     justifyContent: 'center',
   },
-  onlineBadgeRow: {
+  subStatusRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
   },
-  onlineIndicator: {
+  greenDot: {
     width: 6,
     height: 6,
     borderRadius: 3,
     backgroundColor: Palette.success,
   },
-  indicatorOffline: {
-    backgroundColor: Palette.textSecondary,
-  },
-  onlineText: {
+  subStatusText: {
     fontSize: 11,
-    color: Palette.successText,
-    fontWeight: '600',
+    color: Palette.textSecondary,
+    fontWeight: '500',
   },
   pageTitle: {
     fontSize: 16,
-    fontWeight: '700',
+    fontWeight: '800',
     color: Palette.primary,
     letterSpacing: -0.2,
   },
   rightSection: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 10,
   },
   iconButton: {
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: Palette.background,
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
@@ -189,12 +204,35 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 7,
     right: 8,
-    width: 7,
-    height: 7,
-    borderRadius: 4,
-    backgroundColor: Palette.danger,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: Palette.secondary,
   },
   avatarButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  initialsBadge: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: Palette.infoBg,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Palette.infoBorder,
+  },
+  initialsText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: Palette.info,
+  },
+  darkAvatarCircle: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: Palette.primary,
     justifyContent: 'center',
     alignItems: 'center',
   },

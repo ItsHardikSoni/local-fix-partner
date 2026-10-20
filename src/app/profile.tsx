@@ -48,27 +48,22 @@ export default function ProfileScreen() {
           <View style={styles.profileDetails}>
             <View style={styles.profileNameRow}>
               <Text style={styles.profileName}>{partner.name}</Text>
-              <View style={[styles.activePill, !partner.isOnline && styles.inactivePill]}>
-                <View style={[styles.activeDot, !partner.isOnline && styles.inactiveDot]} />
-                <Text style={[styles.activePillText, !partner.isOnline && styles.inactivePillText]}>
-                  {partner.isOnline ? 'Active' : 'Offline'}
-                </Text>
+              <View style={styles.activePill}>
+                <View style={styles.activeDot} />
+                <Text style={styles.activePillText}>Active</Text>
               </View>
             </View>
 
-            <View style={styles.verifiedPartnerBadge}>
-              <Ionicons name="shield-checkmark" size={13} color={Palette.warningText} />
-              <Text style={styles.verifiedPartnerText}>
-                Verified {partner.city} Partner
-              </Text>
-            </View>
+            <Text style={styles.verifiedPartnerText}>
+              Verified Partner · {partner.city}
+            </Text>
 
             <View style={styles.ratingStatsRow}>
               <Ionicons name="star" size={13} color={Palette.secondary} />
               <Text style={styles.ratingNumber}>{partner.rating}</Text>
-              <Text style={styles.dotSeparator}>•</Text>
+              <Text style={styles.dotSeparator}>·</Text>
               <Text style={styles.jobsCountText}>{partner.totalJobs} Jobs</Text>
-              <Text style={styles.dotSeparator}>•</Text>
+              <Text style={styles.dotSeparator}>·</Text>
               <Text style={styles.onTimeText}>{partner.onTimeRate}% On-Time</Text>
             </View>
           </View>
@@ -77,10 +72,10 @@ export default function ProfileScreen() {
         {/* Accepting Jobs Toggle Row */}
         <View style={styles.toggleRow}>
           <View style={styles.toggleLeft}>
-            <View style={[styles.greenToggleDot, !partner.isOnline && styles.grayToggleDot]} />
+            <View style={styles.greenToggleDot} />
             <View>
               <Text style={styles.toggleTitle}>Accepting Jobs</Text>
-              <Text style={styles.toggleSub}>Live in {partner.city} Hub</Text>
+              <Text style={styles.toggleSub}>Muzaffarpur Central Hub</Text>
             </View>
           </View>
           <Switch
@@ -95,15 +90,12 @@ export default function ProfileScreen() {
       {/* DISTRICT GEOFENCE CARD */}
       <View style={styles.geofenceCard}>
         <View style={styles.cardHeaderRow}>
-          <View style={styles.headerLeft}>
-            <Ionicons name="compass-outline" size={18} color={Palette.secondary} />
-            <View>
-              <Text style={styles.cardHeaderTitle}>District Geofence</Text>
-              <Text style={styles.cardHeaderSub}>Authorized Operation Zone</Text>
-            </View>
+          <View style={styles.headerLeftSimple}>
+            <Ionicons name="navigate" size={16} color={Palette.secondary} />
+            <Text style={styles.cardHeaderTitle}>District Geofence</Text>
           </View>
           <View style={styles.municipalLockBadge}>
-            <Ionicons name="lock-closed-outline" size={12} color={Palette.info} />
+            <Ionicons name="lock-closed" size={11} color={Palette.info} />
             <Text style={styles.municipalLockText}>Municipal Lock</Text>
           </View>
         </View>
@@ -118,113 +110,89 @@ export default function ProfileScreen() {
           />
           <View style={styles.mapOverlayGradient}>
             <View style={styles.mapPinRow}>
-              <Ionicons name="location" size={16} color={Palette.secondary} />
+              <Ionicons name="location" size={15} color={Palette.secondary} />
               <Text style={styles.mapCityText}>{partner.city}, Bihar</Text>
             </View>
             <View style={styles.radiusBadge}>
-              <Text style={styles.radiusBadgeText}>Radius {partner.radiusKm + 0.5} km</Text>
+              <Text style={styles.radiusBadgeText}>5 km radius</Text>
             </View>
           </View>
         </View>
 
-        {/* Assigned Sectors */}
-        <View style={styles.sectorsBox}>
-          <MaterialCommunityIcons name="office-building" size={16} color={Palette.textSecondary} />
-          <View style={styles.sectorsTexts}>
-            <Text style={styles.sectorsLabel}>ASSIGNED SECTORS</Text>
-            <Text style={styles.sectorsVal}>Ward 12, 14 & Surrounding Sectors</Text>
-          </View>
-        </View>
-
-        {/* Security / Cryptographic lock note */}
-        <View style={styles.geofenceNotice}>
-          <Ionicons name="shield-outline" size={16} color={Palette.warningText} />
-          <Text style={styles.geofenceNoticeText}>
-            Your account is cryptographically tied to {partner.city}. Changing districts requires official municipal document re-verification.
+        {/* Assigned Wards Row */}
+        <View style={styles.assignedWardsRow}>
+          <Text style={styles.assignedWardsText}>
+            Assigned Wards: <Text style={styles.boldWardText}>12, 14 & Central</Text>
           </Text>
+          <Text style={styles.nonTransferableText}>Non-Transferable</Text>
         </View>
       </View>
 
       {/* KYC & CREDENTIALS CARD */}
       <View style={styles.kycCard}>
         <View style={styles.cardHeaderRow}>
-          <View style={styles.headerLeft}>
-            <MaterialCommunityIcons name="clipboard-check-outline" size={18} color={Palette.success} />
-            <View>
-              <Text style={styles.cardHeaderTitle}>KYC & Credentials</Text>
-              <Text style={styles.kycSubGreen}>100% Certified Partner</Text>
-            </View>
+          <View>
+            <Text style={styles.cardHeaderTitle}>KYC & Credentials</Text>
+            <Text style={styles.kycSubText}>4 of 4 Verified</Text>
           </View>
-          <View style={styles.kycCountBadge}>
-            <Text style={styles.kycCountText}>4/4</Text>
+          <View style={styles.certifiedBadge}>
+            <Text style={styles.certifiedBadgeText}>100% Certified</Text>
           </View>
         </View>
 
         {/* KYC Item 1: Aadhaar */}
         <View style={styles.kycItemRow}>
           <View style={styles.kycIconBox}>
-            <Ionicons name="id-card-outline" size={18} color={Palette.primary} />
+            <Ionicons name="id-card-outline" size={18} color={Palette.textSecondary} />
           </View>
           <View style={styles.kycItemTexts}>
-            <View style={styles.kycItemTitleRow}>
-              <Text style={styles.kycItemTitle}>Aadhaar KYC</Text>
-              <Ionicons name="checkmark-circle" size={13} color={Palette.success} />
-            </View>
+            <Text style={styles.kycItemTitle}>Aadhaar KYC</Text>
             <Text style={styles.kycItemSub}>UIDAI Biometric Verified</Text>
           </View>
           <View style={styles.statusVerifiedTag}>
-            <Text style={styles.statusVerifiedText}>VERIFIED</Text>
+            <Text style={styles.statusVerifiedText}>Verified</Text>
           </View>
         </View>
 
         {/* KYC Item 2: Police Background Check */}
         <View style={styles.kycItemRow}>
           <View style={styles.kycIconBox}>
-            <Ionicons name="shield-outline" size={18} color={Palette.primary} />
+            <Ionicons name="shield-outline" size={18} color={Palette.textSecondary} />
           </View>
           <View style={styles.kycItemTexts}>
-            <View style={styles.kycItemTitleRow}>
-              <Text style={styles.kycItemTitle}>Police Background Check</Text>
-              <Ionicons name="checkmark-circle" size={13} color={Palette.success} />
-            </View>
-            <Text style={styles.kycItemSub}>Cleared on 14 Jan 2025</Text>
+            <Text style={styles.kycItemTitle}>Police Background Check</Text>
+            <Text style={styles.kycItemSub}>Cleared Jan 2025</Text>
           </View>
           <View style={styles.statusVerifiedTag}>
-            <Text style={styles.statusVerifiedText}>CLEARED</Text>
+            <Text style={styles.statusVerifiedText}>Verified</Text>
           </View>
         </View>
 
         {/* KYC Item 3: Trade Skill Certification */}
         <View style={styles.kycItemRow}>
           <View style={styles.kycIconBox}>
-            <MaterialCommunityIcons name="tools" size={18} color={Palette.primary} />
+            <MaterialCommunityIcons name="tools" size={18} color={Palette.textSecondary} />
           </View>
           <View style={styles.kycItemTexts}>
-            <View style={styles.kycItemTitleRow}>
-              <Text style={styles.kycItemTitle}>Trade Skill Certification</Text>
-              <Ionicons name="checkmark-circle" size={13} color={Palette.success} />
-            </View>
+            <Text style={styles.kycItemTitle}>Trade Skill Certification</Text>
             <Text style={styles.kycItemSub}>NSDC Level 4 Plumber</Text>
           </View>
           <View style={styles.statusVerifiedTag}>
-            <Text style={styles.statusVerifiedText}>ACTIVE</Text>
+            <Text style={styles.statusVerifiedText}>Verified</Text>
           </View>
         </View>
 
         {/* KYC Item 4: Bank Account & PAN */}
         <View style={[styles.kycItemRow, { borderBottomWidth: 0 }]}>
           <View style={styles.kycIconBox}>
-            <MaterialCommunityIcons name="bank" size={18} color={Palette.primary} />
+            <MaterialCommunityIcons name="bank" size={18} color={Palette.textSecondary} />
           </View>
           <View style={styles.kycItemTexts}>
-            <View style={styles.kycItemTitleRow}>
-              <Text style={styles.kycItemTitle}>Bank Account & PAN</Text>
-              <Ionicons name="checkmark-circle" size={13} color={Palette.success} />
-            </View>
-            <Text style={styles.kycItemSub}>Verified for Fast UPI Payouts</Text>
+            <Text style={styles.kycItemTitle}>Bank Account & PAN</Text>
+            <Text style={styles.kycItemSub}>Instant UPI Payouts</Text>
           </View>
           <View style={styles.statusVerifiedTag}>
-            <Text style={styles.statusVerifiedText}>LINKED</Text>
+            <Text style={styles.statusVerifiedText}>Verified</Text>
           </View>
         </View>
       </View>
@@ -232,76 +200,60 @@ export default function ProfileScreen() {
       {/* SERVICE PREFERENCES CARD */}
       <View style={styles.preferencesCard}>
         <View style={styles.cardHeaderRow}>
-          <View style={styles.headerLeft}>
-            <Ionicons name="options-outline" size={18} color={Palette.info} />
-            <View>
-              <Text style={styles.cardHeaderTitle}>Service Preferences</Text>
-              <Text style={styles.cardHeaderSub}>Daily Schedule & Skills</Text>
-            </View>
+          <Text style={styles.cardHeaderTitle}>Service Preferences</Text>
+          <Pressable onPress={() => setIsRegisterModalOpen(true)}>
+            <Text style={styles.editSkillsLink}>Edit Skills</Text>
+          </Pressable>
+        </View>
+
+        {/* Skills Pills */}
+        <View style={styles.skillsPillsRow}>
+          <View style={styles.skillPillItem}>
+            <Text style={styles.skillPillText}>Plumbing</Text>
+          </View>
+          <View style={styles.skillPillItem}>
+            <Text style={styles.skillPillText}>Pipe Fitting</Text>
+          </View>
+          <View style={styles.skillPillItem}>
+            <Text style={styles.skillPillText}>Overhead Tanks</Text>
           </View>
         </View>
 
-        {/* Active Skill Categories */}
-        <View style={styles.skillsSection}>
-          <View style={styles.skillsHeader}>
-            <Text style={styles.skillsLabel}>Active Skill Categories</Text>
-            <Pressable
-              onPress={() => setIsRegisterModalOpen(true)}
-              style={styles.editSkillsBtn}>
-              <Text style={styles.editSkillsText}>Edit Skills</Text>
-              <Ionicons name="pencil" size={12} color={Palette.warningText} />
-            </Pressable>
-          </View>
-
-          <View style={styles.skillsChipsRow}>
-            {partner.skills.map((skill, idx) => (
-              <View key={idx} style={styles.skillChip}>
-                <Text style={styles.skillChipText}>• {skill}</Text>
-              </View>
-            ))}
-          </View>
-        </View>
-
-        {/* Operating Shift */}
+        {/* Operating Hours Row */}
         <Pressable
           onPress={() =>
             Alert.alert(
               'Operating Shift',
-              `Current: ${partner.operatingHours}\nWard 12 auto-dispatch window.`
+              'Current: Daily 08:00 AM – 08:00 PM\nWard 12 auto-dispatch window.'
             )
           }
-          style={styles.shiftRow}>
-          <Ionicons name="time-outline" size={18} color={Palette.textSecondary} />
-          <View style={styles.shiftTexts}>
-            <Text style={styles.shiftTitle}>Operating Shift</Text>
-            <Text style={styles.shiftHours}>{partner.operatingHours}</Text>
-          </View>
-          <Ionicons name="chevron-forward" size={18} color={Palette.textSecondary} />
+          style={styles.shiftRowSimple}>
+          <Ionicons name="time-outline" size={17} color={Palette.textSecondary} />
+          <Text style={styles.shiftHoursText}>Daily 08:00 AM – 08:00 PM</Text>
+          <Ionicons name="chevron-forward" size={16} color={Palette.textSecondary} />
         </Pressable>
+      </View>
 
-        {/* 15-Min SOS Dispatch */}
-        <View style={styles.sosCard}>
-          <View style={styles.sosIconBox}>
-            <Ionicons name="flash" size={18} color="#FFFFFF" />
-          </View>
-          <View style={styles.sosTexts}>
-            <View style={styles.sosTitleRow}>
-              <Text style={styles.sosTitle}>15-Min SOS Dispatch</Text>
-              <View style={styles.sosExtraBadge}>
-                <Text style={styles.sosExtraText}>+₹100/job</Text>
-              </View>
+      {/* 15-MIN EMERGENCY SOS CARD */}
+      <View style={styles.sosCard}>
+        <Ionicons name="flash" size={18} color="#D97706" />
+        <View style={styles.sosTexts}>
+          <View style={styles.sosTitleRow}>
+            <Text style={styles.sosTitle}>15-Min Emergency SOS</Text>
+            <View style={styles.sosExtraBadge}>
+              <Text style={styles.sosExtraText}>+₹100</Text>
             </View>
-            <Text style={styles.sosSub}>
-              Opted-in for priority burst pipes and drainage overflow alerts.
-            </Text>
           </View>
-          <Switch
-            value={partner.sosDispatchEnabled}
-            onValueChange={toggleSos}
-            trackColor={{ false: Palette.borderDark, true: Palette.secondary }}
-            thumbColor="#FFFFFF"
-          />
+          <Text style={styles.sosSub}>
+            Opted-in for burst pipes & priority calls
+          </Text>
         </View>
+        <Switch
+          value={partner.sosDispatchEnabled}
+          onValueChange={toggleSos}
+          trackColor={{ false: Palette.borderDark, true: Palette.secondary }}
+          thumbColor="#FFFFFF"
+        />
       </View>
 
       {/* PARTNER SUPPORT SECTION */}
@@ -315,33 +267,23 @@ export default function ProfileScreen() {
           </View>
           <View style={styles.supportDeskTexts}>
             <Text style={styles.deskTitle}>Muzaffarpur Partner Desk</Text>
-            <Text style={styles.deskNumber}>Toll-Free: 1800-LOCALFIX (24x7)</Text>
+            <Text style={styles.deskNumber}>Toll-Free 1800–LOCALFIX (24x7)</Text>
           </View>
-          <View style={styles.phoneCallCircle}>
-            <Ionicons name="call" size={16} color={Palette.success} />
-          </View>
+          <Ionicons name="call-outline" size={18} color={Palette.primary} />
         </Pressable>
 
-        {/* Support 2: Official Partner ID Card */}
-        <Pressable onPress={handleDownloadIdCard} style={styles.supportCardId}>
-          <View style={styles.idCardIconCircle}>
-            <Ionicons name="card-outline" size={20} color={Palette.secondary} />
-          </View>
-          <View style={styles.idCardTexts}>
-            <Text style={styles.idCardTitle}>Official Partner ID Card</Text>
-            <Text style={styles.idCardSub}>Download digitally signed PDF</Text>
-          </View>
-          <View style={styles.downloadIconCircle}>
-            <Ionicons name="download-outline" size={18} color="#FFFFFF" />
-          </View>
+        {/* Support 2: Download Partner ID Card */}
+        <Pressable onPress={handleDownloadIdCard} style={styles.downloadIdBtn}>
+          <MaterialCommunityIcons name="badge-account-horizontal-outline" size={18} color={Palette.secondary} />
+          <Text style={styles.downloadIdText}>Download Partner ID Card</Text>
+          <Ionicons name="download-outline" size={18} color="#FFFFFF" />
         </Pressable>
       </View>
 
       {/* FOOTER */}
       <View style={styles.footerRow}>
-        <Ionicons name="lock-closed-outline" size={12} color={Palette.textSecondary} />
         <Text style={styles.footerText}>
-          Cryptographic ID: {partner.cryptographicId}
+          Cryptographic ID: MP-PLUMB-9842 · Sec-Patch 2025.1
         </Text>
       </View>
 
@@ -521,19 +463,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 12,
   },
-  headerLeft: {
+  headerLeftSimple: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 6,
   },
   cardHeaderTitle: {
     fontSize: 14,
     fontWeight: '700',
     color: Palette.primary,
-  },
-  cardHeaderSub: {
-    fontSize: 11,
-    color: Palette.textSecondary,
   },
   municipalLockBadge: {
     flexDirection: 'row',
@@ -554,7 +492,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: 'hidden',
     position: 'relative',
-    marginBottom: 12,
+    marginBottom: 10,
     backgroundColor: Palette.border,
   },
   mapBackdropImg: {
@@ -566,7 +504,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'rgba(12, 27, 51, 0.85)',
+    backgroundColor: 'rgba(12, 27, 51, 0.75)',
     paddingHorizontal: 12,
     paddingVertical: 8,
     flexDirection: 'row',
@@ -584,7 +522,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   radiusBadge: {
-    backgroundColor: '#1E293B',
+    backgroundColor: 'rgba(255, 255, 255, 0.25)',
     paddingHorizontal: 8,
     paddingVertical: 2,
     borderRadius: 4,
@@ -594,47 +532,23 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '600',
   },
-  sectorsBox: {
+  assignedWardsRow: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 10,
-    backgroundColor: Palette.background,
-    padding: 10,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: Palette.border,
-    marginBottom: 10,
+    paddingTop: 4,
   },
-  sectorsTexts: {
-    flex: 1,
-  },
-  sectorsLabel: {
-    fontSize: 10,
-    fontWeight: '700',
-    color: Palette.textSecondary,
-    letterSpacing: 0.4,
-  },
-  sectorsVal: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: Palette.primary,
-    marginTop: 1,
-  },
-  geofenceNotice: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 8,
-    backgroundColor: Palette.warningBg,
-    padding: 10,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: Palette.warningBorder,
-  },
-  geofenceNoticeText: {
+  assignedWardsText: {
     fontSize: 11,
-    color: Palette.warningText,
-    flex: 1,
-    lineHeight: 15,
+    color: Palette.primary,
+  },
+  boldWardText: {
+    fontWeight: '700',
+  },
+  nonTransferableText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#B45309',
   },
   kycCard: {
     backgroundColor: Palette.surface,
@@ -644,20 +558,20 @@ const styles = StyleSheet.create({
     borderColor: Palette.border,
     marginBottom: 14,
   },
-  kycSubGreen: {
+  kycSubText: {
     fontSize: 11,
-    color: Palette.success,
-    fontWeight: '600',
+    color: Palette.textSecondary,
+    marginTop: 2,
   },
-  kycCountBadge: {
+  certifiedBadge: {
     backgroundColor: Palette.successBg,
     paddingHorizontal: 8,
     paddingVertical: 3,
-    borderRadius: 10,
+    borderRadius: 8,
   },
-  kycCountText: {
+  certifiedBadgeText: {
     fontSize: 11,
-    fontWeight: '800',
+    fontWeight: '700',
     color: Palette.success,
   },
   kycItemRow: {
@@ -671,7 +585,9 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 8,
-    backgroundColor: Palette.borderLight,
+    backgroundColor: Palette.background,
+    borderWidth: 1,
+    borderColor: Palette.border,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
@@ -679,14 +595,9 @@ const styles = StyleSheet.create({
   kycItemTexts: {
     flex: 1,
   },
-  kycItemTitleRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
   kycItemTitle: {
-    fontSize: 13,
-    fontWeight: '600',
+    fontSize: 12,
+    fontWeight: '700',
     color: Palette.primary,
   },
   kycItemSub: {
@@ -698,13 +609,12 @@ const styles = StyleSheet.create({
     backgroundColor: Palette.successBg,
     paddingHorizontal: 8,
     paddingVertical: 3,
-    borderRadius: 4,
+    borderRadius: 6,
   },
   statusVerifiedText: {
-    fontSize: 9,
-    fontWeight: '800',
+    fontSize: 10,
+    fontWeight: '700',
     color: Palette.success,
-    letterSpacing: 0.3,
   },
   preferencesCard: {
     backgroundColor: Palette.surface,
@@ -714,89 +624,52 @@ const styles = StyleSheet.create({
     borderColor: Palette.border,
     marginBottom: 14,
   },
-  skillsSection: {
-    marginBottom: 14,
-  },
-  skillsHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  skillsLabel: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: Palette.primary,
-  },
-  editSkillsBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  editSkillsText: {
+  editSkillsLink: {
     fontSize: 11,
-    fontWeight: '600',
-    color: Palette.warningText,
+    fontWeight: '700',
+    color: '#B45309',
   },
-  skillsChipsRow: {
+  skillsPillsRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 6,
+    gap: 8,
+    marginTop: 10,
+    marginBottom: 12,
   },
-  skillChip: {
-    backgroundColor: Palette.warningBg,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
+  skillPillItem: {
+    backgroundColor: Palette.infoBg,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
     borderRadius: 8,
-    borderWidth: 1,
-    borderColor: Palette.warningBorder,
   },
-  skillChipText: {
+  skillPillText: {
     fontSize: 11,
     fontWeight: '600',
-    color: Palette.warningText,
+    color: Palette.infoText,
   },
-  shiftRow: {
+  shiftRowSimple: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
-    backgroundColor: Palette.background,
-    padding: 10,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: Palette.border,
-    marginBottom: 10,
+    gap: 8,
+    paddingTop: 8,
+    borderTopWidth: 1,
+    borderTopColor: Palette.borderLight,
   },
-  shiftTexts: {
-    flex: 1,
-  },
-  shiftTitle: {
-    fontSize: 11,
-    color: Palette.textSecondary,
-  },
-  shiftHours: {
+  shiftHoursText: {
     fontSize: 12,
-    fontWeight: '700',
     color: Palette.primary,
-    marginTop: 1,
+    flex: 1,
+    fontWeight: '500',
   },
   sosCard: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
-    backgroundColor: Palette.warningBg,
-    borderRadius: 12,
-    padding: 10,
+    backgroundColor: Palette.surface,
+    borderRadius: 14,
+    padding: 14,
     borderWidth: 1,
-    borderColor: Palette.warningBorder,
-  },
-  sosIconBox: {
-    width: 32,
-    height: 32,
-    borderRadius: 8,
-    backgroundColor: Palette.secondary,
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderColor: Palette.border,
+    marginBottom: 14,
   },
   sosTexts: {
     flex: 1,
@@ -810,10 +683,10 @@ const styles = StyleSheet.create({
   sosTitle: {
     fontSize: 12,
     fontWeight: '700',
-    color: Palette.warningText,
+    color: Palette.primary,
   },
   sosExtraBadge: {
-    backgroundColor: Palette.warningBorder,
+    backgroundColor: '#FEF3C7',
     paddingHorizontal: 6,
     paddingVertical: 1,
     borderRadius: 4,
@@ -821,11 +694,11 @@ const styles = StyleSheet.create({
   sosExtraText: {
     fontSize: 10,
     fontWeight: '800',
-    color: Palette.warningText,
+    color: '#B45309',
   },
   sosSub: {
     fontSize: 10,
-    color: '#78350F',
+    color: Palette.textSecondary,
     lineHeight: 14,
   },
   supportSection: {
@@ -852,7 +725,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: Palette.successBg,
+    backgroundColor: Palette.surface,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -860,71 +733,37 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   deskTitle: {
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: '700',
     color: Palette.primary,
   },
   deskNumber: {
     fontSize: 11,
-    color: Palette.success,
-    fontWeight: '600',
+    color: Palette.textSecondary,
     marginTop: 1,
   },
-  phoneCallCircle: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: Palette.successBg,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  supportCardId: {
+  downloadIdBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: 10,
     backgroundColor: Palette.primary,
     borderRadius: 12,
-    padding: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
   },
-  idCardIconCircle: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: '#142542',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  idCardTexts: {
-    flex: 1,
-  },
-  idCardTitle: {
-    fontSize: 13,
+  downloadIdText: {
+    fontSize: 12,
     fontWeight: '700',
     color: '#FFFFFF',
-  },
-  idCardSub: {
-    fontSize: 11,
-    color: '#94A3B8',
-    marginTop: 1,
-  },
-  downloadIconCircle: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: '#142542',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flex: 1,
   },
   footerRow: {
-    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 6,
     paddingVertical: 10,
   },
   footerText: {
     fontSize: 10,
     color: Palette.textSecondary,
-    fontFamily: 'monospace',
   },
 });
