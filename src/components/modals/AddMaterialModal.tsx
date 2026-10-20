@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Modal, TextInput, Pressable, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { usePartner } from '@/context/PartnerContext';
+import { Palette } from '@/constants/theme';
 
 interface AddMaterialModalProps {
   visible: boolean;
@@ -51,7 +52,7 @@ export default function AddMaterialModal({ visible, onClose }: AddMaterialModalP
               <Text style={styles.subtitle}>Directly updates pre-tax draft bill for resident approval</Text>
             </View>
             <Pressable onPress={onClose} style={styles.closeBtn}>
-              <Ionicons name="close" size={22} color="#64748B" />
+              <Ionicons name="close" size={22} color={Palette.textSecondary} />
             </Pressable>
           </View>
 
@@ -82,7 +83,7 @@ export default function AddMaterialModal({ visible, onClose }: AddMaterialModalP
             <TextInput
               style={styles.input}
               placeholder="e.g., Heavy Brass Coupling 1/2 inch"
-              placeholderTextColor="#94A3B8"
+              placeholderTextColor={Palette.textSecondary}
               value={materialName}
               onChangeText={(txt) => {
                 setMaterialName(txt);
@@ -98,7 +99,7 @@ export default function AddMaterialModal({ visible, onClose }: AddMaterialModalP
               <TextInput
                 style={[styles.input, styles.costInput]}
                 placeholder="120"
-                placeholderTextColor="#94A3B8"
+                placeholderTextColor={Palette.textSecondary}
                 keyboardType="numeric"
                 value={materialCost}
                 onChangeText={(txt) => {
@@ -111,7 +112,7 @@ export default function AddMaterialModal({ visible, onClose }: AddMaterialModalP
 
           {/* Transparency Guarantee Note */}
           <View style={styles.guaranteeBox}>
-            <Ionicons name="shield-checkmark" size={16} color="#059669" />
+            <Ionicons name="shield-checkmark" size={16} color={Palette.success} />
             <Text style={styles.guaranteeText}>
               100% of material cost is reimbursed without commission deduction.
             </Text>
@@ -140,11 +141,11 @@ export default function AddMaterialModal({ visible, onClose }: AddMaterialModalP
 const styles = StyleSheet.create({
   backdrop: {
     flex: 1,
-    backgroundColor: 'rgba(15, 23, 42, 0.6)',
+    backgroundColor: 'rgba(12, 27, 51, 0.6)',
     justifyContent: 'flex-end',
   },
   card: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     padding: 20,
@@ -163,11 +164,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   subtitle: {
     fontSize: 12,
-    color: '#64748B',
+    color: Palette.textSecondary,
     marginTop: 2,
   },
   closeBtn: {
@@ -176,16 +177,16 @@ const styles = StyleSheet.create({
   sectionLabel: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#334155',
+    color: Palette.primary,
     marginBottom: 8,
   },
   presetScroll: {
     marginBottom: 16,
   },
   presetChip: {
-    backgroundColor: '#F8FAFC',
+    backgroundColor: Palette.background,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: Palette.border,
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 8,
@@ -193,25 +194,25 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   presetChipSelected: {
-    backgroundColor: '#FFFBEB',
-    borderColor: '#F59E0B',
+    backgroundColor: Palette.warningBg,
+    borderColor: Palette.secondary,
   },
   presetName: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#1E293B',
+    color: Palette.primary,
     marginBottom: 2,
   },
   presetTextSelected: {
-    color: '#B45309',
+    color: Palette.warningText,
   },
   presetPrice: {
     fontSize: 11,
-    color: '#059669',
+    color: Palette.success,
     fontWeight: '700',
   },
   presetPriceSelected: {
-    color: '#D97706',
+    color: Palette.secondary,
   },
   inputGroup: {
     marginBottom: 14,
@@ -219,32 +220,32 @@ const styles = StyleSheet.create({
   inputLabel: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#334155',
+    color: Palette.primary,
     marginBottom: 6,
   },
   input: {
-    backgroundColor: '#F8FAFC',
+    backgroundColor: Palette.background,
     borderWidth: 1,
-    borderColor: '#CBD5E1',
+    borderColor: Palette.borderDark,
     borderRadius: 10,
     paddingHorizontal: 14,
     paddingVertical: 10,
     fontSize: 14,
-    color: '#0F172A',
+    color: Palette.primary,
   },
   costInputRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F8FAFC',
+    backgroundColor: Palette.background,
     borderWidth: 1,
-    borderColor: '#CBD5E1',
+    borderColor: Palette.borderDark,
     borderRadius: 10,
     paddingHorizontal: 14,
   },
   currencySymbol: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#64748B',
+    color: Palette.textSecondary,
     marginRight: 6,
   },
   costInput: {
@@ -257,14 +258,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    backgroundColor: '#ECFDF5',
+    backgroundColor: Palette.successBg,
     padding: 10,
     borderRadius: 10,
     marginBottom: 20,
   },
   guaranteeText: {
     fontSize: 11,
-    color: '#047857',
+    color: Palette.successText,
     flex: 1,
     lineHeight: 15,
   },
@@ -276,27 +277,27 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 14,
     borderRadius: 12,
-    backgroundColor: '#F1F5F9',
+    backgroundColor: Palette.borderLight,
     alignItems: 'center',
   },
   cancelBtnText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#475569',
+    color: Palette.primary,
   },
   submitBtn: {
     flex: 2,
     paddingVertical: 14,
     borderRadius: 12,
-    backgroundColor: '#EA580C',
+    backgroundColor: Palette.secondary,
     alignItems: 'center',
   },
   submitBtnDisabled: {
-    backgroundColor: '#CBD5E1',
+    backgroundColor: Palette.borderDark,
   },
   submitBtnText: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: Palette.primary,
   },
 });

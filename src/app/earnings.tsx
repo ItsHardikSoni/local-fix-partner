@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { usePartner } from '@/context/PartnerContext';
+import { Palette } from '@/constants/theme';
 import WithdrawModal from '@/components/modals/WithdrawModal';
 
 const WEEKLY_DATA = [
@@ -47,13 +48,13 @@ export default function EarningsScreen() {
         <View style={styles.withdrawalCard}>
           <View style={styles.withdrawableHeader}>
             <View style={styles.withdrawableLabelRow}>
-              <Ionicons name="card-outline" size={16} color="#854D0E" />
+              <Ionicons name="card-outline" size={16} color={Palette.warningText} />
               <Text style={styles.withdrawableLabel}>Available for Withdrawal</Text>
             </View>
             <Pressable
               onPress={() => Alert.alert('Balance Synced', 'Wallet balance is synced with banking nodes.')}
               style={styles.refreshIconBtn}>
-              <Ionicons name="sync" size={16} color="#3B82F6" />
+              <Ionicons name="sync" size={16} color={Palette.info} />
             </Pressable>
           </View>
 
@@ -74,7 +75,7 @@ export default function EarningsScreen() {
               <Text style={styles.bankEnding}>Ending in 4091</Text>
             </View>
             <View style={styles.verifiedTag}>
-              <Ionicons name="checkmark-circle-outline" size={12} color="#059669" />
+              <Ionicons name="checkmark-circle-outline" size={12} color={Palette.success} />
               <Text style={styles.verifiedTagText}>Verified</Text>
             </View>
           </View>
@@ -83,7 +84,7 @@ export default function EarningsScreen() {
           <Pressable
             onPress={() => setShowWithdrawModal(true)}
             style={styles.transferButton}>
-            <Ionicons name="flash" size={16} color="#0F172A" />
+            <Ionicons name="flash" size={16} color={Palette.primary} />
             <Text style={styles.transferButtonText}>Instant Bank Transfer / UPI</Text>
           </Pressable>
 
@@ -98,7 +99,7 @@ export default function EarningsScreen() {
           <View style={styles.statCard}>
             <View style={styles.statHeader}>
               <Text style={styles.statLabel}>This Week</Text>
-              <Ionicons name="calendar-outline" size={14} color="#3B82F6" />
+              <Ionicons name="calendar-outline" size={14} color={Palette.info} />
             </View>
             <Text style={styles.statValue}>₹{thisWeekEarnings.toLocaleString()}</Text>
             <Text style={styles.statSub}>18 Jobs completed</Text>
@@ -108,7 +109,7 @@ export default function EarningsScreen() {
           <View style={styles.statCard}>
             <View style={styles.statHeader}>
               <Text style={styles.statLabel}>Avg. per Job</Text>
-              <Ionicons name="trending-up" size={14} color="#3B82F6" />
+              <Ionicons name="trending-up" size={14} color={Palette.info} />
             </View>
             <Text style={styles.statValue}>₹{avgPerJob}</Text>
             <Text style={styles.statSubGreen}>+12% vs last week</Text>
@@ -119,7 +120,7 @@ export default function EarningsScreen() {
         <View style={styles.bonusBanner}>
           <View style={styles.bonusLeftAccent} />
           <View style={styles.medalCircle}>
-            <Ionicons name="trophy" size={20} color="#D97706" />
+            <Ionicons name="trophy" size={20} color={Palette.secondary} />
           </View>
           <View style={styles.bonusTexts}>
             <View style={styles.bonusHeaderRow}>
@@ -223,10 +224,10 @@ export default function EarningsScreen() {
                       item.icon === 'pump' && styles.iconCircleNavy,
                     ]}>
                     {item.icon === 'wrench' && (
-                      <MaterialCommunityIcons name="wrench" size={16} color="#059669" />
+                      <MaterialCommunityIcons name="wrench" size={16} color={Palette.success} />
                     )}
                     {item.icon === 'water' && (
-                      <MaterialCommunityIcons name="water-pump" size={16} color="#2563EB" />
+                      <MaterialCommunityIcons name="water-pump" size={16} color={Palette.info} />
                     )}
                     {item.icon === 'pump' && (
                       <Ionicons name="water" size={16} color="#0284C7" />
@@ -258,12 +259,12 @@ export default function EarningsScreen() {
               {/* Settlement Footer */}
               <View style={styles.settlementFooterRow}>
                 <View style={styles.receiptRow}>
-                  <Ionicons name="receipt-outline" size={12} color="#64748B" />
+                  <Ionicons name="receipt-outline" size={12} color={Palette.textSecondary} />
                   <Text style={styles.receiptNumber}>Receipt #{item.receiptNumber}</Text>
                 </View>
                 <View style={styles.settledBadge}>
                   <Text style={styles.settledBadgeText}>{item.tag}</Text>
-                  <Ionicons name="checkmark-circle-outline" size={12} color="#059669" />
+                  <Ionicons name="checkmark-circle-outline" size={12} color={Palette.success} />
                 </View>
               </View>
             </View>
@@ -274,7 +275,7 @@ export default function EarningsScreen() {
         <View style={styles.guaranteeCard}>
           <View style={styles.guaranteeTop}>
             <View style={styles.guaranteeIconCircle}>
-              <Ionicons name="shield-checkmark" size={18} color="#D97706" />
+              <Ionicons name="shield-checkmark" size={18} color={Palette.secondary} />
             </View>
             <Text style={styles.guaranteeHeading}>LocalFix Partner Guarantee</Text>
           </View>
@@ -283,11 +284,11 @@ export default function EarningsScreen() {
           </Text>
           <View style={styles.guaranteePillsRow}>
             <View style={styles.pillItem}>
-              <Ionicons name="shield-outline" size={12} color="#92400E" />
+              <Ionicons name="shield-outline" size={12} color={Palette.warningText} />
               <Text style={styles.pillItemText}>Zero Hidden Fees</Text>
             </View>
             <View style={styles.pillItem}>
-              <Ionicons name="help-circle-outline" size={12} color="#92400E" />
+              <Ionicons name="help-circle-outline" size={12} color={Palette.warningText} />
               <Text style={styles.pillItemText}>Dispute Support</Text>
             </View>
           </View>
@@ -308,7 +309,7 @@ export default function EarningsScreen() {
 const styles = StyleSheet.create({
   screenWrapper: {
     flex: 1,
-    backgroundColor: '#F8FAFC',
+    backgroundColor: Palette.background,
   },
   container: {
     flex: 1,
@@ -325,20 +326,20 @@ const styles = StyleSheet.create({
   overviewSmall: {
     fontSize: 10,
     fontWeight: '700',
-    color: '#64748B',
+    color: Palette.textSecondary,
     letterSpacing: 0.5,
   },
   overviewTitle: {
     fontSize: 18,
     fontWeight: '800',
-    color: '#0F172A',
+    color: Palette.primary,
     marginTop: 1,
   },
   instantPill: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-    backgroundColor: '#EFF6FF',
+    backgroundColor: Palette.infoBg,
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 16,
@@ -347,21 +348,21 @@ const styles = StyleSheet.create({
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: '#F59E0B',
+    backgroundColor: Palette.secondary,
   },
   instantPillText: {
     fontSize: 11,
     fontWeight: '600',
-    color: '#2563EB',
+    color: Palette.info,
   },
   withdrawalCard: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderRadius: 16,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: Palette.border,
     marginBottom: 14,
-    shadowColor: '#000',
+    shadowColor: Palette.primary,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 3,
@@ -380,14 +381,14 @@ const styles = StyleSheet.create({
   },
   withdrawableLabel: {
     fontSize: 12,
-    color: '#64748B',
+    color: Palette.textSecondary,
     fontWeight: '500',
   },
   refreshIconBtn: {
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: '#EFF6FF',
+    backgroundColor: Palette.infoBg,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -400,10 +401,10 @@ const styles = StyleSheet.create({
   balanceAmount: {
     fontSize: 28,
     fontWeight: '800',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   readyBadge: {
-    backgroundColor: '#ECFDF5',
+    backgroundColor: Palette.successBg,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
@@ -411,12 +412,12 @@ const styles = StyleSheet.create({
   readyBadgeText: {
     fontSize: 11,
     fontWeight: '700',
-    color: '#059669',
+    color: Palette.successText,
   },
   bankContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#EFF6FF',
+    backgroundColor: Palette.infoBg,
     borderRadius: 12,
     padding: 10,
     marginBottom: 14,
@@ -425,7 +426,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#0F172A',
+    backgroundColor: Palette.primary,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
@@ -436,11 +437,11 @@ const styles = StyleSheet.create({
   bankName: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#1E293B',
+    color: Palette.primary,
   },
   bankEnding: {
     fontSize: 11,
-    color: '#64748B',
+    color: Palette.textSecondary,
   },
   verifiedTag: {
     flexDirection: 'row',
@@ -450,17 +451,17 @@ const styles = StyleSheet.create({
   verifiedTagText: {
     fontSize: 11,
     fontWeight: '600',
-    color: '#059669',
+    color: Palette.successText,
   },
   transferButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    backgroundColor: '#F59E0B',
+    backgroundColor: Palette.secondary,
     paddingVertical: 12,
     borderRadius: 10,
-    shadowColor: '#F59E0B',
+    shadowColor: Palette.secondary,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
@@ -469,11 +470,11 @@ const styles = StyleSheet.create({
   transferButtonText: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   transferSubtext: {
     fontSize: 11,
-    color: '#64748B',
+    color: Palette.textSecondary,
     textAlign: 'center',
     marginTop: 8,
   },
@@ -484,11 +485,11 @@ const styles = StyleSheet.create({
   },
   statCard: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderRadius: 16,
     padding: 14,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: Palette.border,
   },
   statHeader: {
     flexDirection: 'row',
@@ -498,32 +499,32 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: 12,
-    color: '#64748B',
+    color: Palette.textSecondary,
     fontWeight: '500',
   },
   statValue: {
     fontSize: 20,
     fontWeight: '800',
-    color: '#0F172A',
+    color: Palette.primary,
     marginBottom: 2,
   },
   statSub: {
     fontSize: 11,
-    color: '#64748B',
+    color: Palette.textSecondary,
   },
   statSubGreen: {
     fontSize: 11,
-    color: '#059669',
+    color: Palette.success,
     fontWeight: '600',
   },
   bonusBanner: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderRadius: 14,
     padding: 12,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: Palette.border,
     position: 'relative',
     overflow: 'hidden',
     marginBottom: 14,
@@ -534,13 +535,13 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     width: 4,
-    backgroundColor: '#F59E0B',
+    backgroundColor: Palette.secondary,
   },
   medalCircle: {
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#FEF3C7',
+    backgroundColor: Palette.warningBg,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
@@ -558,11 +559,11 @@ const styles = StyleSheet.create({
   bonusDistrict: {
     fontSize: 10,
     fontWeight: '800',
-    color: '#92400E',
+    color: Palette.warningText,
     letterSpacing: 0.3,
   },
   bonusAmountTag: {
-    backgroundColor: '#FEF3C7',
+    backgroundColor: Palette.warningBg,
     paddingHorizontal: 6,
     paddingVertical: 1,
     borderRadius: 4,
@@ -570,24 +571,24 @@ const styles = StyleSheet.create({
   bonusAmountText: {
     fontSize: 10,
     fontWeight: '800',
-    color: '#B45309',
+    color: Palette.warningText,
   },
   bonusTitle: {
     fontSize: 13,
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   bonusSub: {
     fontSize: 11,
-    color: '#64748B',
+    color: Palette.textSecondary,
     marginTop: 1,
   },
   chartCard: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderRadius: 16,
     padding: 14,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: Palette.border,
     marginBottom: 14,
   },
   chartHeaderRow: {
@@ -598,10 +599,10 @@ const styles = StyleSheet.create({
   chartTitle: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   daysBadge: {
-    backgroundColor: '#EFF6FF',
+    backgroundColor: Palette.infoBg,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
@@ -609,11 +610,11 @@ const styles = StyleSheet.create({
   daysBadgeText: {
     fontSize: 10,
     fontWeight: '700',
-    color: '#2563EB',
+    color: Palette.info,
   },
   chartSubtitle: {
     fontSize: 11,
-    color: '#64748B',
+    color: Palette.textSecondary,
     marginTop: 2,
     marginBottom: 16,
   },
@@ -624,7 +625,7 @@ const styles = StyleSheet.create({
     height: 120,
     paddingHorizontal: 6,
     borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
+    borderBottomColor: Palette.borderLight,
     paddingBottom: 8,
   },
   barColumn: {
@@ -637,38 +638,38 @@ const styles = StyleSheet.create({
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: '#F59E0B',
+    backgroundColor: Palette.secondary,
     marginBottom: 4,
   },
   barTrack: {
     width: 22,
-    backgroundColor: '#CBD5E1',
+    backgroundColor: Palette.borderDark,
     borderRadius: 6,
     overflow: 'hidden',
   },
   barPeakOrange: {
-    backgroundColor: '#F59E0B',
+    backgroundColor: Palette.secondary,
   },
   barSaturdayNavy: {
-    backgroundColor: '#0F172A',
+    backgroundColor: Palette.primary,
   },
   saturdayCap: {
     height: 8,
-    backgroundColor: '#F59E0B',
+    backgroundColor: Palette.secondary,
   },
   barSelectedHighlight: {
     borderWidth: 1.5,
-    borderColor: '#3B82F6',
+    borderColor: Palette.info,
   },
   barDayLabel: {
     fontSize: 10,
-    color: '#64748B',
+    color: Palette.textSecondary,
     marginTop: 6,
     fontWeight: '500',
   },
   barDayLabelSelected: {
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   legendRow: {
     flexDirection: 'row',
@@ -685,17 +686,17 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#F59E0B',
+    backgroundColor: Palette.secondary,
   },
   legendNavyDot: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#0F172A',
+    backgroundColor: Palette.primary,
   },
   legendText: {
     fontSize: 10,
-    color: '#64748B',
+    color: Palette.textSecondary,
     fontWeight: '500',
   },
   settlementsSection: {
@@ -710,19 +711,19 @@ const styles = StyleSheet.create({
   settlementsTitle: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   viewLedgerLink: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#B45309',
+    color: Palette.warningText,
   },
   settlementItem: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderRadius: 14,
     padding: 12,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: Palette.border,
     marginBottom: 10,
   },
   settlementTopRow: {
@@ -741,10 +742,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   iconCircleGreen: {
-    backgroundColor: '#ECFDF5',
+    backgroundColor: Palette.successBg,
   },
   iconCircleBlue: {
-    backgroundColor: '#EFF6FF',
+    backgroundColor: Palette.infoBg,
   },
   iconCircleNavy: {
     backgroundColor: '#E0F2FE',
@@ -760,14 +761,14 @@ const styles = StyleSheet.create({
   settlementJobTitle: {
     fontSize: 13,
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
     flex: 1,
     paddingRight: 6,
   },
   settlementAmount: {
     fontSize: 15,
     fontWeight: '800',
-    color: '#059669',
+    color: Palette.success,
   },
   tagTimeRow: {
     flexDirection: 'row',
@@ -777,7 +778,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   upiTag: {
-    backgroundColor: '#ECFDF5',
+    backgroundColor: Palette.successBg,
     paddingHorizontal: 6,
     paddingVertical: 1,
     borderRadius: 4,
@@ -785,15 +786,15 @@ const styles = StyleSheet.create({
   upiTagText: {
     fontSize: 9,
     fontWeight: '700',
-    color: '#065F46',
+    color: Palette.successText,
   },
   settlementTime: {
     fontSize: 11,
-    color: '#64748B',
+    color: Palette.textSecondary,
   },
   settlementCustomer: {
     fontSize: 11,
-    color: '#475569',
+    color: Palette.primary,
   },
   settlementFooterRow: {
     flexDirection: 'row',
@@ -801,7 +802,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 8,
     borderTopWidth: 1,
-    borderTopColor: '#F8FAFC',
+    borderTopColor: Palette.borderLight,
   },
   receiptRow: {
     flexDirection: 'row',
@@ -810,7 +811,7 @@ const styles = StyleSheet.create({
   },
   receiptNumber: {
     fontSize: 10,
-    color: '#64748B',
+    color: Palette.textSecondary,
   },
   settledBadge: {
     flexDirection: 'row',
@@ -820,14 +821,14 @@ const styles = StyleSheet.create({
   settledBadgeText: {
     fontSize: 10,
     fontWeight: '600',
-    color: '#059669',
+    color: Palette.successText,
   },
   guaranteeCard: {
-    backgroundColor: '#EFF6FF',
+    backgroundColor: Palette.infoBg,
     borderRadius: 14,
     padding: 14,
     borderWidth: 1,
-    borderColor: '#DBEAFE',
+    borderColor: Palette.infoBorder,
   },
   guaranteeTop: {
     flexDirection: 'row',
@@ -839,18 +840,18 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: '#FEF3C7',
+    backgroundColor: Palette.warningBorder,
     justifyContent: 'center',
     alignItems: 'center',
   },
   guaranteeHeading: {
     fontSize: 13,
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   guaranteeBody: {
     fontSize: 11,
-    color: '#475569',
+    color: Palette.primary,
     lineHeight: 16,
     marginBottom: 10,
   },
@@ -862,7 +863,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: '#FEF3C7',
+    backgroundColor: Palette.warningBorder,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
@@ -870,6 +871,6 @@ const styles = StyleSheet.create({
   pillItemText: {
     fontSize: 10,
     fontWeight: '600',
-    color: '#92400E',
+    color: Palette.warningText,
   },
 });

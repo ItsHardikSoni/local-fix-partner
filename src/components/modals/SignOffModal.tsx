@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Modal, TextInput, Pressable } from 'react-nativ
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { usePartner } from '@/context/PartnerContext';
+import { Palette } from '@/constants/theme';
 
 interface SignOffModalProps {
   visible: boolean;
@@ -45,7 +46,7 @@ export default function SignOffModal({ visible, onClose }: SignOffModalProps) {
           {isSuccess ? (
             <View style={styles.successContainer}>
               <View style={styles.successIconCircle}>
-                <Ionicons name="checkmark-done" size={48} color="#10B981" />
+                <Ionicons name="checkmark-done" size={48} color={Palette.success} />
               </View>
               <Text style={styles.successTitle}>Job Completed & Settled!</Text>
               <Text style={styles.successAmount}>+₹{totalAmount}.00</Text>
@@ -61,7 +62,7 @@ export default function SignOffModal({ visible, onClose }: SignOffModalProps) {
                   <Text style={styles.subtitle}>{activeTicket.id} • {activeTicket.customerName}</Text>
                 </View>
                 <Pressable onPress={onClose} style={styles.closeBtn}>
-                  <Ionicons name="close" size={22} color="#64748B" />
+                  <Ionicons name="close" size={22} color={Palette.textSecondary} />
                 </Pressable>
               </View>
 
@@ -72,7 +73,7 @@ export default function SignOffModal({ visible, onClose }: SignOffModalProps) {
                   <Text style={styles.amountVal}>₹{totalAmount}.00</Text>
                 </View>
                 <View style={styles.qrBadge}>
-                  <Ionicons name="qr-code" size={28} color="#1E293B" />
+                  <Ionicons name="qr-code" size={28} color={Palette.primary} />
                   <Text style={styles.qrText}>Instant UPI QR</Text>
                 </View>
               </View>
@@ -90,12 +91,12 @@ export default function SignOffModal({ visible, onClose }: SignOffModalProps) {
                       setErrorMsg('');
                     }}
                     placeholder="7392"
-                    placeholderTextColor="#94A3B8"
+                    placeholderTextColor={Palette.textSecondary}
                     keyboardType="numeric"
                     maxLength={4}
                   />
                   <View style={styles.pinHintBadge}>
-                    <Ionicons name="information-circle" size={14} color="#059669" />
+                    <Ionicons name="information-circle" size={14} color={Palette.successText} />
                     <Text style={styles.pinHintText}>Demo PIN: 7392</Text>
                   </View>
                 </View>
@@ -121,7 +122,7 @@ export default function SignOffModal({ visible, onClose }: SignOffModalProps) {
                     </View>
                   ) : (
                     <View style={styles.emptySigContent}>
-                      <Ionicons name="create-outline" size={20} color="#94A3B8" />
+                      <Ionicons name="create-outline" size={20} color={Palette.textSecondary} />
                       <Text style={styles.emptySigText}>Tap here to simulate resident sign-off</Text>
                     </View>
                   )}
@@ -132,7 +133,7 @@ export default function SignOffModal({ visible, onClose }: SignOffModalProps) {
               <Pressable
                 onPress={handleVerify}
                 style={[styles.confirmBtn, (!otp || !hasSigned) && styles.confirmBtnDisabled]}>
-                <Ionicons name="shield-checkmark" size={18} color="#FFFFFF" />
+                <Ionicons name="shield-checkmark" size={18} color={Palette.primary} />
                 <Text style={styles.confirmBtnText}>
                   Verify & Settle Payout (₹{totalAmount})
                 </Text>
@@ -148,11 +149,11 @@ export default function SignOffModal({ visible, onClose }: SignOffModalProps) {
 const styles = StyleSheet.create({
   backdrop: {
     flex: 1,
-    backgroundColor: 'rgba(15, 23, 42, 0.65)',
+    backgroundColor: 'rgba(12, 27, 51, 0.65)',
     justifyContent: 'flex-end',
   },
   card: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     padding: 20,
@@ -167,11 +168,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   subtitle: {
     fontSize: 12,
-    color: '#64748B',
+    color: Palette.textSecondary,
     marginTop: 2,
   },
   closeBtn: {
@@ -181,37 +182,37 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#F8FAFC',
+    backgroundColor: Palette.background,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: Palette.border,
     borderRadius: 14,
     padding: 14,
     marginBottom: 16,
   },
   amountLabel: {
     fontSize: 12,
-    color: '#64748B',
+    color: Palette.textSecondary,
     fontWeight: '500',
   },
   amountVal: {
     fontSize: 24,
     fontWeight: '800',
-    color: '#0F172A',
+    color: Palette.primary,
     marginTop: 2,
   },
   qrBadge: {
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: Palette.border,
   },
   qrText: {
     fontSize: 9,
     fontWeight: '600',
-    color: '#334155',
+    color: Palette.primary,
     marginTop: 2,
   },
   sectionBox: {
@@ -220,11 +221,11 @@ const styles = StyleSheet.create({
   stepTitle: {
     fontSize: 13,
     fontWeight: '700',
-    color: '#1E293B',
+    color: Palette.primary,
   },
   stepHint: {
     fontSize: 11,
-    color: '#64748B',
+    color: Palette.textSecondary,
     marginTop: 2,
     marginBottom: 8,
   },
@@ -234,35 +235,35 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   otpInput: {
-    backgroundColor: '#F1F5F9',
+    backgroundColor: Palette.borderLight,
     borderWidth: 1.5,
-    borderColor: '#F59E0B',
+    borderColor: Palette.secondary,
     borderRadius: 10,
     width: 120,
     height: 48,
     fontSize: 22,
     fontWeight: '700',
     textAlign: 'center',
-    color: '#0F172A',
+    color: Palette.primary,
     letterSpacing: 4,
   },
   pinHintBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: '#ECFDF5',
+    backgroundColor: Palette.successBg,
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 8,
   },
   pinHintText: {
     fontSize: 11,
-    color: '#065F46',
+    color: Palette.successText,
     fontWeight: '600',
   },
   errorText: {
     fontSize: 12,
-    color: '#EF4444',
+    color: Palette.dangerText,
     marginTop: 6,
   },
   sigHeaderRow: {
@@ -274,21 +275,21 @@ const styles = StyleSheet.create({
   sigActionText: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#2563EB',
+    color: Palette.info,
   },
   sigPad: {
     height: 90,
-    backgroundColor: '#F8FAFC',
+    backgroundColor: Palette.background,
     borderWidth: 1.5,
     borderStyle: 'dashed',
-    borderColor: '#CBD5E1',
+    borderColor: Palette.borderDark,
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
   },
   sigPadSigned: {
-    borderColor: '#10B981',
-    backgroundColor: '#F0FDF4',
+    borderColor: Palette.success,
+    backgroundColor: Palette.successBg,
     borderStyle: 'solid',
   },
   emptySigContent: {
@@ -298,7 +299,7 @@ const styles = StyleSheet.create({
   },
   emptySigText: {
     fontSize: 12,
-    color: '#64748B',
+    color: Palette.textSecondary,
   },
   signedContent: {
     alignItems: 'center',
@@ -306,12 +307,12 @@ const styles = StyleSheet.create({
   signatureScript: {
     fontSize: 24,
     fontStyle: 'italic',
-    color: '#0F172A',
+    color: Palette.primary,
     fontWeight: '600',
   },
   sigTimestamp: {
     fontSize: 10,
-    color: '#059669',
+    color: Palette.successText,
     marginTop: 4,
   },
   confirmBtn: {
@@ -319,19 +320,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-    backgroundColor: '#EA580C',
+    backgroundColor: Palette.secondary,
     paddingVertical: 15,
     borderRadius: 14,
     marginTop: 4,
     marginBottom: 8,
   },
   confirmBtnDisabled: {
-    backgroundColor: '#CBD5E1',
+    backgroundColor: Palette.borderDark,
   },
   confirmBtnText: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: Palette.primary,
   },
   successContainer: {
     alignItems: 'center',
@@ -341,7 +342,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: '#ECFDF5',
+    backgroundColor: Palette.successBg,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 16,
@@ -349,17 +350,17 @@ const styles = StyleSheet.create({
   successTitle: {
     fontSize: 20,
     fontWeight: '800',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   successAmount: {
     fontSize: 28,
     fontWeight: '800',
-    color: '#059669',
+    color: Palette.success,
     marginVertical: 6,
   },
   successSub: {
     fontSize: 13,
-    color: '#64748B',
+    color: Palette.textSecondary,
     textAlign: 'center',
     paddingHorizontal: 20,
   },

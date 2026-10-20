@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Pressable, Image, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter, usePathname } from 'expo-router';
 import { usePartner } from '@/context/PartnerContext';
+import { Palette } from '@/constants/theme';
 
 export default function AppHeader() {
   const router = useRouter();
@@ -54,7 +55,7 @@ export default function AppHeader() {
         <Pressable
           onPress={() => setShowNotifications(true)}
           style={({ pressed }) => [styles.iconButton, pressed && styles.pressed]}>
-          <Ionicons name="notifications-outline" size={22} color="#1E293B" />
+          <Ionicons name="notifications-outline" size={22} color={Palette.primary} />
           <View style={styles.notifBadge} />
         </Pressable>
 
@@ -62,7 +63,7 @@ export default function AppHeader() {
         <Pressable
           onPress={() => router.push('/profile')}
           style={({ pressed }) => [styles.avatarButton, pressed && styles.pressed]}>
-          <Ionicons name="person-circle" size={32} color="#0F172A" />
+          <Ionicons name="person-circle" size={32} color={Palette.primary} />
         </Pressable>
       </View>
 
@@ -73,7 +74,7 @@ export default function AppHeader() {
             <View style={styles.notifHeader}>
               <Text style={styles.notifTitle}>Notifications & Broadcasts</Text>
               <Pressable onPress={() => setShowNotifications(false)}>
-                <Ionicons name="close" size={20} color="#64748B" />
+                <Ionicons name="close" size={20} color={Palette.textSecondary} />
               </Pressable>
             </View>
 
@@ -93,7 +94,7 @@ export default function AppHeader() {
                 setShowNotifications(false);
                 setIsRegisterModalOpen(true);
               }}>
-              <Ionicons name="person-add-outline" size={16} color="#B45309" />
+              <Ionicons name="person-add-outline" size={16} color={Palette.warningText} />
               <Text style={styles.createAccountBtnText}>Worker Registration / Account Hub</Text>
             </Pressable>
           </View>
@@ -110,9 +111,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingVertical: 10,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
+    borderBottomColor: Palette.borderLight,
   },
   leftSection: {
     flexDirection: 'row',
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#E2E8F0',
+    backgroundColor: Palette.border,
   },
   statusDot: {
     position: 'absolute',
@@ -135,12 +136,12 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: '#10B981',
+    backgroundColor: Palette.success,
     borderWidth: 2,
-    borderColor: '#FFFFFF',
+    borderColor: Palette.surface,
   },
   statusDotOffline: {
-    backgroundColor: '#94A3B8',
+    backgroundColor: Palette.textSecondary,
   },
   titleColumn: {
     justifyContent: 'center',
@@ -154,20 +155,20 @@ const styles = StyleSheet.create({
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: '#10B981',
+    backgroundColor: Palette.success,
   },
   indicatorOffline: {
-    backgroundColor: '#94A3B8',
+    backgroundColor: Palette.textSecondary,
   },
   onlineText: {
     fontSize: 11,
-    color: '#059669',
+    color: Palette.successText,
     fontWeight: '600',
   },
   pageTitle: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
     letterSpacing: -0.2,
   },
   rightSection: {
@@ -179,7 +180,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#F8FAFC',
+    backgroundColor: Palette.background,
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
@@ -191,7 +192,7 @@ const styles = StyleSheet.create({
     width: 7,
     height: 7,
     borderRadius: 4,
-    backgroundColor: '#EF4444',
+    backgroundColor: Palette.danger,
   },
   avatarButton: {
     justifyContent: 'center',
@@ -202,16 +203,16 @@ const styles = StyleSheet.create({
   },
   modalBackdrop: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.4)',
+    backgroundColor: 'rgba(12, 27, 51, 0.4)',
     justifyContent: 'flex-start',
     paddingTop: 65,
     paddingHorizontal: 16,
   },
   notifCard: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderRadius: 16,
     padding: 16,
-    shadowColor: '#000',
+    shadowColor: Palette.primary,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.15,
     shadowRadius: 10,
@@ -223,21 +224,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
+    borderBottomColor: Palette.borderLight,
     paddingBottom: 8,
   },
   notifTitle: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   notifItem: {
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#F8FAFC',
+    borderBottomColor: Palette.background,
   },
   notifItemUnread: {
-    backgroundColor: '#FFFBEB',
+    backgroundColor: Palette.warningBg,
     paddingHorizontal: 8,
     borderRadius: 8,
   },
@@ -249,15 +250,15 @@ const styles = StyleSheet.create({
   notifItemTitle: {
     fontSize: 13,
     fontWeight: '600',
-    color: '#1E293B',
+    color: Palette.primary,
   },
   notifTime: {
     fontSize: 11,
-    color: '#94A3B8',
+    color: Palette.textSecondary,
   },
   notifDesc: {
     fontSize: 12,
-    color: '#64748B',
+    color: Palette.textSecondary,
     lineHeight: 16,
   },
   createAccountBtn: {
@@ -267,12 +268,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 8,
     paddingVertical: 10,
-    backgroundColor: '#FEF3C7',
+    backgroundColor: Palette.warningBorder,
     borderRadius: 8,
   },
   createAccountBtnText: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#92400E',
+    color: Palette.warningText,
   },
 });

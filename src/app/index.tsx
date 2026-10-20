@@ -12,6 +12,7 @@ import {
 import { useRouter } from 'expo-router';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { usePartner } from '@/context/PartnerContext';
+import { Palette } from '@/constants/theme';
 
 export default function JobsScreen() {
   const router = useRouter();
@@ -56,7 +57,7 @@ export default function JobsScreen() {
           <View style={styles.avatarCircle}>
             <Text style={styles.avatarInitials}>RK</Text>
             <View style={styles.avatarCheck}>
-              <Ionicons name="checkmark-circle" size={14} color="#10B981" />
+              <Ionicons name="checkmark-circle" size={14} color={Palette.success} />
             </View>
           </View>
 
@@ -84,7 +85,7 @@ export default function JobsScreen() {
 
         {/* District Geofence Banner */}
         <View style={styles.districtBanner}>
-          <Ionicons name="shield-outline" size={14} color="#D97706" />
+          <Ionicons name="shield-outline" size={14} color={Palette.warningText} />
           <Text style={styles.districtBannerText} numberOfLines={1}>
             Active District: {partner.city} Only ({partner.radiusKm} km radius)
           </Text>
@@ -106,7 +107,7 @@ export default function JobsScreen() {
             <Text style={styles.metricLabel}>Rating</Text>
             <View style={styles.ratingRow}>
               <Text style={styles.metricVal}>{partner.rating}</Text>
-              <Ionicons name="star" size={14} color="#F59E0B" />
+              <Ionicons name="star" size={14} color={Palette.secondary} />
             </View>
           </View>
         </View>
@@ -128,7 +129,7 @@ export default function JobsScreen() {
         <Pressable
           onPress={() => setActiveFilter('urgent')}
           style={[styles.filterChip, styles.filterChipUrgent, activeFilter === 'urgent' && styles.filterChipActive]}>
-          <Ionicons name="alert-circle" size={14} color="#DC2626" />
+          <Ionicons name="alert-circle" size={14} color={Palette.danger} />
           <Text style={styles.urgentFilterText}>Urgent</Text>
           <View style={styles.urgentCountBadge}>
             <Text style={styles.urgentCountText}>1</Text>
@@ -138,7 +139,7 @@ export default function JobsScreen() {
         <Pressable
           onPress={() => setActiveFilter('near')}
           style={[styles.filterChip, activeFilter === 'near' && styles.filterChipActive]}>
-          <Ionicons name="navigate-outline" size={13} color="#475569" />
+          <Ionicons name="navigate-outline" size={13} color={Palette.textSecondary} />
           <Text style={styles.filterText}>Near Me (&lt;3km)</Text>
         </Pressable>
       </ScrollView>
@@ -146,7 +147,7 @@ export default function JobsScreen() {
       {/* Section Header: Live Dispatches */}
       <View style={styles.sectionHeader}>
         <View style={styles.sectionTitleRow}>
-          <MaterialCommunityIcons name="broadcast" size={18} color="#D97706" />
+          <MaterialCommunityIcons name="broadcast" size={18} color={Palette.secondary} />
           <Text style={styles.sectionTitle}>Live Dispatches</Text>
         </View>
         <View style={styles.liveAutoRow}>
@@ -160,7 +161,7 @@ export default function JobsScreen() {
         <View style={[styles.jobCard, styles.urgentCardBorder]}>
           <View style={styles.cardHeaderRow}>
             <View style={styles.urgentTag}>
-              <Ionicons name="flash" size={12} color="#DC2626" />
+              <Ionicons name="flash" size={12} color={Palette.danger} />
               <Text style={styles.urgentTagText}>URGENT • 12m ago</Text>
             </View>
             <Text style={styles.urgentPriceText}>₹350 – ₹500</Text>
@@ -169,15 +170,15 @@ export default function JobsScreen() {
           <Text style={styles.jobTitle}>Kitchen Sink Pipe Burst & Valve Seep</Text>
 
           <View style={styles.customerRow}>
-            <Ionicons name="person-circle-outline" size={16} color="#64748B" />
+            <Ionicons name="person-circle-outline" size={16} color={Palette.textSecondary} />
             <Text style={styles.customerText}>
               Ayush (Flat A-204, ABC Heights, Mithanpura)
             </Text>
-            <Ionicons name="checkmark-circle" size={14} color="#10B981" />
+            <Ionicons name="checkmark-circle" size={14} color={Palette.success} />
           </View>
 
           <View style={styles.locationRow}>
-            <Ionicons name="location-outline" size={15} color="#64748B" />
+            <Ionicons name="location-outline" size={15} color={Palette.textSecondary} />
             <Text style={styles.locationText}>2.8 km away • Ward 12 Inner Circle</Text>
           </View>
 
@@ -257,7 +258,7 @@ export default function JobsScreen() {
         <View style={[styles.jobCard, styles.scheduledCardBorder]}>
           <View style={styles.cardHeaderRow}>
             <View style={styles.scheduledTag}>
-              <Ionicons name="calendar-outline" size={12} color="#2563EB" />
+              <Ionicons name="calendar-outline" size={12} color={Palette.info} />
               <Text style={styles.scheduledTagText}>SCHEDULED • Today 2:30 PM</Text>
             </View>
             <View style={styles.priceColumn}>
@@ -269,18 +270,18 @@ export default function JobsScreen() {
           <Text style={styles.jobTitle}>Bathroom Tap Replacement & Angle Valve</Text>
 
           <View style={styles.customerRow}>
-            <Ionicons name="person-outline" size={15} color="#64748B" />
+            <Ionicons name="person-outline" size={15} color={Palette.textSecondary} />
             <Text style={styles.customerText}>Pooja Sharma (House #14, Brahmpura)</Text>
           </View>
 
           <View style={styles.locationRow}>
-            <Ionicons name="location-outline" size={15} color="#64748B" />
+            <Ionicons name="location-outline" size={15} color={Palette.textSecondary} />
             <Text style={styles.locationText}>4.1 km • Materials already purchased by owner</Text>
           </View>
 
           {/* Required tool banner */}
           <View style={styles.toolRequirementBox}>
-            <MaterialCommunityIcons name="wrench-outline" size={16} color="#B45309" />
+            <MaterialCommunityIcons name="wrench-outline" size={16} color={Palette.warningText} />
             <Text style={styles.toolRequirementText}>
               Required tool: 12-inch pipe wrench + PTFE teflon roll
             </Text>
@@ -296,7 +297,7 @@ export default function JobsScreen() {
                 )
               }
               style={styles.viewDetailsBtn}>
-              <Ionicons name="information-circle-outline" size={16} color="#334155" />
+              <Ionicons name="information-circle-outline" size={16} color={Palette.primary} />
               <Text style={styles.viewDetailsBtnText}>View Details</Text>
             </Pressable>
 
@@ -315,7 +316,7 @@ export default function JobsScreen() {
         <View style={[styles.jobCard, styles.societyCardBorder]}>
           <View style={styles.cardHeaderRow}>
             <View style={styles.societyTag}>
-              <MaterialCommunityIcons name="office-building" size={13} color="#92400E" />
+              <MaterialCommunityIcons name="office-building" size={13} color={Palette.warningText} />
               <Text style={styles.societyTagText}>SOCIETY MAINTENANCE</Text>
             </View>
             <View style={styles.priceColumn}>
@@ -327,18 +328,18 @@ export default function JobsScreen() {
           <Text style={styles.jobTitle}>Overhead 5000L Water Tank Overflow Sensor</Text>
 
           <View style={styles.customerRow}>
-            <Ionicons name="business-outline" size={15} color="#64748B" />
+            <Ionicons name="business-outline" size={15} color={Palette.textSecondary} />
             <Text style={styles.customerText}>Green View Society, Rooftop • Tower C</Text>
           </View>
 
           <View style={styles.locationRow}>
-            <Ionicons name="navigate-outline" size={15} color="#64748B" />
+            <Ionicons name="navigate-outline" size={15} color={Palette.textSecondary} />
             <Text style={styles.locationText}>1.9 km away • Ladder access unlocked</Text>
           </View>
 
           {/* Guaranteed Clearance Box */}
           <View style={styles.clearanceBox}>
-            <Ionicons name="checkmark-circle-outline" size={16} color="#059669" />
+            <Ionicons name="checkmark-circle-outline" size={16} color={Palette.success} />
             <Text style={styles.clearanceText}>
               Guaranteed digital invoice clearing within 1 hour
             </Text>
@@ -348,7 +349,7 @@ export default function JobsScreen() {
           <Pressable
             onPress={() => handleSendCustomQuote('LF-8494')}
             style={styles.sendQuoteBtn}>
-            <Ionicons name="paper-plane-outline" size={16} color="#1E40AF" />
+            <Ionicons name="paper-plane-outline" size={16} color={Palette.infoText} />
             <Text style={styles.sendQuoteBtnText}>Send Custom Quote</Text>
           </Pressable>
         </View>
@@ -357,7 +358,7 @@ export default function JobsScreen() {
       {/* District Lock Notice Banner */}
       <View style={styles.lockNoticeCard}>
         <View style={styles.lockIconBox}>
-          <Ionicons name="lock-closed" size={18} color="#D97706" />
+          <Ionicons name="lock-closed" size={18} color={Palette.secondary} />
         </View>
         <View style={styles.lockTextBox}>
           <Text style={styles.lockTitle}>Muzaffarpur District Lock Active</Text>
@@ -365,7 +366,7 @@ export default function JobsScreen() {
             You only compete with registered local tradespeople in your ward. Out-of-district workers are strictly blocked from bidding.
           </Text>
           <View style={styles.fairWagePill}>
-            <Ionicons name="shield-checkmark" size={12} color="#059669" />
+            <Ionicons name="shield-checkmark" size={12} color={Palette.success} />
             <Text style={styles.fairWageText}>Fair Wage Protected</Text>
           </View>
         </View>
@@ -379,18 +380,18 @@ export default function JobsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8FAFC',
+    backgroundColor: Palette.background,
   },
   contentContainer: {
     padding: 16,
   },
   partnerCard: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderRadius: 16,
     padding: 14,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
-    shadowColor: '#000',
+    borderColor: Palette.border,
+    shadowColor: Palette.primary,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 3,
@@ -406,7 +407,7 @@ const styles = StyleSheet.create({
     width: 46,
     height: 46,
     borderRadius: 23,
-    backgroundColor: '#E0F2FE',
+    backgroundColor: Palette.infoBg,
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
@@ -414,13 +415,13 @@ const styles = StyleSheet.create({
   avatarInitials: {
     fontSize: 16,
     fontWeight: '800',
-    color: '#0284C7',
+    color: Palette.info,
   },
   avatarCheck: {
     position: 'absolute',
     bottom: -2,
     right: -2,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderRadius: 8,
   },
   partnerDetails: {
@@ -434,10 +435,10 @@ const styles = StyleSheet.create({
   partnerName: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   proBadge: {
-    backgroundColor: '#0F172A',
+    backgroundColor: Palette.primary,
     paddingHorizontal: 6,
     paddingVertical: 1,
     borderRadius: 4,
@@ -451,44 +452,44 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: '#ECFDF5',
+    backgroundColor: Palette.successBg,
     paddingHorizontal: 8,
     paddingVertical: 2,
     borderRadius: 12,
     marginLeft: 'auto',
   },
   offlinePill: {
-    backgroundColor: '#F1F5F9',
+    backgroundColor: Palette.borderLight,
   },
   onlineDot: {
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: '#10B981',
+    backgroundColor: Palette.success,
   },
   offlineDot: {
-    backgroundColor: '#94A3B8',
+    backgroundColor: Palette.textSecondary,
   },
   onlinePillText: {
     fontSize: 10,
     fontWeight: '700',
-    color: '#065F46',
+    color: Palette.successText,
   },
   offlinePillText: {
-    color: '#64748B',
+    color: Palette.textSecondary,
   },
   tradeSub: {
     fontSize: 12,
-    color: '#64748B',
+    color: Palette.textSecondary,
     marginTop: 2,
   },
   districtBanner: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: '#FFFBEB',
+    backgroundColor: Palette.warningBg,
     borderWidth: 1,
-    borderColor: '#FEF3C7',
+    borderColor: Palette.warningBorder,
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 8,
@@ -497,7 +498,7 @@ const styles = StyleSheet.create({
   districtBannerText: {
     fontSize: 11,
     fontWeight: '600',
-    color: '#92400E',
+    color: Palette.warningText,
     flex: 1,
   },
   metricsRow: {
@@ -507,7 +508,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
     paddingTop: 10,
     borderTopWidth: 1,
-    borderTopColor: '#F1F5F9',
+    borderTopColor: Palette.borderLight,
   },
   metricItem: {
     flex: 1,
@@ -515,13 +516,13 @@ const styles = StyleSheet.create({
   },
   metricLabel: {
     fontSize: 11,
-    color: '#64748B',
+    color: Palette.textSecondary,
     fontWeight: '500',
   },
   metricVal: {
     fontSize: 16,
     fontWeight: '800',
-    color: '#0F172A',
+    color: Palette.primary,
     marginTop: 2,
   },
   ratingRow: {
@@ -532,7 +533,7 @@ const styles = StyleSheet.create({
   metricDivider: {
     width: 1,
     height: 24,
-    backgroundColor: '#E2E8F0',
+    backgroundColor: Palette.border,
   },
   filterScroll: {
     marginBottom: 14,
@@ -541,26 +542,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: Palette.border,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 20,
     marginRight: 8,
   },
   filterChipActive: {
-    backgroundColor: '#0F172A',
-    borderColor: '#0F172A',
+    backgroundColor: Palette.primary,
+    borderColor: Palette.primary,
   },
   filterChipUrgent: {
-    backgroundColor: '#FEF2F2',
-    borderColor: '#FEE2E2',
+    backgroundColor: Palette.dangerBg,
+    borderColor: Palette.dangerBorder,
   },
   filterText: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#475569',
+    color: Palette.primary,
   },
   filterTextActive: {
     color: '#FFFFFF',
@@ -568,27 +569,27 @@ const styles = StyleSheet.create({
   urgentFilterText: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#DC2626',
+    color: Palette.dangerText,
   },
   countBadge: {
-    backgroundColor: '#E2E8F0',
+    backgroundColor: Palette.border,
     paddingHorizontal: 6,
     paddingVertical: 1,
     borderRadius: 10,
   },
   countBadgeActive: {
-    backgroundColor: '#334155',
+    backgroundColor: '#1E293B',
   },
   countText: {
     fontSize: 10,
     fontWeight: '700',
-    color: '#334155',
+    color: Palette.primary,
   },
   countTextActive: {
     color: '#FFFFFF',
   },
   urgentCountBadge: {
-    backgroundColor: '#FCA5A5',
+    backgroundColor: Palette.dangerBorder,
     paddingHorizontal: 6,
     paddingVertical: 1,
     borderRadius: 10,
@@ -612,7 +613,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   liveAutoRow: {
     flexDirection: 'row',
@@ -623,21 +624,21 @@ const styles = StyleSheet.create({
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: '#F59E0B',
+    backgroundColor: Palette.secondary,
   },
   liveAutoText: {
     fontSize: 11,
     fontWeight: '500',
-    color: '#64748B',
+    color: Palette.textSecondary,
   },
   jobCard: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderRadius: 16,
     padding: 14,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: Palette.border,
     marginBottom: 14,
-    shadowColor: '#000',
+    shadowColor: Palette.primary,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 3,
@@ -645,15 +646,15 @@ const styles = StyleSheet.create({
   },
   urgentCardBorder: {
     borderLeftWidth: 4,
-    borderLeftColor: '#F59E0B',
+    borderLeftColor: Palette.secondary,
   },
   scheduledCardBorder: {
     borderLeftWidth: 4,
-    borderLeftColor: '#3B82F6',
+    borderLeftColor: Palette.info,
   },
   societyCardBorder: {
     borderLeftWidth: 4,
-    borderLeftColor: '#B45309',
+    borderLeftColor: Palette.warningText,
   },
   cardHeaderRow: {
     flexDirection: 'row',
@@ -665,7 +666,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: '#FEE2E2',
+    backgroundColor: Palette.dangerBg,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
@@ -673,19 +674,19 @@ const styles = StyleSheet.create({
   urgentTagText: {
     fontSize: 10,
     fontWeight: '800',
-    color: '#DC2626',
+    color: Palette.dangerText,
     letterSpacing: 0.3,
   },
   urgentPriceText: {
     fontSize: 18,
     fontWeight: '800',
-    color: '#EA580C',
+    color: Palette.secondary,
   },
   scheduledTag: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: '#EFF6FF',
+    backgroundColor: Palette.infoBg,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
@@ -693,13 +694,13 @@ const styles = StyleSheet.create({
   scheduledTagText: {
     fontSize: 10,
     fontWeight: '700',
-    color: '#2563EB',
+    color: Palette.info,
   },
   societyTag: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: '#FEF3C7',
+    backgroundColor: Palette.warningBg,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
@@ -707,7 +708,7 @@ const styles = StyleSheet.create({
   societyTagText: {
     fontSize: 10,
     fontWeight: '800',
-    color: '#92400E',
+    color: Palette.warningText,
   },
   priceColumn: {
     alignItems: 'flex-end',
@@ -715,17 +716,17 @@ const styles = StyleSheet.create({
   fixedPriceText: {
     fontSize: 17,
     fontWeight: '800',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   fixedRateLabel: {
     fontSize: 10,
-    color: '#059669',
+    color: Palette.success,
     fontWeight: '600',
   },
   jobTitle: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
     marginBottom: 6,
   },
   customerRow: {
@@ -736,7 +737,7 @@ const styles = StyleSheet.create({
   },
   customerText: {
     fontSize: 12,
-    color: '#475569',
+    color: Palette.primary,
     fontWeight: '500',
   },
   locationRow: {
@@ -747,7 +748,7 @@ const styles = StyleSheet.create({
   },
   locationText: {
     fontSize: 11,
-    color: '#64748B',
+    color: Palette.textSecondary,
   },
   photosRow: {
     flexDirection: 'row',
@@ -760,7 +761,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     overflow: 'hidden',
     position: 'relative',
-    backgroundColor: '#E2E8F0',
+    backgroundColor: Palette.border,
   },
   photoImg: {
     width: '100%',
@@ -771,7 +772,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'rgba(0,0,0,0.65)',
+    backgroundColor: 'rgba(12, 27, 51, 0.75)',
     paddingVertical: 4,
     alignItems: 'center',
   },
@@ -781,7 +782,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   quoteOfferBox: {
-    backgroundColor: '#EFF6FF',
+    backgroundColor: Palette.infoBg,
     borderRadius: 10,
     padding: 10,
     marginBottom: 12,
@@ -795,11 +796,11 @@ const styles = StyleSheet.create({
   quoteOfferTitle: {
     fontSize: 11,
     fontWeight: '600',
-    color: '#1E293B',
+    color: Palette.primary,
   },
   quoteOfferSub: {
     fontSize: 10,
-    color: '#D97706',
+    color: Palette.secondary,
     fontWeight: '600',
   },
   quoteInputsRow: {
@@ -811,9 +812,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderWidth: 1,
-    borderColor: '#CBD5E1',
+    borderColor: Palette.borderDark,
     borderRadius: 8,
     paddingHorizontal: 8,
     height: 38,
@@ -821,19 +822,19 @@ const styles = StyleSheet.create({
   quoteCurrency: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#64748B',
+    color: Palette.textSecondary,
     marginRight: 4,
   },
   quoteTextInput: {
     flex: 1,
     fontSize: 14,
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   quickAddChip: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderWidth: 1,
-    borderColor: '#CBD5E1',
+    borderColor: Palette.borderDark,
     borderRadius: 8,
     paddingHorizontal: 10,
     height: 38,
@@ -843,39 +844,39 @@ const styles = StyleSheet.create({
   quickAddText: {
     fontSize: 11,
     fontWeight: '700',
-    color: '#334155',
+    color: Palette.primary,
   },
   instantAcceptBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    backgroundColor: '#EA580C',
+    backgroundColor: Palette.secondary,
     paddingVertical: 12,
     borderRadius: 10,
-    shadowColor: '#EA580C',
+    shadowColor: Palette.secondary,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 3,
   },
   instantAcceptBtnText: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: Palette.primary,
   },
   toolRequirementBox: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: '#EFF6FF',
+    backgroundColor: Palette.infoBg,
     padding: 8,
     borderRadius: 8,
     marginBottom: 12,
   },
   toolRequirementText: {
     fontSize: 11,
-    color: '#1E3A8A',
+    color: Palette.infoText,
     fontWeight: '500',
     flex: 1,
   },
@@ -889,14 +890,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 4,
-    backgroundColor: '#F1F5F9',
+    backgroundColor: Palette.borderLight,
     paddingVertical: 10,
     borderRadius: 8,
   },
   viewDetailsBtnText: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#334155',
+    color: Palette.primary,
   },
   acceptJobBtn: {
     flex: 1,
@@ -904,7 +905,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 4,
-    backgroundColor: '#0F172A',
+    backgroundColor: Palette.primary,
     paddingVertical: 10,
     borderRadius: 8,
   },
@@ -917,14 +918,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: '#ECFDF5',
+    backgroundColor: Palette.successBg,
     padding: 8,
     borderRadius: 8,
     marginBottom: 12,
   },
   clearanceText: {
     fontSize: 11,
-    color: '#065F46',
+    color: Palette.successText,
     fontWeight: '600',
     flex: 1,
   },
@@ -933,33 +934,33 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    backgroundColor: '#EFF6FF',
+    backgroundColor: Palette.infoBg,
     borderWidth: 1,
-    borderColor: '#BFDBFE',
+    borderColor: Palette.infoBorder,
     paddingVertical: 10,
     borderRadius: 8,
   },
   sendQuoteBtnText: {
     fontSize: 13,
     fontWeight: '600',
-    color: '#1E40AF',
+    color: Palette.infoText,
   },
   lockNoticeCard: {
     flexDirection: 'row',
     alignItems: 'flex-start',
     gap: 10,
-    backgroundColor: '#EFF6FF',
+    backgroundColor: Palette.infoBg,
     borderRadius: 14,
     padding: 14,
     borderWidth: 1,
-    borderColor: '#DBEAFE',
+    borderColor: Palette.infoBorder,
     marginTop: 6,
   },
   lockIconBox: {
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#FEF3C7',
+    backgroundColor: Palette.warningBorder,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -969,19 +970,19 @@ const styles = StyleSheet.create({
   lockTitle: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#1E293B',
+    color: Palette.primary,
     marginBottom: 2,
   },
   lockDesc: {
     fontSize: 11,
-    color: '#475569',
+    color: Palette.textSecondary,
     lineHeight: 15,
   },
   fairWagePill: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: '#ECFDF5',
+    backgroundColor: Palette.successBg,
     alignSelf: 'flex-start',
     paddingHorizontal: 8,
     paddingVertical: 3,
@@ -991,6 +992,6 @@ const styles = StyleSheet.create({
   fairWageText: {
     fontSize: 10,
     fontWeight: '700',
-    color: '#047857',
+    color: Palette.successText,
   },
 });

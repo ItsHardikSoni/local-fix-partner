@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Modal, Pressable, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { usePartner } from '@/context/PartnerContext';
+import { Palette } from '@/constants/theme';
 
 export default function CallCustomerModal() {
   const { callingCustomer, setCallingCustomer, activeTicket } = usePartner();
@@ -35,7 +36,7 @@ export default function CallCustomerModal() {
           {/* Header Tag */}
           <View style={styles.tagRow}>
             <View style={styles.verifiedPill}>
-              <Ionicons name="checkmark-circle" size={14} color="#059669" />
+              <Ionicons name="checkmark-circle" size={14} color={Palette.successText} />
               <Text style={styles.verifiedText}>Encrypted Partner VoIP Call</Text>
             </View>
           </View>
@@ -80,7 +81,7 @@ export default function CallCustomerModal() {
               <Ionicons
                 name={isMuted ? 'mic-off' : 'mic'}
                 size={22}
-                color={isMuted ? '#FFFFFF' : '#1E293B'}
+                color={isMuted ? '#FFFFFF' : Palette.primary}
               />
               <Text style={[styles.controlLabel, isMuted && styles.controlLabelActive]}>
                 {isMuted ? 'Muted' : 'Mute'}
@@ -93,7 +94,7 @@ export default function CallCustomerModal() {
               <Ionicons
                 name={isSpeaker ? 'volume-high' : 'volume-medium'}
                 size={22}
-                color={isSpeaker ? '#FFFFFF' : '#1E293B'}
+                color={isSpeaker ? '#FFFFFF' : Palette.primary}
               />
               <Text style={[styles.controlLabel, isSpeaker && styles.controlLabelActive]}>
                 {isSpeaker ? 'Speaker ON' : 'Speaker'}
@@ -116,7 +117,7 @@ export default function CallCustomerModal() {
 const styles = StyleSheet.create({
   backdrop: {
     flex: 1,
-    backgroundColor: 'rgba(15, 23, 42, 0.75)',
+    backgroundColor: 'rgba(12, 27, 51, 0.75)',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
@@ -124,11 +125,11 @@ const styles = StyleSheet.create({
   card: {
     width: '100%',
     maxWidth: 380,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderRadius: 24,
     padding: 24,
     alignItems: 'center',
-    shadowColor: '#000',
+    shadowColor: Palette.primary,
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.25,
     shadowRadius: 16,
@@ -141,14 +142,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: '#ECFDF5',
+    backgroundColor: Palette.successBg,
     paddingHorizontal: 12,
     paddingVertical: 5,
     borderRadius: 16,
   },
   verifiedText: {
     fontSize: 12,
-    color: '#065F46',
+    color: Palette.successText,
     fontWeight: '600',
   },
   avatarWrapper: {
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 40,
     borderWidth: 3,
-    borderColor: '#F59E0B',
+    borderColor: Palette.secondary,
   },
   onlinePulse: {
     position: 'absolute',
@@ -169,25 +170,25 @@ const styles = StyleSheet.create({
     width: 16,
     height: 16,
     borderRadius: 8,
-    backgroundColor: '#10B981',
+    backgroundColor: Palette.success,
     borderWidth: 2,
-    borderColor: '#FFFFFF',
+    borderColor: Palette.surface,
   },
   customerName: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   customerSub: {
     fontSize: 13,
-    color: '#64748B',
+    color: Palette.textSecondary,
     marginTop: 2,
   },
   ticketBadge: {
     fontSize: 12,
-    color: '#D97706',
+    color: Palette.warningText,
     fontWeight: '600',
-    backgroundColor: '#FEF3C7',
+    backgroundColor: Palette.warningBg,
     paddingHorizontal: 10,
     paddingVertical: 3,
     borderRadius: 8,
@@ -195,7 +196,7 @@ const styles = StyleSheet.create({
   },
   addressText: {
     fontSize: 12,
-    color: '#475569',
+    color: Palette.primary,
     textAlign: 'center',
     marginTop: 6,
     paddingHorizontal: 10,
@@ -204,7 +205,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    backgroundColor: '#F1F5F9',
+    backgroundColor: Palette.borderLight,
     paddingHorizontal: 14,
     paddingVertical: 6,
     borderRadius: 20,
@@ -215,17 +216,17 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#10B981',
+    backgroundColor: Palette.success,
   },
   callTimer: {
     fontSize: 13,
     fontWeight: '600',
-    color: '#334155',
+    color: Palette.primary,
   },
   notesBox: {
-    backgroundColor: '#F8FAFC',
+    backgroundColor: Palette.background,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: Palette.border,
     borderRadius: 12,
     padding: 12,
     width: '100%',
@@ -234,12 +235,12 @@ const styles = StyleSheet.create({
   notesTitle: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#1E293B',
+    color: Palette.primary,
     marginBottom: 4,
   },
   notesText: {
     fontSize: 11,
-    color: '#475569',
+    color: Palette.primary,
     lineHeight: 16,
   },
   controlsRow: {
@@ -253,16 +254,16 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: '#F1F5F9',
+    backgroundColor: Palette.borderLight,
     justifyContent: 'center',
     alignItems: 'center',
   },
   controlBtnActive: {
-    backgroundColor: '#0F172A',
+    backgroundColor: Palette.primary,
   },
   controlLabel: {
     fontSize: 9,
-    color: '#475569',
+    color: Palette.textSecondary,
     marginTop: 3,
   },
   controlLabelActive: {
@@ -272,10 +273,10 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 32,
-    backgroundColor: '#EF4444',
+    backgroundColor: Palette.danger,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#EF4444',
+    shadowColor: Palette.danger,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.4,
     shadowRadius: 8,

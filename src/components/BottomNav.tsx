@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Pressable, Platform } from 'react-native';
 import { useRouter, usePathname } from 'expo-router';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { usePartner } from '@/context/PartnerContext';
+import { Palette } from '@/constants/theme';
 
 export default function BottomNav() {
   const router = useRouter();
@@ -22,9 +23,9 @@ export default function BottomNav() {
         style={styles.tabItem}>
         <View style={styles.iconContainer}>
           <MaterialCommunityIcons
-            name={isJobs ? 'radar' : 'radar'}
+            name="radar"
             size={24}
-            color={isJobs ? '#EA580C' : '#64748B'}
+            color={isJobs ? Palette.secondary : Palette.textSecondary}
           />
         </View>
         <Text style={[styles.tabLabel, isJobs && styles.activeTabLabel]}>Jobs</Text>
@@ -38,7 +39,7 @@ export default function BottomNav() {
           <MaterialCommunityIcons
             name={isActive ? 'account-hard-hat' : 'account-hard-hat-outline'}
             size={24}
-            color={isActive ? '#EA580C' : '#64748B'}
+            color={isActive ? Palette.secondary : Palette.textSecondary}
           />
           {activeTicket.status === 'IN_PROGRESS' && (
             <View style={styles.activePillBadge} />
@@ -55,7 +56,7 @@ export default function BottomNav() {
           <Ionicons
             name={isEarnings ? 'wallet' : 'wallet-outline'}
             size={24}
-            color={isEarnings ? '#EA580C' : '#64748B'}
+            color={isEarnings ? Palette.secondary : Palette.textSecondary}
           />
         </View>
         <Text style={[styles.tabLabel, isEarnings && styles.activeTabLabel]}>Earnings</Text>
@@ -69,7 +70,7 @@ export default function BottomNav() {
           <Ionicons
             name={isProfile ? 'shield-checkmark' : 'shield-checkmark-outline'}
             size={24}
-            color={isProfile ? '#EA580C' : '#64748B'}
+            color={isProfile ? Palette.secondary : Palette.textSecondary}
           />
         </View>
         <Text style={[styles.tabLabel, isProfile && styles.activeTabLabel]}>Profile</Text>
@@ -82,14 +83,14 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     height: Platform.OS === 'ios' ? 78 : 64,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderTopWidth: 1,
-    borderTopColor: '#E2E8F0',
+    borderTopColor: Palette.border,
     paddingBottom: Platform.OS === 'ios' ? 20 : 6,
     paddingTop: 6,
     justifyContent: 'space-around',
     alignItems: 'center',
-    shadowColor: '#000',
+    shadowColor: Palette.primary,
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.05,
     shadowRadius: 4,
@@ -115,16 +116,16 @@ const styles = StyleSheet.create({
     width: 7,
     height: 7,
     borderRadius: 4,
-    backgroundColor: '#F59E0B',
+    backgroundColor: Palette.secondary,
   },
   tabLabel: {
     fontSize: 11,
     fontWeight: '500',
-    color: '#64748B',
+    color: Palette.textSecondary,
     marginTop: 2,
   },
   activeTabLabel: {
-    color: '#EA580C',
+    color: Palette.secondary,
     fontWeight: '700',
   },
 });

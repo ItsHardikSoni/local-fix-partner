@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Modal, TextInput, Pressable, ScrollView } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { usePartner } from '@/context/PartnerContext';
+import { Palette } from '@/constants/theme';
 
 const TRADES = [
   'Plumbing Specialist',
@@ -62,7 +63,7 @@ export default function RegisterWorkerModal() {
           {isSuccess ? (
             <View style={styles.successWrapper}>
               <View style={styles.successIcon}>
-                <Ionicons name="checkmark-done" size={42} color="#10B981" />
+                <Ionicons name="checkmark-done" size={42} color={Palette.success} />
               </View>
               <Text style={styles.successTitle}>Partner Account Activated!</Text>
               <Text style={styles.successSub}>
@@ -78,7 +79,7 @@ export default function RegisterWorkerModal() {
                   <Text style={styles.subtitle}>Register & Connect with Residents in Muzaffarpur</Text>
                 </View>
                 <Pressable onPress={() => setIsRegisterModalOpen(false)} style={styles.closeBtn}>
-                  <Ionicons name="close" size={22} color="#64748B" />
+                  <Ionicons name="close" size={22} color={Palette.textSecondary} />
                 </Pressable>
               </View>
 
@@ -133,13 +134,13 @@ export default function RegisterWorkerModal() {
                         <MaterialCommunityIcons
                           name="wrench"
                           size={18}
-                          color={selectedTrade === t ? '#EA580C' : '#64748B'}
+                          color={selectedTrade === t ? Palette.secondary : Palette.textSecondary}
                         />
                         <Text style={[styles.tradeCardText, selectedTrade === t && styles.tradeCardTextSelected]}>
                           {t}
                         </Text>
                         {selectedTrade === t && (
-                          <Ionicons name="checkmark-circle" size={18} color="#EA580C" />
+                          <Ionicons name="checkmark-circle" size={18} color={Palette.secondary} />
                         )}
                       </Pressable>
                     ))}
@@ -153,13 +154,13 @@ export default function RegisterWorkerModal() {
                         <Ionicons
                           name="location"
                           size={18}
-                          color={selectedWard === w ? '#EA580C' : '#64748B'}
+                          color={selectedWard === w ? Palette.secondary : Palette.textSecondary}
                         />
                         <Text style={[styles.tradeCardText, selectedWard === w && styles.tradeCardTextSelected]}>
                           {w}
                         </Text>
                         {selectedWard === w && (
-                          <Ionicons name="checkmark-circle" size={18} color="#EA580C" />
+                          <Ionicons name="checkmark-circle" size={18} color={Palette.secondary} />
                         )}
                       </Pressable>
                     ))}
@@ -169,7 +170,7 @@ export default function RegisterWorkerModal() {
                 {step === 2 && (
                   <View style={styles.stepContent}>
                     <View style={styles.kycNotice}>
-                      <Ionicons name="shield-checkmark" size={20} color="#059669" />
+                      <Ionicons name="shield-checkmark" size={20} color={Palette.success} />
                       <Text style={styles.kycNoticeText}>
                         Government & Municipal Verification: Out-of-district technicians are blocked to protect your trade rates.
                       </Text>
@@ -182,6 +183,7 @@ export default function RegisterWorkerModal() {
                         value={aadhaar}
                         onChangeText={setAadhaar}
                         placeholder="XXXX XXXX XXXX"
+                        placeholderTextColor={Palette.textSecondary}
                       />
                       <Text style={styles.inputSub}>✓ Biometric OTP verified with UIDAI</Text>
                     </View>
@@ -193,6 +195,7 @@ export default function RegisterWorkerModal() {
                         value={skillCert}
                         onChangeText={setSkillCert}
                         placeholder="NSDC Level 4 / ITI Certificate No."
+                        placeholderTextColor={Palette.textSecondary}
                       />
                       <Text style={styles.inputSub}>✓ Certified Level 4 Master Technician</Text>
                     </View>
@@ -200,7 +203,7 @@ export default function RegisterWorkerModal() {
                     <View style={styles.inputGroup}>
                       <Text style={styles.label}>Local Police Verification Status</Text>
                       <View style={styles.verifiedBox}>
-                        <Ionicons name="checkmark-circle" size={18} color="#10B981" />
+                        <Ionicons name="checkmark-circle" size={18} color={Palette.success} />
                         <Text style={styles.verifiedBoxText}>
                           Mithanpura Thana Clearance: Active (Clean Record)
                         </Text>
@@ -218,6 +221,7 @@ export default function RegisterWorkerModal() {
                         value={bankAcc}
                         onChangeText={setBankAcc}
                         placeholder="Bank Name & Account No."
+                        placeholderTextColor={Palette.textSecondary}
                       />
                     </View>
 
@@ -228,11 +232,12 @@ export default function RegisterWorkerModal() {
                         value={upi}
                         onChangeText={setUpi}
                         placeholder="e.g. mobile@upi or name@sbi"
+                        placeholderTextColor={Palette.textSecondary}
                       />
                     </View>
 
                     <View style={styles.guaranteeBox}>
-                      <Ionicons name="sparkles" size={18} color="#D97706" />
+                      <Ionicons name="sparkles" size={18} color={Palette.secondary} />
                       <Text style={styles.guaranteeText}>
                         LocalFix Partner Guarantee: 0% cut from labour fees. 100% of customer payments go to your account immediately upon resident OTP verification.
                       </Text>
@@ -254,11 +259,11 @@ export default function RegisterWorkerModal() {
                 {step < 3 ? (
                   <Pressable onPress={() => setStep(step + 1)} style={styles.nextBtn}>
                     <Text style={styles.nextBtnText}>Continue</Text>
-                    <Ionicons name="arrow-forward" size={16} color="#FFFFFF" />
+                    <Ionicons name="arrow-forward" size={16} color={Palette.surface} />
                   </Pressable>
                 ) : (
                   <Pressable onPress={handleCompleteRegistration} style={styles.submitBtn}>
-                    <Ionicons name="shield-checkmark" size={18} color="#FFFFFF" />
+                    <Ionicons name="shield-checkmark" size={18} color={Palette.surface} />
                     <Text style={styles.nextBtnText}>Save & Activate</Text>
                   </Pressable>
                 )}
@@ -274,11 +279,11 @@ export default function RegisterWorkerModal() {
 const styles = StyleSheet.create({
   backdrop: {
     flex: 1,
-    backgroundColor: 'rgba(15, 23, 42, 0.7)',
+    backgroundColor: 'rgba(12, 27, 51, 0.75)',
     justifyContent: 'flex-end',
   },
   card: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     padding: 20,
@@ -293,11 +298,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   subtitle: {
     fontSize: 12,
-    color: '#64748B',
+    color: Palette.textSecondary,
     marginTop: 2,
   },
   closeBtn: {
@@ -309,7 +314,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
+    borderBottomColor: Palette.border,
     marginBottom: 12,
   },
   stepItem: {
@@ -325,25 +330,25 @@ const styles = StyleSheet.create({
     width: 22,
     height: 22,
     borderRadius: 11,
-    backgroundColor: '#E2E8F0',
-    color: '#475569',
+    backgroundColor: Palette.borderDark,
+    color: Palette.textSecondary,
     fontSize: 11,
     fontWeight: '700',
     textAlign: 'center',
     lineHeight: 22,
   },
   stepNumActive: {
-    backgroundColor: '#EA580C',
-    color: '#FFFFFF',
+    backgroundColor: Palette.secondary,
+    color: Palette.surface,
   },
   stepText: {
     fontSize: 11,
     fontWeight: '600',
-    color: '#1E293B',
+    color: Palette.primary,
   },
   stepLine: {
     height: 1,
-    backgroundColor: '#CBD5E1',
+    backgroundColor: Palette.borderDark,
     flex: 1,
     marginHorizontal: 8,
   },
@@ -359,22 +364,22 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#334155',
+    color: Palette.primary,
     marginBottom: 6,
   },
   input: {
-    backgroundColor: '#F8FAFC',
+    backgroundColor: Palette.background,
     borderWidth: 1,
-    borderColor: '#CBD5E1',
+    borderColor: Palette.borderDark,
     borderRadius: 10,
     paddingHorizontal: 14,
     paddingVertical: 10,
     fontSize: 14,
-    color: '#0F172A',
+    color: Palette.primary,
   },
   inputSub: {
     fontSize: 11,
-    color: '#059669',
+    color: Palette.success,
     marginTop: 4,
     fontWeight: '500',
   },
@@ -382,25 +387,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
-    backgroundColor: '#F8FAFC',
+    backgroundColor: Palette.background,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: Palette.border,
     padding: 12,
     borderRadius: 10,
     marginBottom: 8,
   },
   tradeCardSelected: {
-    borderColor: '#EA580C',
+    borderColor: Palette.secondary,
     backgroundColor: '#FFFBEB',
   },
   tradeCardText: {
     flex: 1,
     fontSize: 13,
-    color: '#334155',
+    color: Palette.primary,
     fontWeight: '500',
   },
   tradeCardTextSelected: {
-    color: '#B45309',
+    color: Palette.secondary,
     fontWeight: '700',
   },
   kycNotice: {
@@ -430,7 +435,7 @@ const styles = StyleSheet.create({
   },
   verifiedBoxText: {
     fontSize: 12,
-    color: '#15803D',
+    color: Palette.success,
     fontWeight: '600',
   },
   guaranteeBox: {
@@ -456,7 +461,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 12,
     borderTopWidth: 1,
-    borderTopColor: '#F1F5F9',
+    borderTopColor: Palette.border,
   },
   backBtn: {
     paddingHorizontal: 20,
@@ -464,14 +469,14 @@ const styles = StyleSheet.create({
   },
   backBtnText: {
     fontSize: 14,
-    color: '#64748B',
+    color: Palette.textSecondary,
     fontWeight: '600',
   },
   nextBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: '#0F172A',
+    backgroundColor: Palette.primary,
     paddingHorizontal: 24,
     paddingVertical: 12,
     borderRadius: 10,
@@ -480,14 +485,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    backgroundColor: '#EA580C',
+    backgroundColor: Palette.secondary,
     paddingHorizontal: 24,
     paddingVertical: 12,
     borderRadius: 10,
   },
   nextBtnText: {
     fontSize: 14,
-    color: '#FFFFFF',
+    color: Palette.surface,
     fontWeight: '700',
   },
   successWrapper: {
@@ -506,11 +511,11 @@ const styles = StyleSheet.create({
   successTitle: {
     fontSize: 20,
     fontWeight: '800',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   successSub: {
     fontSize: 13,
-    color: '#64748B',
+    color: Palette.textSecondary,
     textAlign: 'center',
     marginTop: 8,
     paddingHorizontal: 20,

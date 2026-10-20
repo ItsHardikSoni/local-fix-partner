@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Modal, TextInput, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { usePartner } from '@/context/PartnerContext';
+import { Palette } from '@/constants/theme';
 
 interface WithdrawModalProps {
   visible: boolean;
@@ -37,7 +38,7 @@ export default function WithdrawModal({ visible, onClose }: WithdrawModalProps) 
           {successInfo ? (
             <View style={styles.successWrapper}>
               <View style={styles.iconCircle}>
-                <Ionicons name="checkmark-done" size={42} color="#10B981" />
+                <Ionicons name="checkmark-done" size={42} color={Palette.success} />
               </View>
               <Text style={styles.successTitle}>Transfer Dispatched!</Text>
               <Text style={styles.successAmount}>₹{successInfo.amount}</Text>
@@ -60,7 +61,7 @@ export default function WithdrawModal({ visible, onClose }: WithdrawModalProps) 
                   <Text style={styles.subtitle}>Direct IMPS Payout • Zero Municipal Deduction</Text>
                 </View>
                 <Pressable onPress={onClose} style={styles.closeBtn}>
-                  <Ionicons name="close" size={22} color="#64748B" />
+                  <Ionicons name="close" size={22} color={Palette.textSecondary} />
                 </Pressable>
               </View>
 
@@ -76,27 +77,27 @@ export default function WithdrawModal({ visible, onClose }: WithdrawModalProps) 
                 <Pressable
                   onPress={() => setMethod('bank')}
                   style={[styles.methodCard, method === 'bank' && styles.methodCardSelected]}>
-                  <Ionicons name="business" size={20} color={method === 'bank' ? '#EA580C' : '#64748B'} />
+                  <Ionicons name="business" size={20} color={method === 'bank' ? Palette.secondary : Palette.textSecondary} />
                   <View style={{ flex: 1 }}>
                     <Text style={[styles.methodTitle, method === 'bank' && styles.methodTitleSelected]}>
                       State Bank of India
                     </Text>
                     <Text style={styles.methodSub}>Ending in 4091 • Verified ✓</Text>
                   </View>
-                  {method === 'bank' && <Ionicons name="checkmark-circle" size={18} color="#EA580C" />}
+                  {method === 'bank' && <Ionicons name="checkmark-circle" size={18} color={Palette.secondary} />}
                 </Pressable>
 
                 <Pressable
                   onPress={() => setMethod('upi')}
                   style={[styles.methodCard, method === 'upi' && styles.methodCardSelected]}>
-                  <Ionicons name="flash" size={20} color={method === 'upi' ? '#EA580C' : '#64748B'} />
+                  <Ionicons name="flash" size={20} color={method === 'upi' ? Palette.secondary : Palette.textSecondary} />
                   <View style={{ flex: 1 }}>
                     <Text style={[styles.methodTitle, method === 'upi' && styles.methodTitleSelected]}>
                       Instant UPI ID
                     </Text>
                     <Text style={styles.methodSub}>{upiId}</Text>
                   </View>
-                  {method === 'upi' && <Ionicons name="checkmark-circle" size={18} color="#EA580C" />}
+                  {method === 'upi' && <Ionicons name="checkmark-circle" size={18} color={Palette.secondary} />}
                 </Pressable>
               </View>
 
@@ -119,7 +120,7 @@ export default function WithdrawModal({ visible, onClose }: WithdrawModalProps) 
 
               {/* Zero Fee Guarantee */}
               <View style={styles.guaranteePill}>
-                <Ionicons name="shield-checkmark" size={16} color="#059669" />
+                <Ionicons name="shield-checkmark" size={16} color={Palette.success} />
                 <Text style={styles.guaranteeText}>
                   Zero fees. 100% of labour + tips dispatched within 90 seconds.
                 </Text>
@@ -133,7 +134,7 @@ export default function WithdrawModal({ visible, onClose }: WithdrawModalProps) 
                   (!amount || parseFloat(amount) <= 0 || parseFloat(amount) > walletBalance) &&
                     styles.submitBtnDisabled,
                 ]}>
-                <Ionicons name="flash" size={18} color="#FFFFFF" />
+                <Ionicons name="flash" size={18} color={Palette.primary} />
                 <Text style={styles.submitBtnText}>Confirm Instant Withdrawal</Text>
               </Pressable>
             </>
@@ -147,11 +148,11 @@ export default function WithdrawModal({ visible, onClose }: WithdrawModalProps) 
 const styles = StyleSheet.create({
   backdrop: {
     flex: 1,
-    backgroundColor: 'rgba(15, 23, 42, 0.65)',
+    backgroundColor: 'rgba(12, 27, 51, 0.65)',
     justifyContent: 'flex-end',
   },
   card: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     padding: 20,
@@ -166,11 +167,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   subtitle: {
     fontSize: 12,
-    color: '#64748B',
+    color: Palette.textSecondary,
     marginTop: 2,
   },
   closeBtn: {
@@ -180,25 +181,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#F8FAFC',
+    backgroundColor: Palette.background,
     padding: 12,
     borderRadius: 12,
     marginBottom: 16,
   },
   balanceLabel: {
     fontSize: 13,
-    color: '#64748B',
+    color: Palette.textSecondary,
     fontWeight: '500',
   },
   balanceVal: {
     fontSize: 18,
     fontWeight: '800',
-    color: '#059669',
+    color: Palette.success,
   },
   sectionLabel: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#334155',
+    color: Palette.primary,
     marginBottom: 8,
   },
   methodRow: {
@@ -212,24 +213,24 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 12,
     borderWidth: 1.5,
-    borderColor: '#E2E8F0',
-    backgroundColor: '#FFFFFF',
+    borderColor: Palette.border,
+    backgroundColor: Palette.surface,
   },
   methodCardSelected: {
-    borderColor: '#EA580C',
-    backgroundColor: '#FFFBEB',
+    borderColor: Palette.secondary,
+    backgroundColor: Palette.warningBg,
   },
   methodTitle: {
     fontSize: 13,
     fontWeight: '600',
-    color: '#1E293B',
+    color: Palette.primary,
   },
   methodTitleSelected: {
-    color: '#B45309',
+    color: Palette.warningText,
   },
   methodSub: {
     fontSize: 11,
-    color: '#64748B',
+    color: Palette.textSecondary,
     marginTop: 2,
   },
   inputGroup: {
@@ -238,16 +239,16 @@ const styles = StyleSheet.create({
   amountInputRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F8FAFC',
+    backgroundColor: Palette.background,
     borderWidth: 1.5,
-    borderColor: '#CBD5E1',
+    borderColor: Palette.borderDark,
     borderRadius: 12,
     paddingHorizontal: 14,
   },
   currPrefix: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#475569',
+    color: Palette.textSecondary,
     marginRight: 6,
   },
   amountInput: {
@@ -255,10 +256,10 @@ const styles = StyleSheet.create({
     height: 48,
     fontSize: 18,
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   allBtn: {
-    backgroundColor: '#FEF3C7',
+    backgroundColor: Palette.warningBorder,
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 6,
@@ -266,20 +267,20 @@ const styles = StyleSheet.create({
   allBtnText: {
     fontSize: 11,
     fontWeight: '700',
-    color: '#B45309',
+    color: Palette.warningText,
   },
   guaranteePill: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    backgroundColor: '#ECFDF5',
+    backgroundColor: Palette.successBg,
     padding: 10,
     borderRadius: 10,
     marginBottom: 20,
   },
   guaranteeText: {
     fontSize: 11,
-    color: '#047857',
+    color: Palette.successText,
     flex: 1,
     lineHeight: 15,
   },
@@ -288,18 +289,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 8,
-    backgroundColor: '#F59E0B',
+    backgroundColor: Palette.secondary,
     paddingVertical: 14,
     borderRadius: 12,
     marginBottom: 8,
   },
   submitBtnDisabled: {
-    backgroundColor: '#CBD5E1',
+    backgroundColor: Palette.borderDark,
   },
   submitBtnText: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: Palette.primary,
   },
   successWrapper: {
     alignItems: 'center',
@@ -309,7 +310,7 @@ const styles = StyleSheet.create({
     width: 72,
     height: 72,
     borderRadius: 36,
-    backgroundColor: '#ECFDF5',
+    backgroundColor: Palette.successBg,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 14,
@@ -317,23 +318,23 @@ const styles = StyleSheet.create({
   successTitle: {
     fontSize: 18,
     fontWeight: '800',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   successAmount: {
     fontSize: 28,
     fontWeight: '800',
-    color: '#059669',
+    color: Palette.success,
     marginVertical: 4,
   },
   successNote: {
     fontSize: 12,
-    color: '#64748B',
+    color: Palette.textSecondary,
     textAlign: 'center',
     paddingHorizontal: 16,
     lineHeight: 18,
   },
   refBox: {
-    backgroundColor: '#F1F5F9',
+    backgroundColor: Palette.borderLight,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 8,
@@ -342,17 +343,17 @@ const styles = StyleSheet.create({
   },
   refLabel: {
     fontSize: 10,
-    color: '#64748B',
+    color: Palette.textSecondary,
   },
   refVal: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#1E293B',
+    color: Palette.primary,
     fontFamily: 'monospace',
     marginTop: 2,
   },
   finishBtn: {
-    backgroundColor: '#0F172A',
+    backgroundColor: Palette.primary,
     paddingHorizontal: 36,
     paddingVertical: 12,
     borderRadius: 10,

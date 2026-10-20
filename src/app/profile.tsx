@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { usePartner } from '@/context/PartnerContext';
+import { Palette } from '@/constants/theme';
 
 export default function ProfileScreen() {
   const { partner, toggleOnline, toggleSos, setIsRegisterModalOpen } = usePartner();
@@ -40,7 +41,7 @@ export default function ProfileScreen() {
               style={styles.profilePhoto}
             />
             <View style={styles.photoVerifiedCheck}>
-              <Ionicons name="checkmark-circle" size={16} color="#10B981" />
+              <Ionicons name="checkmark-circle" size={16} color={Palette.success} />
             </View>
           </View>
 
@@ -56,14 +57,14 @@ export default function ProfileScreen() {
             </View>
 
             <View style={styles.verifiedPartnerBadge}>
-              <Ionicons name="shield-checkmark" size={13} color="#D97706" />
+              <Ionicons name="shield-checkmark" size={13} color={Palette.warningText} />
               <Text style={styles.verifiedPartnerText}>
                 Verified {partner.city} Partner
               </Text>
             </View>
 
             <View style={styles.ratingStatsRow}>
-              <Ionicons name="star" size={13} color="#F59E0B" />
+              <Ionicons name="star" size={13} color={Palette.secondary} />
               <Text style={styles.ratingNumber}>{partner.rating}</Text>
               <Text style={styles.dotSeparator}>•</Text>
               <Text style={styles.jobsCountText}>{partner.totalJobs} Jobs</Text>
@@ -85,7 +86,7 @@ export default function ProfileScreen() {
           <Switch
             value={partner.isOnline}
             onValueChange={toggleOnline}
-            trackColor={{ false: '#CBD5E1', true: '#10B981' }}
+            trackColor={{ false: Palette.borderDark, true: Palette.success }}
             thumbColor="#FFFFFF"
           />
         </View>
@@ -95,14 +96,14 @@ export default function ProfileScreen() {
       <View style={styles.geofenceCard}>
         <View style={styles.cardHeaderRow}>
           <View style={styles.headerLeft}>
-            <Ionicons name="compass-outline" size={18} color="#D97706" />
+            <Ionicons name="compass-outline" size={18} color={Palette.secondary} />
             <View>
               <Text style={styles.cardHeaderTitle}>District Geofence</Text>
               <Text style={styles.cardHeaderSub}>Authorized Operation Zone</Text>
             </View>
           </View>
           <View style={styles.municipalLockBadge}>
-            <Ionicons name="lock-closed-outline" size={12} color="#2563EB" />
+            <Ionicons name="lock-closed-outline" size={12} color={Palette.info} />
             <Text style={styles.municipalLockText}>Municipal Lock</Text>
           </View>
         </View>
@@ -117,7 +118,7 @@ export default function ProfileScreen() {
           />
           <View style={styles.mapOverlayGradient}>
             <View style={styles.mapPinRow}>
-              <Ionicons name="location" size={16} color="#F59E0B" />
+              <Ionicons name="location" size={16} color={Palette.secondary} />
               <Text style={styles.mapCityText}>{partner.city}, Bihar</Text>
             </View>
             <View style={styles.radiusBadge}>
@@ -128,7 +129,7 @@ export default function ProfileScreen() {
 
         {/* Assigned Sectors */}
         <View style={styles.sectorsBox}>
-          <MaterialCommunityIcons name="office-building" size={16} color="#475569" />
+          <MaterialCommunityIcons name="office-building" size={16} color={Palette.textSecondary} />
           <View style={styles.sectorsTexts}>
             <Text style={styles.sectorsLabel}>ASSIGNED SECTORS</Text>
             <Text style={styles.sectorsVal}>Ward 12, 14 & Surrounding Sectors</Text>
@@ -137,7 +138,7 @@ export default function ProfileScreen() {
 
         {/* Security / Cryptographic lock note */}
         <View style={styles.geofenceNotice}>
-          <Ionicons name="shield-outline" size={16} color="#D97706" />
+          <Ionicons name="shield-outline" size={16} color={Palette.warningText} />
           <Text style={styles.geofenceNoticeText}>
             Your account is cryptographically tied to {partner.city}. Changing districts requires official municipal document re-verification.
           </Text>
@@ -148,7 +149,7 @@ export default function ProfileScreen() {
       <View style={styles.kycCard}>
         <View style={styles.cardHeaderRow}>
           <View style={styles.headerLeft}>
-            <MaterialCommunityIcons name="clipboard-check-outline" size={18} color="#059669" />
+            <MaterialCommunityIcons name="clipboard-check-outline" size={18} color={Palette.success} />
             <View>
               <Text style={styles.cardHeaderTitle}>KYC & Credentials</Text>
               <Text style={styles.kycSubGreen}>100% Certified Partner</Text>
@@ -162,12 +163,12 @@ export default function ProfileScreen() {
         {/* KYC Item 1: Aadhaar */}
         <View style={styles.kycItemRow}>
           <View style={styles.kycIconBox}>
-            <Ionicons name="id-card-outline" size={18} color="#1E293B" />
+            <Ionicons name="id-card-outline" size={18} color={Palette.primary} />
           </View>
           <View style={styles.kycItemTexts}>
             <View style={styles.kycItemTitleRow}>
               <Text style={styles.kycItemTitle}>Aadhaar KYC</Text>
-              <Ionicons name="checkmark-circle" size={13} color="#10B981" />
+              <Ionicons name="checkmark-circle" size={13} color={Palette.success} />
             </View>
             <Text style={styles.kycItemSub}>UIDAI Biometric Verified</Text>
           </View>
@@ -179,12 +180,12 @@ export default function ProfileScreen() {
         {/* KYC Item 2: Police Background Check */}
         <View style={styles.kycItemRow}>
           <View style={styles.kycIconBox}>
-            <Ionicons name="shield-outline" size={18} color="#1E293B" />
+            <Ionicons name="shield-outline" size={18} color={Palette.primary} />
           </View>
           <View style={styles.kycItemTexts}>
             <View style={styles.kycItemTitleRow}>
               <Text style={styles.kycItemTitle}>Police Background Check</Text>
-              <Ionicons name="checkmark-circle" size={13} color="#10B981" />
+              <Ionicons name="checkmark-circle" size={13} color={Palette.success} />
             </View>
             <Text style={styles.kycItemSub}>Cleared on 14 Jan 2025</Text>
           </View>
@@ -196,12 +197,12 @@ export default function ProfileScreen() {
         {/* KYC Item 3: Trade Skill Certification */}
         <View style={styles.kycItemRow}>
           <View style={styles.kycIconBox}>
-            <MaterialCommunityIcons name="tools" size={18} color="#1E293B" />
+            <MaterialCommunityIcons name="tools" size={18} color={Palette.primary} />
           </View>
           <View style={styles.kycItemTexts}>
             <View style={styles.kycItemTitleRow}>
               <Text style={styles.kycItemTitle}>Trade Skill Certification</Text>
-              <Ionicons name="checkmark-circle" size={13} color="#10B981" />
+              <Ionicons name="checkmark-circle" size={13} color={Palette.success} />
             </View>
             <Text style={styles.kycItemSub}>NSDC Level 4 Plumber</Text>
           </View>
@@ -213,12 +214,12 @@ export default function ProfileScreen() {
         {/* KYC Item 4: Bank Account & PAN */}
         <View style={[styles.kycItemRow, { borderBottomWidth: 0 }]}>
           <View style={styles.kycIconBox}>
-            <MaterialCommunityIcons name="bank" size={18} color="#1E293B" />
+            <MaterialCommunityIcons name="bank" size={18} color={Palette.primary} />
           </View>
           <View style={styles.kycItemTexts}>
             <View style={styles.kycItemTitleRow}>
               <Text style={styles.kycItemTitle}>Bank Account & PAN</Text>
-              <Ionicons name="checkmark-circle" size={13} color="#10B981" />
+              <Ionicons name="checkmark-circle" size={13} color={Palette.success} />
             </View>
             <Text style={styles.kycItemSub}>Verified for Fast UPI Payouts</Text>
           </View>
@@ -232,7 +233,7 @@ export default function ProfileScreen() {
       <View style={styles.preferencesCard}>
         <View style={styles.cardHeaderRow}>
           <View style={styles.headerLeft}>
-            <Ionicons name="options-outline" size={18} color="#2563EB" />
+            <Ionicons name="options-outline" size={18} color={Palette.info} />
             <View>
               <Text style={styles.cardHeaderTitle}>Service Preferences</Text>
               <Text style={styles.cardHeaderSub}>Daily Schedule & Skills</Text>
@@ -248,7 +249,7 @@ export default function ProfileScreen() {
               onPress={() => setIsRegisterModalOpen(true)}
               style={styles.editSkillsBtn}>
               <Text style={styles.editSkillsText}>Edit Skills</Text>
-              <Ionicons name="pencil" size={12} color="#92400E" />
+              <Ionicons name="pencil" size={12} color={Palette.warningText} />
             </Pressable>
           </View>
 
@@ -270,12 +271,12 @@ export default function ProfileScreen() {
             )
           }
           style={styles.shiftRow}>
-          <Ionicons name="time-outline" size={18} color="#475569" />
+          <Ionicons name="time-outline" size={18} color={Palette.textSecondary} />
           <View style={styles.shiftTexts}>
             <Text style={styles.shiftTitle}>Operating Shift</Text>
             <Text style={styles.shiftHours}>{partner.operatingHours}</Text>
           </View>
-          <Ionicons name="chevron-forward" size={18} color="#94A3B8" />
+          <Ionicons name="chevron-forward" size={18} color={Palette.textSecondary} />
         </Pressable>
 
         {/* 15-Min SOS Dispatch */}
@@ -297,7 +298,7 @@ export default function ProfileScreen() {
           <Switch
             value={partner.sosDispatchEnabled}
             onValueChange={toggleSos}
-            trackColor={{ false: '#CBD5E1', true: '#F59E0B' }}
+            trackColor={{ false: Palette.borderDark, true: Palette.secondary }}
             thumbColor="#FFFFFF"
           />
         </View>
@@ -310,21 +311,21 @@ export default function ProfileScreen() {
         {/* Support 1: Muzaffarpur Partner Desk */}
         <Pressable onPress={handleCallSupport} style={styles.supportCardDesk}>
           <View style={styles.deskIconCircle}>
-            <MaterialCommunityIcons name="headset" size={20} color="#059669" />
+            <MaterialCommunityIcons name="headset" size={20} color={Palette.success} />
           </View>
           <View style={styles.supportDeskTexts}>
             <Text style={styles.deskTitle}>Muzaffarpur Partner Desk</Text>
             <Text style={styles.deskNumber}>Toll-Free: 1800-LOCALFIX (24x7)</Text>
           </View>
           <View style={styles.phoneCallCircle}>
-            <Ionicons name="call" size={16} color="#059669" />
+            <Ionicons name="call" size={16} color={Palette.success} />
           </View>
         </Pressable>
 
         {/* Support 2: Official Partner ID Card */}
         <Pressable onPress={handleDownloadIdCard} style={styles.supportCardId}>
           <View style={styles.idCardIconCircle}>
-            <Ionicons name="card-outline" size={20} color="#F59E0B" />
+            <Ionicons name="card-outline" size={20} color={Palette.secondary} />
           </View>
           <View style={styles.idCardTexts}>
             <Text style={styles.idCardTitle}>Official Partner ID Card</Text>
@@ -338,7 +339,7 @@ export default function ProfileScreen() {
 
       {/* FOOTER */}
       <View style={styles.footerRow}>
-        <Ionicons name="lock-closed-outline" size={12} color="#64748B" />
+        <Ionicons name="lock-closed-outline" size={12} color={Palette.textSecondary} />
         <Text style={styles.footerText}>
           Cryptographic ID: {partner.cryptographicId}
         </Text>
@@ -352,19 +353,19 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8FAFC',
+    backgroundColor: Palette.background,
   },
   contentContainer: {
     padding: 16,
   },
   profileCard: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderRadius: 16,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: Palette.border,
     marginBottom: 14,
-    shadowColor: '#000',
+    shadowColor: Palette.primary,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 3,
@@ -383,13 +384,13 @@ const styles = StyleSheet.create({
     height: 64,
     borderRadius: 14,
     borderWidth: 2,
-    borderColor: '#E2E8F0',
+    borderColor: Palette.border,
   },
   photoVerifiedCheck: {
     position: 'absolute',
     bottom: -4,
     right: -4,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderRadius: 8,
   },
   profileDetails: {
@@ -404,42 +405,42 @@ const styles = StyleSheet.create({
   profileName: {
     fontSize: 18,
     fontWeight: '800',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   activePill: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: '#ECFDF5',
+    backgroundColor: Palette.successBg,
     paddingHorizontal: 8,
     paddingVertical: 2,
     borderRadius: 12,
   },
   inactivePill: {
-    backgroundColor: '#F1F5F9',
+    backgroundColor: Palette.borderLight,
   },
   activeDot: {
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: '#10B981',
+    backgroundColor: Palette.success,
   },
   inactiveDot: {
-    backgroundColor: '#94A3B8',
+    backgroundColor: Palette.textSecondary,
   },
   activePillText: {
     fontSize: 10,
     fontWeight: '700',
-    color: '#059669',
+    color: Palette.successText,
   },
   inactivePillText: {
-    color: '#64748B',
+    color: Palette.textSecondary,
   },
   verifiedPartnerBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: '#FEF3C7',
+    backgroundColor: Palette.warningBg,
     alignSelf: 'flex-start',
     paddingHorizontal: 8,
     paddingVertical: 3,
@@ -449,7 +450,7 @@ const styles = StyleSheet.create({
   verifiedPartnerText: {
     fontSize: 11,
     fontWeight: '600',
-    color: '#92400E',
+    color: Palette.warningText,
   },
   ratingStatsRow: {
     flexDirection: 'row',
@@ -459,26 +460,26 @@ const styles = StyleSheet.create({
   ratingNumber: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   dotSeparator: {
-    color: '#94A3B8',
+    color: Palette.textSecondary,
     marginHorizontal: 2,
   },
   jobsCountText: {
     fontSize: 12,
-    color: '#475569',
+    color: Palette.primary,
   },
   onTimeText: {
     fontSize: 12,
-    color: '#059669',
+    color: Palette.success,
     fontWeight: '600',
   },
   toggleRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#EFF6FF',
+    backgroundColor: Palette.infoBg,
     paddingHorizontal: 12,
     paddingVertical: 10,
     borderRadius: 12,
@@ -492,26 +493,26 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#10B981',
+    backgroundColor: Palette.success,
   },
   grayToggleDot: {
-    backgroundColor: '#94A3B8',
+    backgroundColor: Palette.textSecondary,
   },
   toggleTitle: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#1E293B',
+    color: Palette.primary,
   },
   toggleSub: {
     fontSize: 11,
-    color: '#64748B',
+    color: Palette.textSecondary,
   },
   geofenceCard: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderRadius: 16,
     padding: 14,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: Palette.border,
     marginBottom: 14,
   },
   cardHeaderRow: {
@@ -528,17 +529,17 @@ const styles = StyleSheet.create({
   cardHeaderTitle: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
   },
   cardHeaderSub: {
     fontSize: 11,
-    color: '#64748B',
+    color: Palette.textSecondary,
   },
   municipalLockBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: '#EFF6FF',
+    backgroundColor: Palette.infoBg,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 6,
@@ -546,7 +547,7 @@ const styles = StyleSheet.create({
   municipalLockText: {
     fontSize: 10,
     fontWeight: '700',
-    color: '#2563EB',
+    color: Palette.info,
   },
   mapIllustrationBox: {
     height: 110,
@@ -554,7 +555,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     position: 'relative',
     marginBottom: 12,
-    backgroundColor: '#E2E8F0',
+    backgroundColor: Palette.border,
   },
   mapBackdropImg: {
     width: '100%',
@@ -565,7 +566,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'rgba(15, 23, 42, 0.75)',
+    backgroundColor: 'rgba(12, 27, 51, 0.85)',
     paddingHorizontal: 12,
     paddingVertical: 8,
     flexDirection: 'row',
@@ -583,7 +584,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   radiusBadge: {
-    backgroundColor: '#334155',
+    backgroundColor: '#1E293B',
     paddingHorizontal: 8,
     paddingVertical: 2,
     borderRadius: 4,
@@ -597,11 +598,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
-    backgroundColor: '#F8FAFC',
+    backgroundColor: Palette.background,
     padding: 10,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: Palette.border,
     marginBottom: 10,
   },
   sectorsTexts: {
@@ -610,46 +611,46 @@ const styles = StyleSheet.create({
   sectorsLabel: {
     fontSize: 10,
     fontWeight: '700',
-    color: '#64748B',
+    color: Palette.textSecondary,
     letterSpacing: 0.4,
   },
   sectorsVal: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#1E293B',
+    color: Palette.primary,
     marginTop: 1,
   },
   geofenceNotice: {
     flexDirection: 'row',
     alignItems: 'flex-start',
     gap: 8,
-    backgroundColor: '#FFFBEB',
+    backgroundColor: Palette.warningBg,
     padding: 10,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#FEF3C7',
+    borderColor: Palette.warningBorder,
   },
   geofenceNoticeText: {
     fontSize: 11,
-    color: '#92400E',
+    color: Palette.warningText,
     flex: 1,
     lineHeight: 15,
   },
   kycCard: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderRadius: 16,
     padding: 14,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: Palette.border,
     marginBottom: 14,
   },
   kycSubGreen: {
     fontSize: 11,
-    color: '#059669',
+    color: Palette.success,
     fontWeight: '600',
   },
   kycCountBadge: {
-    backgroundColor: '#ECFDF5',
+    backgroundColor: Palette.successBg,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 10,
@@ -657,20 +658,20 @@ const styles = StyleSheet.create({
   kycCountText: {
     fontSize: 11,
     fontWeight: '800',
-    color: '#059669',
+    color: Palette.success,
   },
   kycItemRow: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#F8FAFC',
+    borderBottomColor: Palette.background,
   },
   kycIconBox: {
     width: 32,
     height: 32,
     borderRadius: 8,
-    backgroundColor: '#F1F5F9',
+    backgroundColor: Palette.borderLight,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
@@ -686,15 +687,15 @@ const styles = StyleSheet.create({
   kycItemTitle: {
     fontSize: 13,
     fontWeight: '600',
-    color: '#1E293B',
+    color: Palette.primary,
   },
   kycItemSub: {
     fontSize: 11,
-    color: '#64748B',
+    color: Palette.textSecondary,
     marginTop: 1,
   },
   statusVerifiedTag: {
-    backgroundColor: '#ECFDF5',
+    backgroundColor: Palette.successBg,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 4,
@@ -702,15 +703,15 @@ const styles = StyleSheet.create({
   statusVerifiedText: {
     fontSize: 9,
     fontWeight: '800',
-    color: '#059669',
+    color: Palette.success,
     letterSpacing: 0.3,
   },
   preferencesCard: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Palette.surface,
     borderRadius: 16,
     padding: 14,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: Palette.border,
     marginBottom: 14,
   },
   skillsSection: {
@@ -725,7 +726,7 @@ const styles = StyleSheet.create({
   skillsLabel: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#1E293B',
+    color: Palette.primary,
   },
   editSkillsBtn: {
     flexDirection: 'row',
@@ -735,7 +736,7 @@ const styles = StyleSheet.create({
   editSkillsText: {
     fontSize: 11,
     fontWeight: '600',
-    color: '#B45309',
+    color: Palette.warningText,
   },
   skillsChipsRow: {
     flexDirection: 'row',
@@ -743,27 +744,27 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   skillChip: {
-    backgroundColor: '#FFFBEB',
+    backgroundColor: Palette.warningBg,
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#FEF3C7',
+    borderColor: Palette.warningBorder,
   },
   skillChipText: {
     fontSize: 11,
     fontWeight: '600',
-    color: '#92400E',
+    color: Palette.warningText,
   },
   shiftRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
-    backgroundColor: '#F8FAFC',
+    backgroundColor: Palette.background,
     padding: 10,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
+    borderColor: Palette.border,
     marginBottom: 10,
   },
   shiftTexts: {
@@ -771,29 +772,29 @@ const styles = StyleSheet.create({
   },
   shiftTitle: {
     fontSize: 11,
-    color: '#64748B',
+    color: Palette.textSecondary,
   },
   shiftHours: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#1E293B',
+    color: Palette.primary,
     marginTop: 1,
   },
   sosCard: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
-    backgroundColor: '#FFFBEB',
+    backgroundColor: Palette.warningBg,
     borderRadius: 12,
     padding: 10,
     borderWidth: 1,
-    borderColor: '#FEF3C7',
+    borderColor: Palette.warningBorder,
   },
   sosIconBox: {
     width: 32,
     height: 32,
     borderRadius: 8,
-    backgroundColor: '#EA580C',
+    backgroundColor: Palette.secondary,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -809,10 +810,10 @@ const styles = StyleSheet.create({
   sosTitle: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#92400E',
+    color: Palette.warningText,
   },
   sosExtraBadge: {
-    backgroundColor: '#FEF3C7',
+    backgroundColor: Palette.warningBorder,
     paddingHorizontal: 6,
     paddingVertical: 1,
     borderRadius: 4,
@@ -820,7 +821,7 @@ const styles = StyleSheet.create({
   sosExtraText: {
     fontSize: 10,
     fontWeight: '800',
-    color: '#B45309',
+    color: Palette.warningText,
   },
   sosSub: {
     fontSize: 10,
@@ -833,25 +834,25 @@ const styles = StyleSheet.create({
   supportHeading: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#0F172A',
+    color: Palette.primary,
     marginBottom: 10,
   },
   supportCardDesk: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
-    backgroundColor: '#EFF6FF',
+    backgroundColor: Palette.infoBg,
     borderRadius: 12,
     padding: 12,
     borderWidth: 1,
-    borderColor: '#DBEAFE',
+    borderColor: Palette.infoBorder,
     marginBottom: 10,
   },
   deskIconCircle: {
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#ECFDF5',
+    backgroundColor: Palette.successBg,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -861,11 +862,11 @@ const styles = StyleSheet.create({
   deskTitle: {
     fontSize: 13,
     fontWeight: '700',
-    color: '#1E293B',
+    color: Palette.primary,
   },
   deskNumber: {
     fontSize: 11,
-    color: '#059669',
+    color: Palette.success,
     fontWeight: '600',
     marginTop: 1,
   },
@@ -873,7 +874,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#ECFDF5',
+    backgroundColor: Palette.successBg,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -881,7 +882,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
-    backgroundColor: '#0F172A',
+    backgroundColor: Palette.primary,
     borderRadius: 12,
     padding: 12,
   },
@@ -889,7 +890,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#1E293B',
+    backgroundColor: '#142542',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -910,7 +911,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#1E293B',
+    backgroundColor: '#142542',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -923,7 +924,7 @@ const styles = StyleSheet.create({
   },
   footerText: {
     fontSize: 10,
-    color: '#64748B',
+    color: Palette.textSecondary,
     fontFamily: 'monospace',
   },
 });
