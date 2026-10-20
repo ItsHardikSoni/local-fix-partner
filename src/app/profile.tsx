@@ -11,15 +11,17 @@ import {
 } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { usePartner } from '@/context/PartnerContext';
+import { useAuth } from '@/context/AuthContext';
 import { Palette } from '@/constants/theme';
 
 export default function ProfileScreen() {
   const { partner, toggleOnline, toggleSos, setIsRegisterModalOpen } = usePartner();
+  const { user, workerProfile, signOut } = useAuth();
 
   const handleDownloadIdCard = () => {
     Alert.alert(
       'Partner ID Card',
-      `Downloading digitally signed partner credentials for ${partner.name}...\nID: ${partner.cryptographicId}`
+      `Downloading digitally signed partner credentials for ${workerProfile?.worker_name || partner.name}...\nID: ${partner.cryptographicId}`
     );
   };
 
@@ -27,6 +29,17 @@ export default function ProfileScreen() {
     Alert.alert(
       'Muzaffarpur Partner Desk',
       'Connecting to 1800-LOCALFIX (24x7 Priority Trade Helpline)...'
+    );
+  };
+
+  const handleSignOut = () => {
+    Alert.alert(
+      'Sign Out',
+      'Are you sure you want to sign out of your LocalFix Partner account?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'Sign Out', style: 'destructive', onPress: () => signOut() },
+      ]
     );
   };
 
@@ -47,15 +60,17 @@ export default function ProfileScreen() {
 
           <View style={styles.profileDetails}>
             <View style={styles.profileNameRow}>
-              <Text style={styles.profileName}>{partner.name}</Text>
+              <Text style={styles.profileName}>{workerProfile?.worker_name || partner.name}</Text>
               <View style={styles.activePill}>
                 <View style={styles.activeDot} />
-                <Text style={styles.activePillText}>Active</Text>
+                <Text style={styles.activePillText}>
+                  {workerProfile?.availability_status === 'available' ? 'Active' : workerProfile?.availability_status || 'Active'}
+                </Text>
               </View>
             </View>
 
             <Text style={styles.verifiedPartnerText}>
-              Verified Partner · {partner.city}
+              {workerProfile?.verification_status === 'verified' ? 'Verified Master Partner' : 'Partner'} · {partner.city}
             </Text>
 
             <View style={styles.ratingStatsRow}>
@@ -280,6 +295,77 @@ export default function ProfileScreen() {
         </Pressable>
       </View>
 
+      {/* SUPABASE REALTIME WORKER DATA */}
+      <View style={styles.supabaseCard}>
+        <View style={styles.supabaseHeaderRow}>
+          <View style={styles.supabaseTitleGroup}>
+            <MaterialCommunityIcons name="database-sync" size={18} color={Palette.info} />
+            <Text style={styles.supabaseCardTitle}>Realtime Worker Pool Rates</Text>
+          </View>
+          <View style={styles.liveTag}>
+            <View style={styles.liveDot} />
+            <Text style={styles.liveTagText}>Supabase Live</Text>
+          </View>
+        </View>
+
+        <Text style={styles.supabaseSub}>
+          Synchronized to public.worker_profiles table in your district.
+        </Text>
+
+        <View style={styles.dbGrid}>
+          <View style={styles.dbRow}>
+            <Text style={styles.dbKey}>Worker Name</Text>
+            <Text style={styles.dbVal}>{workerProfile?.worker_name || partner.name}</Text>
+          </View>
+          <View style={styles.dbRow}>
+            <Text style={styles.dbKey}>Experience</Text>
+            <Text style={styles.dbVal}>{workerProfile?.experience_years ?? 5} Years</Text>
+          </View>
+          <View style={styles.dbRow}>
+            <Text style={styles.dbKey}>Hourly Rate</Text>
+            <Text style={[styles.dbVal, { color: Palette.successText }]}>
+              ₹{workerProfile?.hourly_rate ?? 250}/hr
+            </Text>
+          </View>
+          <View style={styles.dbRow}>
+            <Text style={styles.dbKey}>Daily Rate</Text>
+            <Text style={[styles.dbVal, { color: Palette.successText }]}>
+              ₹{workerProfile?.daily_rate ?? 800}/day
+            </Text>
+          </View>
+          <View style={styles.dbRow}>
+            <Text style={styles.dbKey}>Rates Negotiable</Text>
+            <Text style={styles.dbVal}>
+              {workerProfile?.rates_negotiable !== false ? 'Yes (Flexible)' : 'No (Fixed)'}
+            </Text>
+          </View>
+          <View style={styles.dbRow}>
+            <Text style={styles.dbKey}>Verification</Text>
+            <Text style={[styles.dbVal, { textTransform: 'capitalize' }]}>
+              {workerProfile?.verification_status ?? 'verified'}
+            </Text>
+          </View>
+          <View style={styles.dbRow}>
+            <Text style={styles.dbKey}>Availability</Text>
+            <Text style={[styles.dbVal, { textTransform: 'capitalize' }]}>
+              {workerProfile?.availability_status ?? 'available'}
+            </Text>
+          </View>
+          {user?.email ? (
+            <View style={[styles.dbRow, { borderBottomWidth: 0 }]}>
+              <Text style={styles.dbKey}>Auth Account</Text>
+              <Text style={styles.dbValEmail} numberOfLines={1}>{user.email}</Text>
+            </View>
+          ) : null}
+        </View>
+      </View>
+
+      {/* SIGN OUT BUTTON */}
+      <Pressable onPress={handleSignOut} style={styles.signOutBtn}>
+        <Ionicons name="log-out-outline" size={18} color={Palette.dangerText} />
+        <Text style={styles.signOutBtnText}>Sign Out of Partner Portal</Text>
+      </Pressable>
+
       {/* FOOTER */}
       <View style={styles.footerRow}>
         <Text style={styles.footerText}>
@@ -287,7 +373,7 @@ export default function ProfileScreen() {
         </Text>
       </View>
 
-      <View style={{ height: 20 }} />
+      <View style={{ height: 30 }} />
     </ScrollView>
   );
 }
@@ -765,5 +851,103 @@ const styles = StyleSheet.create({
   footerText: {
     fontSize: 10,
     color: Palette.textSecondary,
+  },
+  supabaseCard: {
+    backgroundColor: Palette.surface,
+    borderRadius: 16,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: Palette.border,
+    marginBottom: 14,
+  },
+  supabaseHeaderRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  supabaseTitleGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  supabaseCardTitle: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: Palette.primary,
+  },
+  liveTag: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: Palette.infoBg,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 10,
+  },
+  liveDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: Palette.info,
+  },
+  liveTagText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: Palette.info,
+  },
+  supabaseSub: {
+    fontSize: 11,
+    color: Palette.textSecondary,
+    marginBottom: 12,
+  },
+  dbGrid: {
+    backgroundColor: Palette.background,
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderWidth: 1,
+    borderColor: Palette.border,
+  },
+  dbRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: Palette.borderLight,
+  },
+  dbKey: {
+    fontSize: 12,
+    color: Palette.textSecondary,
+    fontWeight: '500',
+  },
+  dbVal: {
+    fontSize: 12,
+    color: Palette.primary,
+    fontWeight: '700',
+  },
+  dbValEmail: {
+    fontSize: 11,
+    color: Palette.primary,
+    fontWeight: '600',
+    maxWidth: '65%',
+  },
+  signOutBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: Palette.dangerBg,
+    borderWidth: 1,
+    borderColor: Palette.dangerBg,
+    borderRadius: 12,
+    paddingVertical: 12,
+    marginBottom: 14,
+  },
+  signOutBtnText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: Palette.dangerText,
   },
 });

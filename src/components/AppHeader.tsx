@@ -3,13 +3,23 @@ import { View, Text, StyleSheet, Pressable, Image, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter, usePathname } from 'expo-router';
 import { usePartner } from '@/context/PartnerContext';
+import { useAuth } from '@/context/AuthContext';
 import { Palette } from '@/constants/theme';
 
 export default function AppHeader() {
   const router = useRouter();
   const pathname = usePathname();
   const { partner, toggleOnline, setIsRegisterModalOpen } = usePartner();
+  const { workerProfile } = useAuth();
   const [showNotifications, setShowNotifications] = useState(false);
+
+  const displayName = workerProfile?.worker_name || partner.name;
+  const initials = displayName
+    .split(' ')
+    .map((w) => w[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase() || 'RK';
 
   const isJobs = pathname === '/' || pathname === '/index';
   const isActive = pathname === '/active';
@@ -85,7 +95,7 @@ export default function AppHeader() {
           style={({ pressed }) => [styles.avatarButton, pressed && styles.pressed]}>
           {isJobs ? (
             <View style={styles.initialsBadge}>
-              <Text style={styles.initialsText}>RK</Text>
+              <Text style={styles.initialsText}>{initials}</Text>
             </View>
           ) : (
             <View style={styles.darkAvatarCircle}>
